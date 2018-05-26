@@ -1,0 +1,6 @@
+/index.js
+*.map.js
+/commands
+/config
+/services
+node_modules
