@@ -1,0 +1,7 @@
+import {Controller} from 'tramway-core'; 
+
+export default class CLASS_NAME extends Controller {
+    static index(req, res) {
+        return res.send('CLASS_NAME');
+    }
+}

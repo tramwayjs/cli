@@ -7,7 +7,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const DEV_DIRECTORY = 'dev/**/*.js';
 const DIST_DIRECTORY = '';
 
-gulp.task('build', function() {
+gulp.task('build', ['move-txt'], function() {
     return gulp
         .src(DEV_DIRECTORY)
         .pipe(sourcemaps.init())
@@ -27,7 +27,7 @@ gulp.task('watch', ['build'], function(){
     gulp.watch(DEV_DIRECTORY, ['build']);
 });
 
-gulp.task('distribute', function() {
+gulp.task('distribute', ['move-txt'], function() {
     return gulp
         .src(DEV_DIRECTORY)
         .pipe(babel({
@@ -39,6 +39,10 @@ gulp.task('distribute', function() {
             ]
         }))
         .pipe(gulp.dest(DIST_DIRECTORY));
+});
+
+gulp.task('move-txt', function() {
+    return gulp.src('dev/**/*.txt').pipe(gulp.dest(DIST_DIRECTORY));
 });
 
 gulp.task('default', ['watch']);
