@@ -1,8 +1,10 @@
 import {Command, commands} from 'tramway-command';
-const {InputOption} = commands;
-
 import path from 'path';
-import IndexGenerationService from '../services/IndexGenerationService';
+// import IndexGenerationService from '../services/IndexGenerationService';
+import ClassCreationService from '../services/ClassCreationService';
+import ClassTemplate from '../services/templates/classes/ClassTemplate';
+
+const {InputOption} = commands;
 
 export default class CreateClassCommand extends Command {
     configure() {
@@ -14,11 +16,22 @@ export default class CreateClassCommand extends Command {
     }
 
     action() {
-        let indexGS = new IndexGenerationService();
 
-        let sampleIndex = indexGS.addClassToGroup("Class2", './dev/commands');
+        let classCreationService = new ClassCreationService();
 
-        console.log(sampleIndex);
+        classCreationService.createClass("Test", './test');
+
+        console.log('=============')
+        let a = new ClassTemplate();
+        console.log(a.format("Test", "controller"))
+        console.log('=============')
+
+
+        // let indexGS = new IndexGenerationService();
+
+        // let sampleIndex = indexGS.addClassToGroup("Class2", './dev/commands');
+
+        // console.log(sampleIndex);
 
 
         // console.log(path.dirname(require.main.filename), process.env.TRAMWAY_PROJECT_PATH)
