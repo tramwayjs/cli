@@ -3,4 +3,5 @@
 /commands
 /config
 /services
+/providers
 node_modules
