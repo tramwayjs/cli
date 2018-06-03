@@ -1,7 +1,7 @@
-import ClassCreationService from './ClassCreationService';
+import ModuleGenerationService from './ModuleGenerationService';
 import * as templates from './templates';
 
 export {
-    ClassCreationService,
+    ModuleGenerationService,
     templates,
 }

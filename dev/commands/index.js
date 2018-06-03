@@ -1,5 +1,5 @@
-import CreateClassCommand from './CreateClassCommand';
+import CreateControllerCommand from './CreateControllerCommand';
 
 export {
-    CreateClassCommand
+    CreateControllerCommand,
 };

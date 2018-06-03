@@ -1,12 +1,13 @@
 export default class ModuleGenerationService {
-    findImport(indexContents) {
-        const start = indexContents.lastIndexOf("import");
-        const finish = 1 + indexContents.indexOf(";", start);
+    findLines(type, indexContents) {
+        const start = indexContents.indexOf(type);
+        const lastStart = indexContents.lastIndexOf(type);
+        const finish = 1 + indexContents.indexOf(";", lastStart);
         return indexContents.substring(start, finish);
     }
 
-    findExport(indexContents) {
-        const start = indexContents.lastIndexOf("export");
+    findLastOfGroup(type, indexContents) {
+        const start = indexContents.lastIndexOf(type);
         const finish = 1 + indexContents.indexOf("}", start);
         return indexContents.substring(start, finish);
     }

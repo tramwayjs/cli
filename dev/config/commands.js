@@ -1,5 +1,7 @@
-import { CreateClassCommand } from "../commands";
+import { 
+    CreateControllerCommand,
+} from "../commands";
 
 export default {
-    "create:class": CreateClassCommand
+    "create:controller": CreateControllerCommand,
 };

@@ -1,19 +1,10 @@
 import fs from 'fs';
+import mkdirp from 'mkdirp';
 
 export default class FileProvider {
     read(dir) {
-        try {
-            const buffer = fs.readFileSync(dir);
-            return buffer.toString();
-        } catch (e) {
-            // if (e.message.includes('no such file or directory')) {
-            //     return null;
-            // }
-
-            console.log(e)
-
-            // throw e;
-        }
+        const buffer = fs.readFileSync(dir);
+        return buffer.toString();
     }
 
     write(dir, fileName, content) {
@@ -21,7 +12,7 @@ export default class FileProvider {
             fs.writeFileSync(`${dir}/${fileName}.js`, content);
         } catch (e) {
             if (e.message.includes('no such file or directory')) {
-                fs.mkdirSync(dir);
+                mkdirp.sync(dir);
                 return this.write(dir, fileName, content);
             }
 

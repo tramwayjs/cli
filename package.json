@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://gitlab.com/tramwayjs/tramway-core-config/issues?label_name%5B%5D=bug"
   },
-  "main": "index.js",
+  "main": "tramway.js",
   "scripts": {
     "prepublish": "npm run compile",
     "compile": "./node_modules/.bin/gulp distribute",
@@ -27,6 +27,7 @@
     "tramway-core-testsuite": "^1.2.0"
   },
   "dependencies": {
+    "mkdirp": "^0.5.1",
     "tramway-command": "^1.0.1"
   }
 }

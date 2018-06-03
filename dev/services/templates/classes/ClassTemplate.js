@@ -8,10 +8,16 @@ export default class ClassTemplate {
 
     format(className, template) {
         let templatePath = path.join(__dirname, `${template}.txt`);
+        let contents;
 
-        let contents = this.fileProvider.read(templatePath);
+        try {
+            contents = this.fileProvider.read(templatePath);
+        } catch (e) {
+            throw new Error(`Template ${templatePath} doesn't exist`);
+        }
 
         contents = contents.replace(/CLASS_NAME/g, className);
-        console.log(contents, templatePath);
+
+        return contents;
     }
 }

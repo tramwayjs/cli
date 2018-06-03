@@ -1,7 +1,8 @@
-/index.js
+/tramway.js
 *.map.js
 /commands
 /config
-/services
 /providers
+/recipes
+/services
 node_modules

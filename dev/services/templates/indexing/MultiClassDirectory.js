@@ -9,4 +9,12 @@ export default class MultiClassDirectory extends DirectoryTemplate {
     buildExport(className, exports) {
         return this.moduleGenerationService.appendToGroup(className, exports);
     }
+
+    findImport(index) {
+        return this.moduleGenerationService.findLines("import", index);
+    }
+
+    findExport(index) {
+        return this.moduleGenerationService.findLastOfGroup("export", index);
+    }
 }

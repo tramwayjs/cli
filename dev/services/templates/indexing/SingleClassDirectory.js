@@ -10,4 +10,12 @@ export default class SingleClassDirectory extends DirectoryTemplate {
         let newExport = this.moduleGenerationService.addExportLine(className);
         return `${exports}\n${newExport}`;
     }
+
+    findImport(index) {
+        return this.moduleGenerationService.findLines("import", index);
+    }
+
+    findExport(index) {
+        return this.moduleGenerationService.findLines("export", index);
+    }
 }
