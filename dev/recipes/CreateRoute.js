@@ -18,7 +18,13 @@ export default class CreateRoute extends Recipe {
         let importStatement;
         let routes;
 
-        const {className} = data;
+        const {
+            className, 
+            action,
+            path,
+            methods,
+            args
+        } = data;
 
         try {
             contents = this.fileProvider.read(`${this.dir}/${this.filename}.js`);
@@ -30,7 +36,7 @@ export default class CreateRoute extends Recipe {
 
         let imports = this.indexTemplate.buildImport(className, importStatement, "../controllers");
 
-        let routeEntry = this.createRouteEntry(className, 'index', '/stuff', ['get']);
+        let routeEntry = this.createRouteEntry(className, action, path, methods, args);
 
         routes = this.addRouteEntry(routeEntry, routes);
 

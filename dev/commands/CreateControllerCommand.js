@@ -1,7 +1,10 @@
 import {Command, commands} from 'tramway-command';
 import path from 'path';
 
-import { CreateController, CreateRoute } from '../recipes';
+import { 
+    CreateController, 
+    CreateRoute 
+} from '../recipes';
 
 const {InputOption} = commands;
 
@@ -32,27 +35,6 @@ export default class CreateControllerCommand extends Command {
         }
 
         recipe.execute({className: name}, ...next);
-
-
-
-        // let classCreationService = new ClassCreationService();
-
-        // classCreationService.createClass("Test", './test');
- 
-        // console.log('=============')
-        // console.log(this.template.format(name, "controller"))
-        // console.log('=============')
-
-
-        // let indexGS = new IndexGenerationService();
-
-        // let sampleIndex = indexGS.addClassToGroup("Class2", './dev/commands');
-
-        // console.log(sampleIndex);
-
-
-        // console.log(path.dirname(require.main.filename), process.env.TRAMWAY_PROJECT_PATH)
-        // console.log("Test command ran, here's some of what you gave it", typeof this.getArgument('input'), typeof this.getOption('num'), this.options);
     }
 
 }
