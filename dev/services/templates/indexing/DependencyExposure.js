@@ -1,9 +1,8 @@
 import DirectoryTemplate from "./DirectoryTemplate";
 
-export default class MultiClassDirectory extends DirectoryTemplate {
-    buildImport(className, imports) {
-        let newImport = this.moduleGenerationService.addImportLine(className);
-        return `${imports}\n${newImport}`;
+export default class DependencyExposure extends DirectoryTemplate {
+    buildImport(className, imports, group) {
+        return this.moduleGenerationService.appendToGroup("import", className, imports, group);
     }
 
     buildExport(className, exports) {
@@ -11,7 +10,7 @@ export default class MultiClassDirectory extends DirectoryTemplate {
     }
 
     findImport(index) {
-        return this.moduleGenerationService.findLines("import", index);
+        return this.moduleGenerationService.findLastOfGroup("import", index);
     }
 
     findExport(index) {

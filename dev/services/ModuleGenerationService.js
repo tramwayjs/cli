@@ -8,7 +8,15 @@ export default class ModuleGenerationService {
 
     findLastOfGroup(type, indexContents) {
         const start = indexContents.lastIndexOf(type);
-        const finish = 1 + indexContents.indexOf("}", start);
+
+        let finish = 1;
+
+        if ("import" === type) {
+            finish += indexContents.indexOf(";", start);
+        } else {
+            finish += indexContents.indexOf("}", start);
+        }
+
         return indexContents.substring(start, finish);
     }
 
@@ -32,15 +40,21 @@ export default class ModuleGenerationService {
         return `export ${isDefault ? 'default ': ''}${className};`;
     }
 
-    addExportGroup(className) {
-        return `export {\n    ${className},\n};`
-    }
+    addToGroup(type, className, group) {
+        let result = `${type} {\n    ${className},\n}`;
 
-    appendToGroup(className, group) {
-        if (!group) {
-            return this.addExportGroup(className);
+        if ("import" === type) {
+            result = `${result} from '${group}'`;
         }
 
-        return group.replace('}', `    ${className},\n}`);
+        return `${result};`;
+    }
+
+    appendToGroup(type, className, block, group) {
+        if (!block) {
+            return this.addToGroup(type, className, group);
+        }
+
+        return block.replace('}', `    ${className},\n}`);
     }
 }

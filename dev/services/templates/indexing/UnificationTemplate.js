@@ -7,7 +7,7 @@ export default class UnificationTemplate extends DirectoryTemplate {
     }
 
     buildExport(group, exports) {
-        return this.moduleGenerationService.appendToGroup(group, exports);
+        return this.moduleGenerationService.appendToGroup("export", group, exports);
     }
 
     findImport(index) {
