@@ -1,6 +1,7 @@
 import Recipe from "./Recipe";
 import { FileProvider } from "../providers";
 import { ModuleGenerationService, templates } from '../services';
+import { INDENTATION } from "../config/format";
 const {indexing, classes, methods} = templates;
 const {MultiClassDirectory} = indexing;
 const {ClassTemplate} = classes;
@@ -44,7 +45,7 @@ export default class CreateController extends Recipe {
         let contents = this.classTemplate.format(className, "controller");
         
         if (methods) {
-            methods = methods.map(method => this.methodTemplate.format(method, "controllerAction").replace(/^/gm, "    "));
+            methods = methods.map(method => this.methodTemplate.format(method, "controllerAction").replace(/^/gm, INDENTATION));
             methods = methods.join('\n\n');
             contents = contents.replace('{}', `{\n${methods}\n}`);
         }

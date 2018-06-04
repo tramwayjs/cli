@@ -1,6 +1,7 @@
 import Recipe from "./Recipe";
 import { FileProvider } from "../providers";
 import { ModuleGenerationService, templates } from '../services';
+import { INDENTATION } from "../config/format";
 const {indexing} = templates;
 const {DependencyExposure} = indexing;
 
@@ -70,17 +71,17 @@ export default class CreateRoute extends Recipe {
             pieces.push(`\"arguments\": ${JSON.stringify(args)}`);
         }
 
-        let parts = pieces.join(`,\n        `);
+        let parts = pieces.join(`,\n${INDENTATION}${INDENTATION}`);
 
-        return `{\n        ${parts}\n    }`;
+        return `{\n${INDENTATION}${INDENTATION}${parts}\n${INDENTATION}}`;
     }
 
     addRouteEntry(routeEntry, routes) {
         if (!routes) {
-            return `const routeValues = [\n    ${routeEntry},\n];\n\nexport default routeValues;`;
+            return `const routeValues = [\n${INDENTATION}${routeEntry},\n];\n\nexport default routeValues;`;
         }
 
-        return routes.replace(',\n];', `,\n    ${routeEntry},\n];`);
+        return routes.replace(',\n];', `,\n${INDENTATION}${routeEntry},\n];`);
     }
 
     findRoutes(content) {

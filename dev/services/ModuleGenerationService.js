@@ -1,3 +1,5 @@
+import {INDENTATION} from '../config/format';
+
 export default class ModuleGenerationService {
     findLines(type, indexContents) {
         const start = indexContents.indexOf(type);
@@ -41,7 +43,7 @@ export default class ModuleGenerationService {
     }
 
     addToGroup(type, className, group) {
-        let result = `${type} {\n    ${className},\n}`;
+        let result = `${type} {\n${INDENTATION}${className},\n}`;
 
         if ("import" === type) {
             result = `${result} from '${group}'`;
@@ -55,6 +57,6 @@ export default class ModuleGenerationService {
             return this.addToGroup(type, className, group);
         }
 
-        return block.replace('}', `    ${className},\n}`);
+        return block.replace('}', `${INDENTATION}${className},\n}`);
     }
 }

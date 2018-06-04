@@ -6,6 +6,8 @@ import {
     CreateRoute 
 } from '../recipes';
 
+import { CONTROLLER_DIRECTORY, ROUTES_CONFIG_FILENAME, CONFIG_DIRECTORY } from '../config/defaults';
+
 const {InputOption} = commands;
 
 export default class CreateRouteCommand extends Command {
@@ -20,9 +22,9 @@ export default class CreateRouteCommand extends Command {
         this.options.add(new InputOption('methods', InputOption.array));
         this.options.add(new InputOption('args', InputOption.array));
         this.options.add(new InputOption('create-controller', InputOption.boolean));
-        this.options.add(new InputOption('dir', InputOption.string, 'config'));
-        this.options.add(new InputOption('controller-dir', InputOption.string, 'controllers'));
-        this.options.add(new InputOption('filename', InputOption.string, 'controllers'));
+        this.options.add(new InputOption('dir', InputOption.string, CONFIG_DIRECTORY));
+        this.options.add(new InputOption('controller-dir', InputOption.string, CONTROLLER_DIRECTORY));
+        this.options.add(new InputOption('filename', InputOption.string, ROUTES_CONFIG_FILENAME));
     }
 
     action() {
