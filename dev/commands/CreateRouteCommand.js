@@ -45,7 +45,7 @@ export default class CreateRouteCommand extends Command {
             next.push(new CreateController(controllerDir));
         }
 
-        recipe.execute({className: controller, action, path, methods, args}, ...next);
+        recipe.execute({className: controller, action, actions: [action], path, methods, args}, ...next);
     }
 
 }
