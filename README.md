@@ -55,3 +55,21 @@ Example:
 ```
 node tramway create:controller StuffController --add-routes --actions action1 action2 action3 --routes-dir conf
 ```
+
+## Create Service
+Will add a new Service file with a constructor featuring dependency mapping for dependency injection.
+
+| Argument | Command Type | Type | Default | Required | Comments |
+| --- | --- | --- | --- | --- | --- |
+| name | argument | string | none | yes | The name of the Service class |
+| dir | option | string | services | no | An option to override the default folder the Service class will be created in |
+| dependencies | option | array | none | no | An array of dependencies the Service will have |
+| add-dependency-injection | option | boolean | false | no | A flag to indicate that a service declaration should be created when making the Service |
+| dependency-injection-dir | option | string | services | no | An option to override the default folder where the service config will be placed |
+| dependency-injection-filename | option | string | services | no | An option to override the default filename of the service config |
+
+Example:
+
+```
+node tramway create:service StuffService  --dependencies dep1 dep2 dep3 --dir testservices
+```
