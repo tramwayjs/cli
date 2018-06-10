@@ -10,6 +10,10 @@ export default class ModuleGenerationService {
 
     findLastOfGroup(type, indexContents) {
         const start = indexContents.lastIndexOf(type);
+        
+        if (0 > start) {
+            return null;
+        }
 
         let finish = 1;
 

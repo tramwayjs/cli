@@ -73,3 +73,9 @@ Example:
 ```
 node tramway create:service StuffService  --dependencies dep1 dep2 dep3 --dir testservices
 ```
+
+## Create Dependency
+
+```
+node tramway create:dependency service.stuff StuffService --args dep1 dep2 dep3 --dir testservices --classDirectory ser
+```

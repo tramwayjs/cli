@@ -1,0 +1,3 @@
+import services from 'SERVICES_DIR';
+
+export default services;

@@ -1,0 +1,5 @@
+"KEY": {
+    "class": CLASS_NAME,
+    "constructor": [],
+    "functions": []
+},
