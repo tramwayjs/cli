@@ -58,29 +58,11 @@ export default class CreateDependency extends Recipe {
         }
     }
 
-    createDependency(key, className, constructorArgs, functions) {
+    createDependency(key, className, args, functions) {
         let contents = this.dependencyTemplate.format(className, key);
 
-        if (constructorArgs) {
-            constructorArgs = constructorArgs.map(arg => `'${arg}'`).join(',\n').replace(/^/gm, `${INDENTATION}${INDENTATION}`);
-            contents = contents.replace('"constructor": [],', `"constructor": [\n${constructorArgs}\n${INDENTATION}],`);
-        }
-
-        if (functions) {
-            functions = functions.map(({name, args}) => {
-                let func = this.dependencyTemplate.formatFunction(name);
-
-                if (args) {
-                    args = args.join(',\n').replace(/^/gm, `${INDENTATION}${INDENTATION}`);
-                    func = func.replace('"args": []', `"args": [\n${args}\n${INDENTATION}]`);
-                }
-
-                return func;
-            });
-
-            functions = functions.join(',\n').replace(/^/gm, `${INDENTATION}${INDENTATION}`);
-            contents = contents.replace('"functions": []', `"functions": [\n${functions}\n${INDENTATION}]`);
-        }
+        contents = this.prepareConstructor(contents, args);
+        contents = this.prepareFunctions(contents, functions);
 
         return contents;
     }
@@ -88,5 +70,34 @@ export default class CreateDependency extends Recipe {
     createIndex(dir, filename) {
         let contents = this.dependencyTemplate.formatIndex(`./${filename}`);
         this.fileProvider.write(dir, 'index', contents);
+    }
+
+    prepareConstructor(contents, args = []) {
+        if (!args.length) {
+            return contents;
+        }
+
+        args = args.map(arg => `'${arg}'`).join(',\n').replace(/^/gm, `${INDENTATION}${INDENTATION}`);
+        return contents.replace('"constructor": [],', `"constructor": [\n${args}\n${INDENTATION}],`);
+    }
+
+    prepareFunctions(contents, functions = []) {
+        if (!functions.length) {
+            return contents;
+        }
+
+        functions = functions.map(({name, args}) => {
+            let func = this.dependencyTemplate.formatFunction(name);
+
+            if (args) {
+                args = args.join(',\n').replace(/^/gm, `${INDENTATION}${INDENTATION}`);
+                func = func.replace('"args": []', `"args": [\n${args}\n${INDENTATION}]`);
+            }
+
+            return func;
+        });
+
+        functions = functions.join(',\n').replace(/^/gm, `${INDENTATION}${INDENTATION}`);
+        return contents.replace('"functions": []', `"functions": [\n${functions}\n${INDENTATION}]`);
     }
 }
