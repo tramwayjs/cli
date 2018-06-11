@@ -4,6 +4,7 @@ import {
     CreateServiceCommand,
     CreateDependencyCommand,
     CreateEntityCommand,
+    CreateConnectionCommand,
 } from "../commands";
 
 export default {
@@ -12,4 +13,5 @@ export default {
     "create:service": CreateServiceCommand,
     "create:dependency": CreateDependencyCommand,
     "create:entity": CreateEntityCommand,
+    "create:connection": CreateConnectionCommand,
 };

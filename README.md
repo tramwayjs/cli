@@ -82,7 +82,7 @@ Will add a new Entity file with getters and setters for specified properties.
 | Argument | Command Type | Type | Default | Required | Comments |
 | --- | --- | --- | --- | --- | --- |
 | name | argument | string | none | yes | The name of the Entity class |
-| dir | option | string | services | no | An option to override the default folder the Entity class will be created in |
+| dir | option | string | entities | no | An option to override the default folder the Entity class will be created in |
 | properties | option | array | none | no | An array of properties the Entity will have |
 
 Example:
@@ -91,7 +91,33 @@ Example:
 node tramway create:entity Product --properties width height price
 ```
 
+## Create Connection
+Will add a new Connection file with supported stubs with the option of adding to dependency injection.
+
+| Argument | Command Type | Type | Default | Required | Comments |
+| --- | --- | --- | --- | --- | --- |
+| name | argument | string | none | yes | The name of the Connection class |
+| dir | option | string | connections | no | An option to override the default folder the Connection class will be created in |
+| add-dependency-injection | option | boolean | false | no | A flag to indicate that a service declaration should be created when making the Service |
+| key | option | string | none | no | The name of the key to use in dependency injection configuration |
+| dependency-injection-dir | option | string | services | no | An option to override the default folder where the service config will be placed |
+| dependency-injection-filename | option | string | services | no | An option to override the default filename of the service config |
+
+```
+node tramway create:connection MySQLConnection --add-dependency-injection --key connection:mysql
+```
+
 ## Create Dependency
+
+| Argument | Command Type | Type | Default | Required | Comments |
+| --- | --- | --- | --- | --- | --- |
+| name | argument | string | none | yes | The name of the class |
+| key | argument | string | none | yes | The name of the key to use in dependency injection configuration |
+| dir | option | string | config/services | no | An option to override the default folder the service declaration will be created in |
+| filename | option | string | services | no | An option to override the default filename of the service config |
+| classDirectory | option | string | none | no | The relative import location of the class being imported |
+| args | option | array | none | no | An array of arguments to be passed to the constructor in the service declaration |
+| functions | option | array | none | no | An array of function calls to add to the declaration. Currently unavailable. |
 
 ```
 node tramway create:dependency service.stuff StuffService --args dep1 dep2 dep3 --dir testservices --classDirectory ser

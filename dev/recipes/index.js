@@ -4,6 +4,7 @@ import CreateRoute from './CreateRoute';
 import CreateService from './CreateService';
 import CreateDependency from './CreateDependency';
 import CreateEntity from './CreateEntity';
+import CreateConnection from './CreateConnection';
 
 export {
     Recipe,
@@ -12,4 +13,5 @@ export {
     CreateService,
     CreateDependency,
     CreateEntity,
+    CreateConnection,
 }

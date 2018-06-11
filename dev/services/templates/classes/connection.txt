@@ -1,0 +1,144 @@
+import {Connection} from 'tramway-core-connection';
+import {errors} from "tramway-core";
+let {AbstractMethodError} = errors;
+
+/**
+ * @abstract
+ * @export
+ * @class CLASS_NAME
+ */
+export default class CLASS_NAME extends Connection {
+    /**
+     * Creates an instance of Connection.
+     * 
+     * @param {Object} params
+     * 
+     * @memberOf CLASS_NAME
+     */
+    constructor(params) {
+        
+    }
+
+    /**
+     * @param {number|string} id
+     * @param {function(Error, Object)} cb
+     * 
+     * @memberOf CLASS_NAME
+     */
+    getItem(id, cb) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {string[] | number[]} ids
+     * @param {function(Error, Object[])} cb
+     * 
+     * @memberOf CLASS_NAME
+     */
+    getItems(ids, cb) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {function(Error, boolean)} cb
+     * 
+     * @memberOf CLASS_NAME
+     */
+    getAllItems(cb) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {string | Object} conditions
+     * @param {function(Error, Object[])} cb
+     * 
+     * @memberOf CLASS_NAME
+     */
+    findItems(conditions, cb) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {number|string} id
+     * @param {function(Error, boolean)} cb
+     * 
+     * @memberOf CLASS_NAME
+     */
+    hasItem(id, cb) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param { string[] | number[] } ids
+     * @param {function(Error, boolean)} cb
+     * 
+     * @memberOf CLASS_NAME
+     */
+    hasItems(ids, cb) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {string | Object} conditions
+     * @param {function(Error, number)} cb
+     * 
+     * @memberOf CLASS_NAME
+     */
+    countItems(conditions, cb) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {Object} item
+     * @param {function(Error, Object)} cb
+     * 
+     * @memberOf CLASS_NAME
+     */
+    createItem(item, cb) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {number|string} id
+     * @param {Object} item
+     * @param {function(Error, Object)} cb
+     * 
+     * @memberOf CLASS_NAME
+     */
+    updateItem(id, item, cb) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {number|string} id
+     * @param {function(Error, Object)} cb
+     * 
+     * @memberOf CLASS_NAME
+     */
+    deleteItem(id, cb) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param { number[] | string[]} id
+     * @param {function(Error, Object[])} cb
+     * 
+     * @memberOf CLASS_NAME
+     */
+    deleteItems(id, cb) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * Recommended to use other functions first.
+     * @param {string} query
+     * @param {[] | Object} values
+     * @param {function(Error, Object[])} cb
+     * 
+     * @memberOf CLASS_NAME
+     */
+    query(query, values, cb) {
+        throw new AbstractMethodError();
+    }
+
+}
