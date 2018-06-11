@@ -3,6 +3,7 @@ import {
     CreateRouteCommand,
     CreateServiceCommand,
     CreateDependencyCommand,
+    CreateEntityCommand,
 } from "../commands";
 
 export default {
@@ -10,4 +11,5 @@ export default {
     "create:route": CreateRouteCommand,
     "create:service": CreateServiceCommand,
     "create:dependency": CreateDependencyCommand,
+    "create:entity": CreateEntityCommand,
 };

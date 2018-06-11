@@ -1,0 +1,4 @@
+setU_PROPERTY_NAME(PROPERTY_NAME) {
+    this.PROPERTY_NAME = PROPERTY_NAME;
+    return this;
+}

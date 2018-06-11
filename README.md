@@ -16,6 +16,8 @@ Replace the COMMAND with the appropriate one from the table below with its corre
 node tramway COMMAND
 ```
 
+All commands that create new classes will update the corresponding index.js entries.
+
 ## Create Route
 Will add the necessary routing config to the routes file in the config folder and optionally create the corresponding Controller file with its index.
 
@@ -72,6 +74,21 @@ Example:
 
 ```
 node tramway create:service StuffService  --dependencies dep1 dep2 dep3 --dir testservices
+```
+
+## Create Entity
+Will add a new Entity file with getters and setters for specified properties.
+
+| Argument | Command Type | Type | Default | Required | Comments |
+| --- | --- | --- | --- | --- | --- |
+| name | argument | string | none | yes | The name of the Entity class |
+| dir | option | string | services | no | An option to override the default folder the Entity class will be created in |
+| properties | option | array | none | no | An array of properties the Entity will have |
+
+Example:
+
+```
+node tramway create:entity Product --properties width height price
 ```
 
 ## Create Dependency

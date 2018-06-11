@@ -1,0 +1,3 @@
+import {Entity} from 'tramway-core-connection';
+
+export default class CLASS_NAME extends Entity {}

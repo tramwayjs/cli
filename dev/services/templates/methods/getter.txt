@@ -1,0 +1,3 @@
+getU_PROPERTY_NAME() {
+    return this.PROPERTY_NAME;
+}
