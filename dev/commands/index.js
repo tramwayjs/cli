@@ -4,6 +4,7 @@ import CreateServiceCommand from './CreateServiceCommand';
 import CreateDependencyCommand from './CreateDependencyCommand';
 import CreateEntityCommand from './CreateEntityCommand';
 import CreateConnectionCommand from './CreateConnectionCommand';
+import CreateRepositoryCommand from './CreateRepositoryCommand';
 
 export {
     CreateControllerCommand,
@@ -12,4 +13,5 @@ export {
     CreateDependencyCommand,
     CreateEntityCommand,
     CreateConnectionCommand,
+    CreateRepositoryCommand,
 };

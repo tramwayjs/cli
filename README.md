@@ -92,19 +92,40 @@ node tramway create:entity Product --properties width height price
 ```
 
 ## Create Connection
-Will add a new Connection file with supported stubs with the option of adding to dependency injection.
+Will add a new Connection file with supported stubs and the option of adding to dependency injection.
 
 | Argument | Command Type | Type | Default | Required | Comments |
 | --- | --- | --- | --- | --- | --- |
 | name | argument | string | none | yes | The name of the Connection class |
 | dir | option | string | connections | no | An option to override the default folder the Connection class will be created in |
-| add-dependency-injection | option | boolean | false | no | A flag to indicate that a service declaration should be created when making the Service |
+| add-dependency-injection | option | boolean | false | no | A flag to indicate that a service declaration should be created when making the Connection |
 | key | option | string | none | no | The name of the key to use in dependency injection configuration |
 | dependency-injection-dir | option | string | services | no | An option to override the default folder where the service config will be placed |
 | dependency-injection-filename | option | string | services | no | An option to override the default filename of the service config |
 
+Example:
+
 ```
 node tramway create:connection MySQLConnection --add-dependency-injection --key connection:mysql
+```
+
+## Create Repository
+Will add a new Repository file with supported stubs and the option of adding to dependency injection with linked connection.
+
+| Argument | Command Type | Type | Default | Required | Comments |
+| --- | --- | --- | --- | --- | --- |
+| name | argument | string | none | yes | The name of the Repository class |
+| dir | option | string | repositories | no | An option to override the default folder the Repository class will be created in |
+| add-dependency-injection | option | boolean | false | no | A flag to indicate that a service declaration should be created when making the Repository |
+| key | option | string | none | no | The name of the key to use in dependency injection configuration |
+| connection | option | string | none | no | The key of the connection in the service declaration |
+| dependency-injection-dir | option | string | services | no | An option to override the default folder where the service config will be placed |
+| dependency-injection-filename | option | string | services | no | An option to override the default filename of the service config |
+
+Example: 
+
+```
+node tramway create:repository ProductsRepository --add-dependency-injection --connection connection:things --key repositories:products
 ```
 
 ## Create Dependency
@@ -118,6 +139,8 @@ node tramway create:connection MySQLConnection --add-dependency-injection --key 
 | classDirectory | option | string | none | no | The relative import location of the class being imported |
 | args | option | array | none | no | An array of arguments to be passed to the constructor in the service declaration |
 | functions | option | array | none | no | An array of function calls to add to the declaration. Currently unavailable. |
+
+Example:
 
 ```
 node tramway create:dependency service.stuff StuffService --args dep1 dep2 dep3 --dir testservices --classDirectory ser
