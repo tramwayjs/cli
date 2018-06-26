@@ -14,6 +14,7 @@
   "main": "tramway.js",
   "scripts": {
     "prepublish": "npm run compile",
+    "postinstall": "if [ -f ./install.js ]; then node ./install.js; fi",
     "compile": "./node_modules/.bin/gulp distribute",
     "test": "./node_modules/.bin/gulp distribute && mocha tests"
   },

@@ -5,6 +5,8 @@ Tramway Core Config is a development utility to facilitate rapid development by 
 # Installation
 
 1.  ```npm install --save-dev tramway-core-config```
+2. You should notice a tramway.js file appear at the root of your project. If not, add one with the following content: 
+```module.exports = require('tramway-core-config');```
 
 # Documentation
 

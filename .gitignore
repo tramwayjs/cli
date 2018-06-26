@@ -1,8 +1,11 @@
 /tramway.js
 *.map.js
+*.js.map
 /commands
 /config
 /providers
 /recipes
 /services
 node_modules
+/install.js
+.DS_Store
