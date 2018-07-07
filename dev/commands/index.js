@@ -5,6 +5,7 @@ import CreateDependencyCommand from './CreateDependencyCommand';
 import CreateEntityCommand from './CreateEntityCommand';
 import CreateConnectionCommand from './CreateConnectionCommand';
 import CreateRepositoryCommand from './CreateRepositoryCommand';
+import CreateProviderCommand from './CreateProviderCommand';
 
 export {
     CreateControllerCommand,
@@ -14,4 +15,5 @@ export {
     CreateEntityCommand,
     CreateConnectionCommand,
     CreateRepositoryCommand,
+    CreateProviderCommand,
 };

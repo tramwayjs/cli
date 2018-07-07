@@ -1,0 +1,123 @@
+import {Provider} from 'tramway-core-connection';
+import {errors} from "tramway-core";
+const {AbstractMethodError} = errors;
+
+/**
+ * @abstract
+ * @export
+ * @class CLASS_NAME
+ */
+export default class CLASS_NAME extends Provider {
+
+    /**
+     * @param {number|string} id
+     * @returns {Promise<Object>}
+     * 
+     * @memberOf CLASS_NAME
+     */
+    async getOne(id) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {string[] | number[]} ids
+     * 
+     * @memberOf CLASS_NAME
+     */
+    async getMany(ids) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @memberOf CLASS_NAME
+     */
+    async get() {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {string | Object} conditions
+     * 
+     * @memberOf CLASS_NAME
+     */
+    async find(conditions) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {number|string} id
+     * @returns {Promise<boolean>}
+     * 
+     * @memberOf CLASS_NAME
+     */
+    async has(id) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param { string[] | number[] } ids
+     * 
+     * @memberOf CLASS_NAME
+     */
+    async hasThese(ids) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {string | Object} conditions
+     * 
+     * @memberOf CLASS_NAME
+     */
+    async count(conditions) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {Object} item
+     * 
+     * @memberOf CLASS_NAME
+     */
+    async create(item) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {number|string} id
+     * @param {Object} item
+     * 
+     * @memberOf CLASS_NAME
+     */
+    async update(id, item) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param {number|string} id
+     * 
+     * @memberOf CLASS_NAME
+     */
+    async delete(id) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * @param { number[] | string[]} id
+     * 
+     * @memberOf CLASS_NAME
+     */
+    async deleteMany(id) {
+        throw new AbstractMethodError();
+    }
+
+    /**
+     * Recommended to use other functions first.
+     * @param {string} query
+     * @param {[] | Object} values
+     * 
+     * @memberOf CLASS_NAME
+     */
+    async query(query, values) {
+        throw new AbstractMethodError();
+    }
+
+}

@@ -93,8 +93,28 @@ Example:
 node tramway create:entity Product --properties width height price
 ```
 
+## Create Provider
+
+*Requires `tramway-core-connection` v 2.0.0^* Will add a new Provider file with supported stubs and the option of adding to dependency injection.
+
+| Argument | Command Type | Type | Default | Required | Comments |
+| --- | --- | --- | --- | --- | --- |
+| name | argument | string | none | yes | The name of the Provider class |
+| dir | option | string | connections | no | An option to override the default folder the Provider class will be created in |
+| add-dependency-injection | option | boolean | false | no | A flag to indicate that a service declaration should be created when making the Provider |
+| key | option | string | none | no | The name of the key to use in dependency injection configuration |
+| dependency-injection-dir | option | string | services | no | An option to override the default folder where the service config will be placed |
+| dependency-injection-filename | option | string | services | no | An option to override the default filename of the service config |
+
+Example:
+
+```
+node tramway create:provider MySQLProvider --add-dependency-injection --key provider:mysql
+```
+
 ## Create Connection
-Will add a new Connection file with supported stubs and the option of adding to dependency injection.
+
+*Deprecated as of `tramway-core-connection` v 2.0.0 in favor of Providers* Will add a new Connection file with supported stubs and the option of adding to dependency injection.
 
 | Argument | Command Type | Type | Default | Required | Comments |
 | --- | --- | --- | --- | --- | --- |
