@@ -1,5 +1,5 @@
-import {Command, commands} from 'tramway-command';
-import path from 'path';
+import CreateClassCommand from './CreateClassCommand';
+import {commands} from 'tramway-command';
 
 import { 
     CreateController, 
@@ -10,11 +10,7 @@ import { CONTROLLER_DIRECTORY, ROUTES_CONFIG_FILENAME, CONFIG_DIRECTORY } from '
 
 const {InputOption} = commands;
 
-export default class CreateRouteCommand extends Command {
-    constructor() {
-        super();
-    }
-
+export default class CreateRouteCommand extends CreateClassCommand {
     configure() {
         this.args.add((new InputOption('controller', InputOption.string)).isRequired());
         this.args.add((new InputOption('action', InputOption.string)).isRequired());
@@ -22,8 +18,8 @@ export default class CreateRouteCommand extends Command {
         this.options.add(new InputOption('methods', InputOption.array));
         this.options.add(new InputOption('args', InputOption.array));
         this.options.add(new InputOption('create-controller', InputOption.boolean));
-        this.options.add(new InputOption('dir', InputOption.string, CONFIG_DIRECTORY));
-        this.options.add(new InputOption('controller-dir', InputOption.string, CONTROLLER_DIRECTORY));
+        this.options.add(new InputOption('dir', InputOption.string, this.directoryResolver.resolve(CONFIG_DIRECTORY)));
+        this.options.add(new InputOption('controller-dir', InputOption.string, this.directoryResolver.resolve(CONTROLLER_DIRECTORY)));
         this.options.add(new InputOption('filename', InputOption.string, ROUTES_CONFIG_FILENAME));
     }
 
