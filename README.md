@@ -4,11 +4,22 @@ Tramway Core Config is a development utility to facilitate rapid development by 
 
 # Installation
 
-1.  ```npm install --save-dev tramway-core-config```
-2. You should notice a tramway.js file appear at the root of your project. If not, add one with the following content: 
+1. ```npm install --save-dev tramway-core-config```
+2. You should see a `tramway.js` file appear at the root of your project. If not, add one with the following content: 
 ```module.exports = require('tramway-core-config');```
 
 # Documentation
+
+* Usage
+* Create Route
+* Create Controller
+* Create Service 
+* Create Entity
+* Create Provider
+* Create Connection
+* Create Repository
+* Create Dependency
+* Configuration
 
 ## Usage
 
@@ -167,3 +178,38 @@ Example:
 ```
 node tramway create:dependency service.stuff StuffService --args dep1 dep2 dep3 --dir testservices --classDirectory ser
 ```
+
+## Configuration
+
+The commands create their files in the default scalpel that TramwayJS follows
+
+src
+-- config
+-- controllers
+-- services
+-- entities
+-- repositories
+-- providers
+-- commands
+
+In some projects, however, the structure can vary and the framework is able to adapt to adjustments using environment variables.
+
+| Variable | Purpose | Default |
+| --- | --- | --- |
+| TRAMWAY_PROJECT_PATH | The root path of the project | ./src |
+| TRAMWAY_PROJECT_CONTROLLERS_PATH | Path to controllers appended to TRAMWAY_PROJECT_PATH | controllers |
+| TRAMWAY_PROJECT_ENTITIES_PATH | Path to entities appended to TRAMWAY_PROJECT_PATH | entities |
+| TRAMWAY_PROJECT_SERVICES_PATH | Path to services appended to TRAMWAY_PROJECT_PATH | services |
+| TRAMWAY_PROJECT_CONNECTIONS_PATH | Path to connections appended to TRAMWAY_PROJECT_PATH | connections |
+| TRAMWAY_PROJECT_REPOSITORIES_PATH | Path to repositories appended to TRAMWAY_PROJECT_PATH | repositories |
+| TRAMWAY_PROJECT_PROVIDERS_PATH | Path to providers appended to TRAMWAY_PROJECT_PATH | providers |
+| TRAMWAY_PROJECT_CONFIG_PATH | Path to config appended to TRAMWAY_PROJECT_PATH | config |
+| TRAMWAY_PROJECT_ROUTES_FILE | Name of the routes file storied in the config directory | routes |
+| TRAMWAY_PROJECT_SERVICES_FILE | Name of the services file storied in the config directory | services |
+
+Example: 
+
+```
+TRAMWAY_PROJECT_PATH=./dev node tramway create:service Service
+```
+This command will create a new Service.js file in ./dev/services. It has the same behavior as overriding the dir using the dir option but is meant for a global application.

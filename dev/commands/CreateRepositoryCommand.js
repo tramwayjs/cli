@@ -1,5 +1,5 @@
-import {Command, commands} from 'tramway-command';
-import path from 'path';
+import CreateClassCommand from './CreateClassCommand';
+import {commands} from 'tramway-command';
 
 import { 
     CreateRepository,
@@ -10,20 +10,34 @@ import { REPOSITORY_DIRECTORY, DEPENDENCY_INJECTION_SERVICES_DIRECTORY, DEPENDEN
 
 const {InputOption} = commands;
 
-export default class CreateRepositoryCommand extends Command {
-    constructor() {
-        super();
-    }
-
+export default class CreateRepositoryCommand extends CreateClassCommand {
     configure() {
         this.args.add((new InputOption('name', InputOption.string)).isRequired());
-        this.options.add(new InputOption('dir', InputOption.string, REPOSITORY_DIRECTORY));
+        this.options.add(
+            new InputOption(
+                'dir', 
+                InputOption.string, 
+                this.directoryResolver.resolve(REPOSITORY_DIRECTORY)
+            )
+        );
 
         this.options.add(new InputOption('add-dependency-injection', InputOption.boolean));
         this.options.add(new InputOption('key', InputOption.string));
         this.options.add(new InputOption('connection', InputOption.string));
-        this.options.add(new InputOption('dependency-injection-dir', InputOption.string, DEPENDENCY_INJECTION_SERVICES_DIRECTORY));
-        this.options.add(new InputOption('dependency-injection-filename', InputOption.string, DEPENDENCY_INJECTION_SERVICES_FILENAME));
+        this.options.add(
+            new InputOption(
+                'dependency-injection-dir', 
+                InputOption.string, 
+                this.directoryResolver.resolve(DEPENDENCY_INJECTION_SERVICES_DIRECTORY)
+            )
+        );
+        this.options.add(
+            new InputOption(
+                'dependency-injection-filename', 
+                InputOption.string, 
+                DEPENDENCY_INJECTION_SERVICES_FILENAME
+            )
+        );
     }
 
     action() {
