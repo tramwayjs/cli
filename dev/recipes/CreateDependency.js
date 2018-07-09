@@ -18,7 +18,7 @@ export default class CreateDependency extends Recipe {
     }
 
     execute(data, ...next) {
-        const {className, key, functions, args, classDirectory} = data;
+        const {className, key, functions = [], args, classDirectory} = data;
         let fileContents = this.checkFileExistance(this.dir, this.filename);
         const fileExists = !!fileContents;
 
@@ -58,7 +58,7 @@ export default class CreateDependency extends Recipe {
         }
     }
 
-    createDependency(key, className, args, functions) {
+    createDependency(key, className, args, functions = []) {
         let contents = this.dependencyTemplate.format(className, key);
 
         contents = this.prepareConstructor(contents, args);
@@ -73,16 +73,16 @@ export default class CreateDependency extends Recipe {
     }
 
     prepareConstructor(contents, args = []) {
-        if (!args.length) {
+        if (!args || !args.length) {
             return contents;
         }
 
-        args = args.map(arg => `'${arg}'`).join(',\n').replace(/^/gm, `${INDENTATION}${INDENTATION}`);
+        args = args.map(arg => `${arg}`).join(',\n').replace(/^/gm, `${INDENTATION}${INDENTATION}`);
         return contents.replace('"constructor": [],', `"constructor": [\n${args}\n${INDENTATION}],`);
     }
 
     prepareFunctions(contents, functions = []) {
-        if (!functions.length) {
+        if (!functions || !functions.length) {
             return contents;
         }
 

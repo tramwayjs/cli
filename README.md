@@ -11,6 +11,7 @@ Tramway Core Config is a development utility to facilitate rapid development by 
 # Documentation
 
 * Usage
+* Create API
 * Create Route
 * Create Controller
 * Create Service 
@@ -30,6 +31,31 @@ node tramway COMMAND
 ```
 
 All commands that create new classes will update the corresponding index.js entries.
+
+## Create API
+Will create all the necessary classes and mappings to have a full API ready. The routes follow REST and are automatically mapped to their controller action with services instantiated and linked in the Dependency Injection configuration.
+
+| Argument | Command Type | Type | Default | Required | Comments |
+| --- | --- | --- | --- | --- | --- |
+| resource | argument | string | none | yes | The name of the Resource to use for all naming |
+| provider | option | string | none | no | Adds a provider key to the Repository declaration to link them |
+
+Example:
+
+```
+node tramway create:api Product
+```
+
+This command will create the following new files and update corresponding index.js files, as well as configuration files:
+
+entities
+-- Product.js
+controllers
+-- ProductController.js
+services
+-- ProductService.js
+repositories
+-- ProductRepositories.js
 
 ## Create Route
 Will add the necessary routing config to the routes file in the config folder and optionally create the corresponding Controller file with its index.
