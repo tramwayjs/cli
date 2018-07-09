@@ -7,6 +7,7 @@ import {
     CreateConnectionCommand,
     CreateRepositoryCommand,
     CreateProviderCommand,
+    CreateApiCommand,
 } from "../commands";
 
 export default {
@@ -18,4 +19,5 @@ export default {
     "create:connection": CreateConnectionCommand,
     "create:provider": CreateProviderCommand,
     "create:repository": CreateRepositoryCommand,
+    "create:api": CreateApiCommand,
 };

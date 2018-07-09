@@ -61,6 +61,10 @@ export default class ModuleGenerationService {
             return this.addToGroup(type, className, group);
         }
 
+        if (new RegExp(`${className},`).test(block)) {
+            throw new Error(`${className} already exists in ${type}s`);
+        }
+
         return block.replace('}', `${INDENTATION}${className},\n}`);
     }
 }

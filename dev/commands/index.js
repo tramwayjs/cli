@@ -7,6 +7,7 @@ import CreateEntityCommand from './CreateEntityCommand';
 import CreateConnectionCommand from './CreateConnectionCommand';
 import CreateRepositoryCommand from './CreateRepositoryCommand';
 import CreateProviderCommand from './CreateProviderCommand';
+import CreateApiCommand from './CreateApiCommand';
 
 export {
     CreateClassCommand,
@@ -18,4 +19,5 @@ export {
     CreateConnectionCommand,
     CreateRepositoryCommand,
     CreateProviderCommand,
+    CreateApiCommand,
 };

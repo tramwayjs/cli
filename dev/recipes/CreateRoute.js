@@ -35,7 +35,13 @@ export default class CreateRoute extends Recipe {
 
         }
 
-        let imports = this.indexTemplate.buildImport(className, importStatement, "../controllers");
+        let imports;
+
+        try {
+            imports = this.indexTemplate.buildImport(className, importStatement, "../controllers");
+        } catch (e) {
+            imports = importStatement;
+        }
 
         let routeEntry = this.createRouteEntry(className, action, path, methods, args);
 

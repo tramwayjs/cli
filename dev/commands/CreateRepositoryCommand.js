@@ -24,6 +24,7 @@ export default class CreateRepositoryCommand extends CreateClassCommand {
         this.options.add(new InputOption('add-dependency-injection', InputOption.boolean));
         this.options.add(new InputOption('key', InputOption.string));
         this.options.add(new InputOption('connection', InputOption.string));
+        this.options.add(new InputOption('provider', InputOption.string));
         this.options.add(
             new InputOption(
                 'dependency-injection-dir', 
@@ -50,6 +51,7 @@ export default class CreateRepositoryCommand extends CreateClassCommand {
         const shouldAddDependencyInjection = this.getOption('add-dependency-injection');
         const key = this.getOption('key');
         const connection = this.getOption('connection');
+        const provider = this.getOption('provider');
         const diDir = this.getOption('dependency-injection-dir');
         const diFilename = this.getOption('dependency-injection-filename');
         
@@ -57,7 +59,26 @@ export default class CreateRepositoryCommand extends CreateClassCommand {
             next.push(new CreateDependency(diDir, diFilename));
         }
 
-        recipe.execute({className: name, key, classDirectory: dir, args: connection && [`{"type": "service", "key": "${connection}"}`]}, ...next);
+        recipe.execute(
+            {
+                className: name, 
+                key, 
+                classDirectory: dir, 
+                args: (
+                    (
+                        provider && [
+                            `{"type": "service", "key": "${provider}"}`
+                        ]
+                    ) || 
+                    (
+                        connection && [
+                            `{"type": "service", "key": "${connection}"}`
+                        ]
+                    )
+                )
+            }, 
+            ...next
+        );
     }
 
 }
