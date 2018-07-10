@@ -9,3 +9,4 @@
 node_modules
 /install.js
 .DS_Store
+src

@@ -3,6 +3,7 @@ import MultiClassDirectory from './MultiClassDirectory';
 import SingleClassDirectory from './SingleClassDirectory';
 import UnificationTemplate from './UnificationTemplate';
 import DependencyExposure from './DependencyExposure';
+import ConvergenceTemplate from './ConvergenceTemplate';
 
 export {
     DirectoryTemplate,
@@ -10,4 +11,5 @@ export {
     SingleClassDirectory,
     UnificationTemplate,
     DependencyExposure,
+    ConvergenceTemplate,
 }
