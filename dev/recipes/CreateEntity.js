@@ -8,10 +8,11 @@ const {ClassTemplate} = classes;
 const {GetterSetterTemplate} = methods;
 
 export default class CreateEntity extends Recipe {
-    constructor(dir) {
+    constructor(dir, version) {
         super();
 
         this.dir = dir;
+        this.version = version;
 
         this.classTemplate = new ClassTemplate();
         this.indexTemplate = new MultiClassDirectory(new ModuleGenerationService());
@@ -26,7 +27,7 @@ export default class CreateEntity extends Recipe {
             throw new Error(`${className} already exists in ${this.dir}`);
         }
 
-        this.createClass(className, properties, this.dir);
+        this.createClass(className, properties, this.dir, this.version);
         this.createIndex(className, this.dir);
 
         let [first, ...rest] = next;
@@ -41,8 +42,8 @@ export default class CreateEntity extends Recipe {
         }
     }
 
-    createClass(className, properties, dir) {
-        let contents = this.classTemplate.format(className, "entity");
+    createClass(className, properties, dir, version) {
+        let contents = this.classTemplate.format(className, "entity", version);
         
         if (properties) {
             properties = properties.map(property => {

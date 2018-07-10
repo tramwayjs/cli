@@ -31,13 +31,15 @@ export default class CreateProviderCommand extends CreateClassCommand {
             )
         );
         this.options.add(new InputOption('dependency-injection-filename', InputOption.string, DEPENDENCY_INJECTION_SERVICES_FILENAME));
+        this.options.add(new InputOption('version', InputOption.number));    
     }
 
     action() {
         const name = this.getArgument('name');
         const dir = this.getOption('dir');
+        const version = this.getOption('version');
 
-        let recipe = new CreateProvider(dir);
+        let recipe = new CreateProvider(dir, version);
         let next = [];
 
         const shouldAddDependencyInjection = this.getOption('add-dependency-injection');
