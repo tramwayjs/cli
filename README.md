@@ -48,6 +48,16 @@ node tramway create:api Product
 
 This command will create the following new files and update corresponding index.js files, as well as configuration files:
 
+config
+
+-- services
+
+---- services.js
+
+---- repositories.js
+
+-- routes.js
+
 entities
 
 -- Product.js

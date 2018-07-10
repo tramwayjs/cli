@@ -2,7 +2,8 @@ import Recipe from "./Recipe";
 import { FileProvider } from "../providers";
 import { ModuleGenerationService, templates } from '../services';
 import { INDENTATION } from "../config/format";
-const {dependencies} = templates;
+const {indexing, dependencies} = templates;
+const {ConvergenceTemplate} = indexing;
 const {DependencyTemplate} = dependencies;
 
 export default class CreateDependency extends Recipe {
@@ -13,8 +14,9 @@ export default class CreateDependency extends Recipe {
         this.filename = filename;
 
         this.fileProvider = new FileProvider();
-        this.dependencyTemplate = new DependencyTemplate();
         this.moduleGenerationService = new ModuleGenerationService();
+        this.indexTemplate = new ConvergenceTemplate(this.moduleGenerationService);
+        this.dependencyTemplate = new DependencyTemplate();
     }
 
     execute(data, ...next) {
@@ -68,8 +70,20 @@ export default class CreateDependency extends Recipe {
     }
 
     createIndex(dir, filename) {
-        let contents = this.dependencyTemplate.formatIndex(`./${filename}`);
-        this.fileProvider.write(dir, 'index', contents);
+        let contents;
+        let imports = '';
+        let exports = '';
+
+        try {
+            contents = this.fileProvider.read(`${dir}/index.js`);
+            imports = this.indexTemplate.findImport(contents);
+            exports = this.indexTemplate.findExport(contents);
+        } catch (e) {
+        }
+
+        contents = this.indexTemplate.format(filename, imports, exports);
+
+        this.fileProvider.write(dir, "index", contents);
     }
 
     prepareConstructor(contents, args = []) {

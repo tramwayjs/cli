@@ -47,7 +47,6 @@ export default class CreateApiCommand extends CreateClassCommand {
 
         const repositoryKey = `repository.${resource.toLowerCase()}`;
         const serviceKey = `service.${resource.toLowerCase()}`;
-        let createDependency = new CreateDependency(this.directoryResolver.resolve(diDir), diFilename);
         const controllerName = `${resource}Controller`;
         const actions = [
             {
@@ -81,8 +80,8 @@ export default class CreateApiCommand extends CreateClassCommand {
         ];
 
         this.createEntity(resource, entityDirectory);
-        this.createRepository(resource, repositoryKey, repositoryDirectory, createDependency, provider);
-        this.createService(resource, serviceKey, serviceDirectory, repositoryKey, createDependency);
+        this.createRepository(resource, repositoryKey, repositoryDirectory, provider, diDir);
+        this.createService(resource, serviceKey, serviceDirectory, repositoryKey, diDir);
         this.createController(resource, controllerName, controllerDirectory, actions);
         this.createRoutes(resource, routeDirectory, routeFileName, controllerName, actions);
     }
@@ -96,7 +95,7 @@ export default class CreateApiCommand extends CreateClassCommand {
             );
     }
 
-    createRepository(resource, repositoryKey, repositoryDirectory, createDependency, provider) {
+    createRepository(resource, repositoryKey, repositoryDirectory, provider, diDir) {
         (new CreateRepository(this.directoryResolver.resolve(repositoryDirectory)))
             .execute(
                 {
@@ -105,11 +104,11 @@ export default class CreateApiCommand extends CreateClassCommand {
                     classDirectory: `../../${repositoryDirectory}`, 
                     args: provider && [`{"type": "service", "key": "${provider}"}`]
                 },
-                createDependency
+                new CreateDependency(this.directoryResolver.resolve(diDir), 'repositories')
             );
     }
 
-    createService(resource, serviceKey, serviceDirectory, repositoryKey, createDependency) {
+    createService(resource, serviceKey, serviceDirectory, repositoryKey, diDir) {
         (new CreateService(this.directoryResolver.resolve(serviceDirectory)))
             .execute(
                 {
@@ -118,7 +117,7 @@ export default class CreateApiCommand extends CreateClassCommand {
                     classDirectory: `../../${serviceDirectory}`, 
                     args: [`{"type": "service", "key": "${repositoryKey}"}`]
                 },
-                createDependency
+                new CreateDependency(this.directoryResolver.resolve(diDir), 'services')
             );
     }
 
