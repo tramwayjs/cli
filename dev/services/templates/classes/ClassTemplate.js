@@ -1,13 +1,18 @@
 import path from 'path';
 import {FileProvider} from "../../../providers";
+import { versions } from '../../../config';
 
 export default class ClassTemplate {
     constructor() {
         this.fileProvider = new FileProvider();
     }
 
-    format(className, template) {
-        let templatePath = path.join(__dirname, `${template}.txt`);
+    format(className, template, version) {
+        if (!version) {
+            version = this.getLatestVersion(template);
+        }
+
+        let templatePath = path.join(__dirname, template, `v${version}.txt`);
         let contents;
 
         try {
@@ -19,5 +24,9 @@ export default class ClassTemplate {
         contents = contents.replace(/CLASS_NAME/g, className);
 
         return contents;
+    }
+
+    getLatestVersion(template) {
+        return versions[template];
     }
 }

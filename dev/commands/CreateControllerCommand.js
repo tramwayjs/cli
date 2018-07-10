@@ -30,6 +30,7 @@ export default class CreateControllerCommand extends CreateClassCommand {
             )
         );
         this.options.add(new InputOption('routes-filename', InputOption.string, ROUTES_CONFIG_FILENAME));
+        this.options.add(new InputOption('version', InputOption.number));
     }
 
     action() {
@@ -39,8 +40,9 @@ export default class CreateControllerCommand extends CreateClassCommand {
         const actions = this.getOption('actions');
         const routesDir = this.getOption('routes-dir');
         const routesFilename = this.getOption('routes-filename');
+        const version = this.getOption('version');
 
-        let recipe = new CreateController(dir);
+        let recipe = new CreateController(dir, version);
 
         let next = [];
 

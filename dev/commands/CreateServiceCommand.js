@@ -35,6 +35,7 @@ export default class CreateServiceCommand extends CreateClassCommand {
                 DEPENDENCY_INJECTION_SERVICES_FILENAME
             )
         );
+        this.options.add(new InputOption('version', InputOption.number));
     }
 
     action() {
@@ -44,8 +45,9 @@ export default class CreateServiceCommand extends CreateClassCommand {
         const dependencies = this.getOption('dependencies');
         const diDir = this.getOption('dependency-injection-dir');
         const diFilename = this.getOption('dependency-injection-filename');
+        const version = this.getOption('version');
 
-        let recipe = new CreateService(dir);
+        let recipe = new CreateService(dir, version);
 
         let next = [];
 

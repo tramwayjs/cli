@@ -21,6 +21,7 @@ export default class CreateRouteCommand extends CreateClassCommand {
         this.options.add(new InputOption('dir', InputOption.string, this.directoryResolver.resolve(CONFIG_DIRECTORY)));
         this.options.add(new InputOption('controller-dir', InputOption.string, this.directoryResolver.resolve(CONTROLLER_DIRECTORY)));
         this.options.add(new InputOption('filename', InputOption.string, ROUTES_CONFIG_FILENAME));
+        this.options.add(new InputOption('version', InputOption.number));
     }
 
     action() {
@@ -34,13 +35,14 @@ export default class CreateRouteCommand extends CreateClassCommand {
         const methods = this.getOption('methods');
         const args = this.getOption('args');
         const shouldCreateController = this.getOption('create-controller');
+        const version = this.getOption('version');
 
         let recipe = new CreateRoute(dir, filename);
 
         let next = [];
 
         if (shouldCreateController) {
-            next.push(new CreateController(controllerDir));
+            next.push(new CreateController(controllerDir, version));
         }
 
         recipe.execute({className: controller, action, actions: [action], path, methods, args}, ...next);

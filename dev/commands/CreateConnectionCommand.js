@@ -37,13 +37,15 @@ export default class CreateConnectionCommand extends CreateClassCommand {
                 DEPENDENCY_INJECTION_SERVICES_FILENAME
             )
         );
+        this.options.add(new InputOption('version', InputOption.number));
     }
 
     action() {
         const name = this.getArgument('name');
         const dir = this.getOption('dir');
+        const version = this.getOption('version');
 
-        let recipe = new CreateConnection(dir);
+        let recipe = new CreateConnection(dir, version);
         let next = [];
 
         const shouldAddDependencyInjection = this.getOption('add-dependency-injection');

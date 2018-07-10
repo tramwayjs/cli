@@ -49,12 +49,19 @@ node tramway create:api Product
 This command will create the following new files and update corresponding index.js files, as well as configuration files:
 
 entities
+
 -- Product.js
+
 controllers
+
 -- ProductController.js
+
 services
+
 -- ProductService.js
+
 repositories
+
 -- ProductRepositories.js
 
 ## Create Route
@@ -90,6 +97,7 @@ Will add a new Controller file with a skeleton for methods and optionally add ro
 | add-routes | option | boolean | false | no | A flag to indicate that a route should be created when making the Controller |
 | routes-dir | option | string | config | no | An option to override the default folder where the routing config will be placed |
 | routes-filename | option | string | routes | no | An option to override the default filename of the routes config |
+| version | option | number | latest | no | An option to specify which version of the class to use |
 
 Example:
 
@@ -108,6 +116,7 @@ Will add a new Service file with a constructor featuring dependency mapping for 
 | add-dependency-injection | option | boolean | false | no | A flag to indicate that a service declaration should be created when making the Service |
 | dependency-injection-dir | option | string | services | no | An option to override the default folder where the service config will be placed |
 | dependency-injection-filename | option | string | services | no | An option to override the default filename of the service config |
+| version | option | number | latest | no | An option to specify which version of the class to use |
 
 Example:
 
@@ -123,6 +132,7 @@ Will add a new Entity file with getters and setters for specified properties.
 | name | argument | string | none | yes | The name of the Entity class |
 | dir | option | string | entities | no | An option to override the default folder the Entity class will be created in |
 | properties | option | array | none | no | An array of properties the Entity will have |
+| version | option | number | latest | no | An option to specify which version of the class to use |
 
 Example:
 
@@ -142,6 +152,7 @@ node tramway create:entity Product --properties width height price
 | key | option | string | none | no | The name of the key to use in dependency injection configuration |
 | dependency-injection-dir | option | string | services | no | An option to override the default folder where the service config will be placed |
 | dependency-injection-filename | option | string | services | no | An option to override the default filename of the service config |
+| version | option | number | latest | no | An option to specify which version of the class to use |
 
 Example:
 
@@ -161,6 +172,7 @@ node tramway create:provider MySQLProvider --add-dependency-injection --key prov
 | key | option | string | none | no | The name of the key to use in dependency injection configuration |
 | dependency-injection-dir | option | string | services | no | An option to override the default folder where the service config will be placed |
 | dependency-injection-filename | option | string | services | no | An option to override the default filename of the service config |
+| version | option | number | latest | no | An option to specify which version of the class to use |
 
 Example:
 
@@ -180,6 +192,7 @@ Will add a new Repository file with supported stubs and the option of adding to 
 | connection | option | string | none | no | The key of the connection in the service declaration |
 | dependency-injection-dir | option | string | services | no | An option to override the default folder where the service config will be placed |
 | dependency-injection-filename | option | string | services | no | An option to override the default filename of the service config |
+| version | option | number | latest | no | An option to specify which version of the class to use |
 
 Example: 
 
@@ -210,12 +223,19 @@ node tramway create:dependency service.stuff StuffService --args dep1 dep2 dep3 
 The commands create their files in the default scalpel that TramwayJS follows
 
 src
+
 -- config
+
 -- controllers
+
 -- services
+
 -- entities
+
 -- repositories
+
 -- providers
+
 -- commands
 
 In some projects, however, the structure can vary and the framework is able to adapt to adjustments using environment variables.

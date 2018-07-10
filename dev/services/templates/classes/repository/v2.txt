@@ -1,0 +1,7 @@
+import {Repository} from 'tramway-core-connection';
+
+export default class CLASS_NAME extends Repository {
+    constructor(provider, factory) {
+        super(provider, factory);
+    }
+}
