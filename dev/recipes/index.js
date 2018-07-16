@@ -7,6 +7,7 @@ import CreateEntity from './CreateEntity';
 import CreateConnection from './CreateConnection';
 import CreateRepository from './CreateRepository';
 import CreateProvider from './CreateProvider';
+import CreateRestfulController from './CreateRestfulController';
 
 export {
     Recipe,
@@ -18,4 +19,5 @@ export {
     CreateConnection,
     CreateRepository,
     CreateProvider,
+    CreateRestfulController,
 }

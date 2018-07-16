@@ -1,32 +1,8 @@
-import path from 'path';
-import {FileProvider} from "../../../providers";
-import { versions } from '../../../config';
+import AbstractTemplate from '../../AbstractTemplate';
+import {classes} from '../../../config/versions';
 
-export default class ClassTemplate {
+export default class ClassTemplate extends AbstractTemplate {
     constructor() {
-        this.fileProvider = new FileProvider();
-    }
-
-    format(className, template, version) {
-        if (!version) {
-            version = this.getLatestVersion(template);
-        }
-
-        let templatePath = path.join(__dirname, template, `v${version}.txt`);
-        let contents;
-
-        try {
-            contents = this.fileProvider.read(templatePath);
-        } catch (e) {
-            throw new Error(`Template ${templatePath} doesn't exist`);
-        }
-
-        contents = contents.replace(/CLASS_NAME/g, className);
-
-        return contents;
-    }
-
-    getLatestVersion(template) {
-        return versions[template];
+        super(/CLASS_NAME/g, __dirname, classes);
     }
 }

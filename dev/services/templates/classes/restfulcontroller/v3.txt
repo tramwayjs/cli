@@ -1,0 +1,8 @@
+import {controllers} from 'tramway-core-router';
+const {RestfulController} = controllers;
+
+export default class CLASS_NAME extends RestfulController {
+    constructor(service) {
+        super(service);
+    }
+}

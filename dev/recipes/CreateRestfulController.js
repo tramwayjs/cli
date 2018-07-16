@@ -7,7 +7,7 @@ const {MultiClassDirectory} = indexing;
 const {ClassTemplate} = classes;
 const {MethodTemplate} = methods;
 
-export default class CreateService extends Recipe {
+export default class CreateRestfulController extends Recipe {
     constructor(dir, version) {
         super();
 
@@ -21,13 +21,13 @@ export default class CreateService extends Recipe {
     }
 
     execute(data, ...next) {
-        const {className, dependencies} = data;
+        const {className} = data;
 
         if (this.checkClassExistance(className, this.dir)) {
             throw new Error(`${className} already exists in ${this.dir}`);
         }
 
-        this.createClass(className, dependencies, this.dir, this.version);
+        this.createClass(className, this.dir, this.version);
         this.createIndex(className, this.dir);
 
         let [first, ...rest] = next;
@@ -42,18 +42,8 @@ export default class CreateService extends Recipe {
         }
     }
 
-    createClass(className, dependencies, dir, version) {
-        let contents = this.classTemplate.format(className, "service", version);
-        
-        if (dependencies) {
-            let constructor = this.methodTemplate.format(null, "constructor", 1);
-            constructor = constructor.replace('()', `(${dependencies.join(', ')})`);
-            dependencies = dependencies.map(dependency => `this.${dependency} = ${dependency};`);
-            dependencies = dependencies.join('\n');
-            constructor = constructor.replace('{}', `{\n${dependencies.replace(/^/gm, INDENTATION)}\n}`);
-            contents = contents.replace('{}', `{\n${constructor.replace(/^/gm, INDENTATION)}\n}`);
-        }
-
+    createClass(className, dir, version) {
+        let contents = this.classTemplate.format(className, "restfulcontroller", version);
         this.fileProvider.write(dir, className, contents);
     }
 
