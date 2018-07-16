@@ -2,16 +2,19 @@ import Recipe from "./Recipe";
 import { FileProvider } from "../providers";
 import { ModuleGenerationService, templates } from '../services';
 import { INDENTATION } from "../config/format";
-const {indexing} = templates;
+const {indexing, routes} = templates;
 const {DependencyExposure} = indexing;
+const {RouteBuilder} = routes;
 
 export default class CreateRoute extends Recipe {
-    constructor(dir, filename) {
+    constructor(dir, filename, version) {
         super();
         this.dir = dir;
         this.filename = filename;
+        this.version = version;
         this.indexTemplate = new DependencyExposure(new ModuleGenerationService());
         this.fileProvider = new FileProvider();
+        this.builder = new RouteBuilder(version);
     }
 
     execute(data, ...next) {
@@ -24,7 +27,8 @@ export default class CreateRoute extends Recipe {
             action,
             path,
             methods,
-            args
+            args,
+            service,
         } = data;
 
         try {
@@ -43,7 +47,7 @@ export default class CreateRoute extends Recipe {
             imports = importStatement;
         }
 
-        let routeEntry = this.createRouteEntry(className, action, path, methods, args);
+        let routeEntry = this.createRouteEntry({className, action, path, methods, args, service});
 
         routes = this.addRouteEntry(routeEntry, routes);
 
@@ -54,32 +58,8 @@ export default class CreateRoute extends Recipe {
         return first && first.execute(data, ...rest);
     }
 
-    createRouteEntry(className, func, path, methods, args) {
-        let pieces = [];
-
-        if (func) {
-            pieces.push(`\"controller\": ${className}.${func}`);
-        }
-
-        if (className && !func) {
-            pieces.push(`\"controllerClass\": ${className}`);
-        }
-
-        if (path) {
-            pieces.push(`\"path\": \"${path}\"`);
-        }
-
-        if (methods) {
-            pieces.push(`\"methods\": ${JSON.stringify(methods)}`);
-        }
-
-        if (args) {
-            pieces.push(`\"arguments\": ${JSON.stringify(args)}`);
-        }
-
-        let parts = pieces.join(`,\n${INDENTATION}${INDENTATION}`);
-
-        return `{\n${INDENTATION}${INDENTATION}${parts}\n${INDENTATION}}`;
+    createRouteEntry(params) {
+        return this.builder.create(params);
     }
 
     addRouteEntry(routeEntry, routes) {
