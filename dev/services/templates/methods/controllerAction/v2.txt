@@ -1,0 +1,3 @@
+static async METHOD_NAME(req, res, next) {
+    return res.send('METHOD_NAME');
+}
