@@ -6,7 +6,7 @@ import {
     CreateRepository,
     CreateDependency,
     CreateService,
-    CreateController,
+    CreateRestfulController,
     CreateRoute,
 } from '../recipes';
 
@@ -47,6 +47,7 @@ export default class CreateApiCommand extends CreateClassCommand {
 
         const repositoryKey = `repository.${resource.toLowerCase()}`;
         const serviceKey = `service.${resource.toLowerCase()}`;
+        const controllerKey = `controller.${resource.toLowerCase()}`;
         const controllerName = `${resource}Controller`;
         const actions = [
             {
@@ -82,8 +83,8 @@ export default class CreateApiCommand extends CreateClassCommand {
         this.createEntity(resource, entityDirectory);
         this.createRepository(resource, repositoryKey, repositoryDirectory, provider, diDir);
         this.createService(resource, serviceKey, serviceDirectory, repositoryKey, diDir);
-        this.createController(resource, controllerName, controllerDirectory, actions);
-        this.createRoutes(resource, routeDirectory, routeFileName, controllerName, actions);
+        this.createController(resource, controllerKey, controllerName, controllerDirectory, serviceKey, diDir);
+        this.createRoutes(resource, routeDirectory, routeFileName, controllerKey, actions);
     }
 
     createEntity(resource, entityDirectory) {
@@ -121,26 +122,29 @@ export default class CreateApiCommand extends CreateClassCommand {
             );
     }
 
-    createController(resource, controllerName, controllerDirectory, actions) {
-        (new CreateController(this.directoryResolver.resolve(controllerDirectory)))
+    createController(resource, controllerKey, controllerName, controllerDirectory, serviceKey, diDir) {
+        (new CreateRestfulController(this.directoryResolver.resolve(controllerDirectory)))
             .execute(
                 {
-                    className: controllerName, 
-                    actions: actions.map(({action}) => action)
-                }
+                    className: controllerName,
+                    key: controllerKey,
+                    classDirectory: `../../${controllerDirectory}`, 
+                    args: [`{"type": "service", "key": "${serviceKey}"}`]
+                },
+                new CreateDependency(this.directoryResolver.resolve(diDir), 'controllers')
             );
     }
 
-    createRoutes(resource, routeDirectory, routeFileName, controllerName, actions) {
+    createRoutes(resource, routeDirectory, routeFileName, controllerKey, actions) {
         let createRoute = new CreateRoute(this.directoryResolver.resolve(routeDirectory), routeFileName);
 
         actions.forEach(({action, methods, args}) => createRoute.execute(
             {
-                className: controllerName, 
+                service: controllerKey, 
                 path: resource.toLowerCase(),
                 action,
                 methods,
-                args
+                args,
             }
         ));
     }
