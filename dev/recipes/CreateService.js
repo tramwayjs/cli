@@ -46,7 +46,7 @@ export default class CreateService extends Recipe {
         let contents = this.classTemplate.format(className, "service", version);
         
         if (dependencies) {
-            let constructor = this.methodTemplate.format(null, "constructor");
+            let constructor = this.methodTemplate.format(null, "constructor", 1);
             constructor = constructor.replace('()', `(${dependencies.join(', ')})`);
             dependencies = dependencies.map(dependency => `this.${dependency} = ${dependency};`);
             dependencies = dependencies.join('\n');

@@ -46,7 +46,7 @@ export default class CreateController extends Recipe {
         let contents = this.classTemplate.format(className, "controller", version);
         
         if (methods) {
-            methods = methods.map(method => this.methodTemplate.format(method, "controllerAction").replace(/^/gm, INDENTATION));
+            methods = methods.map(method => this.methodTemplate.format(method, "controllerAction", version).replace(/^/gm, INDENTATION));
             methods = methods.join('\n\n');
             contents = contents.replace('{}', `{\n${methods}\n}`);
         }
