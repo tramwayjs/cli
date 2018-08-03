@@ -7,9 +7,9 @@ export default class FileProvider {
         return buffer.toString();
     }
 
-    write(dir, fileName, content) {
+    write(dir, fileName, content, ext = 'js') {
         try {
-            fs.writeFileSync(`${dir}/${fileName}.js`, content);
+            fs.writeFileSync(`${dir ? `${dir}/`: ''}${fileName}${ext ? `.${ext}` : ''}`, content);
         } catch (e) {
             if (e.message.includes('no such file or directory')) {
                 mkdirp.sync(dir);

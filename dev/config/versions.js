@@ -14,3 +14,16 @@ export const methods = {
     getter: 1,
     setter: 1,
 };
+
+export const config = {
+    babelrc: 1,
+    router: 1,
+    app: 1,
+    cors: 1,
+    port: 1,
+    gitignore: 1,
+}
+
+export const server = {
+    api: 1,
+}

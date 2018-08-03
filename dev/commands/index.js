@@ -8,6 +8,9 @@ import CreateConnectionCommand from './CreateConnectionCommand';
 import CreateRepositoryCommand from './CreateRepositoryCommand';
 import CreateProviderCommand from './CreateProviderCommand';
 import CreateApiCommand from './CreateApiCommand';
+import InstallCommand from './InstallCommand';
+import BuildCommand from './BuildCommand';
+import StartCommand from './StartCommand';
 
 export {
     CreateClassCommand,
@@ -20,4 +23,7 @@ export {
     CreateRepositoryCommand,
     CreateProviderCommand,
     CreateApiCommand,
+    InstallCommand,
+    BuildCommand,
+    StartCommand,
 };

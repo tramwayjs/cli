@@ -1,16 +1,19 @@
-Tramway Core Config is a development utility to facilitate rapid development by generating common boilerplate and generating modules that leverage Tramway architecture with ES2015+. It includes:
+Tramway is a development utility to facilitate rapid development by generating common boilerplate and providing the necessary build tools to create an application with Javascript. It includes:
 
 1. Command for creating routes and controllers
+2. Installation utility for tramway pieces
+3. Build tools so you don't need to configure them yourself
 
 # Installation
 
-1. ```npm install --save-dev tramway-core-config```
-2. You should see a `tramway.js` file appear at the root of your project. If not, add one with the following content: 
-```module.exports = require('tramway-core-config');```
+1. Generate a new project with `npm init`
+2. ```npm install --save-dev tramway``` and ```npm install -g tramway```
 
 # Documentation
 
 * Usage
+* Install Tramway
+* Build Your Project
 * Create API
 * Create Route
 * Create Controller
@@ -26,11 +29,62 @@ Tramway Core Config is a development utility to facilitate rapid development by 
 
 Replace the COMMAND with the appropriate one from the table below with its corresponding arguments and options.
 
+If installed globally:
+
 ```
-node tramway COMMAND
+tramway COMMAND
+```
+
+Otherwise:
+
+```
+./node_modules/.bin/tramway COMMAND
 ```
 
 All commands that create new classes will update the corresponding index.js entries.
+
+## Install Tramway
+Will install the core modules your application needs with tramway or specific pieces as specified in the arguments. It will also add the necessary files to your project, and entries to gitignore. Note, this command will modify your `package.json` and `package-lock.json` files.
+
+| Argument | Command Type | Type | Default | Required | Comments |
+| --- | --- | --- | --- | --- | --- |
+| pieces | argument | string | none | no | A list of tramway modules to install |
+
+Example:
+
+To install the base:
+
+```
+tramway install
+```
+
+To add modules, like a MySQLProvider:
+
+```
+tramway install mysql
+```
+
+## Build your project
+In most projects you need to set up gulp or grunt or webpack yourself. To get you started quickly, this module includes a build command which will handle the process for you granted you follow the folder convention.
+
+You can also add the command to your `package.json` scripts to continue using the familiar hooks like `npm run build`.
+
+Example:
+
+```
+tramway build
+```
+
+Will run gulp tasks on your `src` folder and create a ready `dist` folder.
+
+## Start your project
+In most projects you will likely set up a server to run your project with. To get you started quickly, this module includes a dev server which can watch and auto-build on changes if you specify it.
+
+Example:
+
+```
+tramway start
+```
 
 ## Create API
 Will create all the necessary classes and mappings to have a full API ready. The routes follow REST and are automatically mapped to their controller action with services instantiated and linked in the Dependency Injection configuration.
@@ -43,7 +97,7 @@ Will create all the necessary classes and mappings to have a full API ready. The
 Example:
 
 ```
-node tramway create:api Product
+tramway create:api Product
 ```
 
 This command will create the following new files and update corresponding index.js files, as well as configuration files:
@@ -93,7 +147,7 @@ Will add the necessary routing config to the routes file in the config folder an
 Example:
 
 ```
-node tramway create:route StuffController myAction /hey --methods get post --args id --create-controller --dir conf
+tramway create:route StuffController myAction /hey --methods get post --args id --create-controller --dir conf
 ```
 
 ## Create Controller
@@ -112,7 +166,7 @@ Will add a new Controller file with a skeleton for methods and optionally add ro
 Example:
 
 ```
-node tramway create:controller StuffController --add-routes --actions action1 action2 action3 --routes-dir conf
+tramway create:controller StuffController --add-routes --actions action1 action2 action3 --routes-dir conf
 ```
 
 ## Create Service
@@ -131,7 +185,7 @@ Will add a new Service file with a constructor featuring dependency mapping for 
 Example:
 
 ```
-node tramway create:service StuffService  --dependencies dep1 dep2 dep3 --dir testservices
+tramway create:service StuffService  --dependencies dep1 dep2 dep3 --dir testservices
 ```
 
 ## Create Entity
@@ -147,7 +201,7 @@ Will add a new Entity file with getters and setters for specified properties.
 Example:
 
 ```
-node tramway create:entity Product --properties width height price
+tramway create:entity Product --properties width height price
 ```
 
 ## Create Provider
@@ -167,7 +221,7 @@ node tramway create:entity Product --properties width height price
 Example:
 
 ```
-node tramway create:provider MySQLProvider --add-dependency-injection --key provider:mysql
+tramway create:provider MySQLProvider --add-dependency-injection --key provider:mysql
 ```
 
 ## Create Connection
@@ -187,7 +241,7 @@ node tramway create:provider MySQLProvider --add-dependency-injection --key prov
 Example:
 
 ```
-node tramway create:connection MySQLConnection --add-dependency-injection --key connection:mysql
+tramway create:connection MySQLConnection --add-dependency-injection --key connection:mysql
 ```
 
 ## Create Repository
@@ -207,7 +261,7 @@ Will add a new Repository file with supported stubs and the option of adding to 
 Example: 
 
 ```
-node tramway create:repository ProductsRepository --add-dependency-injection --connection connection:things --key repositories:products
+tramway create:repository ProductsRepository --add-dependency-injection --connection connection:things --key repositories:products
 ```
 
 ## Create Dependency
@@ -225,7 +279,7 @@ node tramway create:repository ProductsRepository --add-dependency-injection --c
 Example:
 
 ```
-node tramway create:dependency service.stuff StuffService --args dep1 dep2 dep3 --dir testservices --classDirectory ser
+tramway create:dependency service.stuff StuffService --args dep1 dep2 dep3 --dir testservices --classDirectory ser
 ```
 
 ## Configuration
@@ -266,6 +320,6 @@ In some projects, however, the structure can vary and the framework is able to a
 Example: 
 
 ```
-TRAMWAY_PROJECT_PATH=./dev node tramway create:service Service
+TRAMWAY_PROJECT_PATH=./dev tramway create:service Service
 ```
 This command will create a new Service.js file in ./dev/services. It has the same behavior as overriding the dir using the dir option but is meant for a global application.

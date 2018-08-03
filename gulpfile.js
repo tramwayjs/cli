@@ -2,24 +2,14 @@
 
 const gulp = require('gulp');
 const babel = require('gulp-babel');
-const sourcemaps = require('gulp-sourcemaps');
 
 const DEV_DIRECTORY = 'dev/**/*.js';
-const DIST_DIRECTORY = '';
+const DIST_DIRECTORY = 'dist';
 
 gulp.task('build', ['move-txt'], function() {
     return gulp
         .src(DEV_DIRECTORY)
-        .pipe(sourcemaps.init())
-        .pipe(babel({
-            "plugins": [
-                "transform-flow-strip-types"
-            ],
-            "presets": [
-                "es2015-node6"
-            ]
-        }))
-        .pipe(sourcemaps.write('.'))
+        .pipe(babel())
         .pipe(gulp.dest(DIST_DIRECTORY));
 });
 
@@ -30,14 +20,7 @@ gulp.task('watch', ['build'], function(){
 gulp.task('distribute', ['move-txt'], function() {
     return gulp
         .src(DEV_DIRECTORY)
-        .pipe(babel({
-            "plugins": [
-                "transform-flow-strip-types"
-            ],
-            "presets": [
-                "es2015-node6"
-            ]
-        }))
+        .pipe(babel())
         .pipe(gulp.dest(DIST_DIRECTORY));
 });
 
