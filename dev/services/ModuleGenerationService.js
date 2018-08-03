@@ -39,7 +39,7 @@ export default class ModuleGenerationService {
     }
 
     addImportGroup(group) {
-        return `import * as ${group} from './${group};`;
+        return `import * as ${group} from './${group}';`;
     }
 
     addExportLine(className, isDefault = true) {

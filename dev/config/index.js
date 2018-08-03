@@ -3,6 +3,7 @@ import location from './location';
 import * as format from './format';
 import * as defaults from './defaults';
 import * as versions from './versions';
+import {libraries, defaultLibraries, keys as libraryKeys, babelLibraries} from './libraries';
 
 export {
     commands,
@@ -10,4 +11,8 @@ export {
     format,
     defaults,
     versions,
+    libraries,
+    defaultLibraries,
+    libraryKeys,
+    babelLibraries,
 }
