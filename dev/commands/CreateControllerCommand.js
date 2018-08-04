@@ -6,12 +6,16 @@ import {
     CreateRoute 
 } from '../recipes';
 
-import { CONTROLLER_DIRECTORY, ROUTES_CONFIG_FILENAME, CONFIG_DIRECTORY } from '../config/defaults';
-
 const {InputOption} = commands;
 
 export default class CreateControllerCommand extends CreateClassCommand {
     configure() {
+        const { 
+            CONTROLLER_DIRECTORY, 
+            ROUTES_CONFIG_FILENAME, 
+            CONFIG_DIRECTORY 
+        } = this.defaults;
+        
         this.args.add((new InputOption('name', InputOption.string)).isRequired());
         this.options.add(
             new InputOption(

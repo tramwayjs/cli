@@ -1,19 +1,23 @@
 import {Command, commands, terminal} from 'tramway-command';
 import {BuildService} from '../services';
-import {GulpProvider} from '../providers';
-import { DEV_DIRECTORY, DIST_DIRECTORY } from '../config/defaults';
-
 const {InputOption} = commands;
 const {ProgressBar, TimestampLog, TimestampSuccess} = terminal;
 
 export default class BuildCommand extends Command {
-    constructor() {
+    /**
+     * 
+     * @param {BuildService} buildService 
+     */
+    constructor(buildService, defaults = {}) {
         super();
 
-        this.buildService = new BuildService(new GulpProvider());
+        this.buildService = buildService;
+        this.defaults = defaults;
     }
 
     configure() {
+        const { DEV_DIRECTORY, DIST_DIRECTORY } = this.defaults;
+
         this.args.add((new InputOption('inDir', InputOption.string, DEV_DIRECTORY)));
         this.args.add((new InputOption('outDir', InputOption.string, DIST_DIRECTORY)));
         this.options.add(new InputOption('watch', InputOption.boolean));

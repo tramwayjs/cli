@@ -6,12 +6,16 @@ import {
     CreateDependency,
 } from '../recipes';
 
-import { CONNECTION_DIRECTORY, DEPENDENCY_INJECTION_SERVICES_DIRECTORY, DEPENDENCY_INJECTION_SERVICES_FILENAME } from '../config/defaults';
-
 const {InputOption} = commands;
 
 export default class CreateConnectionCommand extends CreateClassCommand {
     configure() {
+        const { 
+            CONNECTION_DIRECTORY, 
+            DEPENDENCY_INJECTION_SERVICES_DIRECTORY, 
+            DEPENDENCY_INJECTION_SERVICES_FILENAME 
+        } = this.defaults;
+
         this.args.add((new InputOption('name', InputOption.string)).isRequired());
         this.options.add(
             new InputOption(

@@ -1,19 +1,23 @@
 import {Command, terminal, commands} from 'tramway-command';
 import { ServerService, BuildService } from '../services';
-import { GulpProvider } from '../providers';
-import { DEV_DIRECTORY, DIST_DIRECTORY, MAIN_FILE } from '../config/defaults';
 
 const {InputOption} = commands;
 const {TimestampLog} = terminal;
 
 export default class StartCommand extends Command {
-    constructor() {
+    /**
+     * 
+     * @param {ServerService} serverService 
+     */
+    constructor(serverService, defaults = {}) {
         super();
-        const gulpProvider = new GulpProvider();
-        this.serverService = new ServerService(gulpProvider, new BuildService(gulpProvider));
+        this.serverService = serverService;
+        this.defaults = defaults;
     }
 
     configure() {
+        const { DEV_DIRECTORY, DIST_DIRECTORY, MAIN_FILE } = this.defaults;
+
         this.args.add(new InputOption('script', InputOption.string, `${MAIN_FILE}.js`));
         this.options.add((new InputOption('inDir', InputOption.string, DEV_DIRECTORY)));
         this.options.add((new InputOption('outDir', InputOption.string, DIST_DIRECTORY)));

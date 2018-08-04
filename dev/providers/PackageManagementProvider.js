@@ -4,7 +4,7 @@ export default class PackageManagementProvider {
 
         this.packageManager = packageManager;
         this.command = command;
-        this.args = args;
+        this.args = Array.isArray(args) ? args : Object.values(args);
 
         this.shellProvider = shellProvider;
     }

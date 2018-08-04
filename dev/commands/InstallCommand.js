@@ -1,11 +1,8 @@
 import {Command, commands, terminal} from 'tramway-command';
 import {
     InstallService, 
-    ServiceLibraryResolver, 
     DirectoryResolver
 } from '../services';
-import { PackageManagementProvider, ShellProvider } from '../providers';
-import { libraries, defaultLibraries, libraryKeys, babelLibraries } from '../config';
 import { 
     CreateBabelrc, 
     CreateServer, 
@@ -17,17 +14,6 @@ import {
     CreateApp,
     CreateGitignore,
 } from '../recipes';
-import { 
-    DEV_DIRECTORY,
-    DEPENDENCY_INJECTION_SERVICES_DIRECTORY,
-    DEPENDENCY_INJECTION_SERVICES_FILENAME,
-    DEPENDENCY_INJECTION_CORE_FILENAME,
-    DEPENDENCY_INJECTION_PARAMETERS_GLOBAL_DIRECTORY,
-    ROUTES_CONFIG_FILENAME,
-    DEPENDENCY_INJECTION_PARAMETERS_DIRECTORY,
-    DEPENDENCY_INJECTION_CONTROLLERS_FILENAME,
-    CONTROLLER_DIRECTORY,
-} from '../config/defaults';
 const {InputOption} = commands;
 const {
     TimestampSuccess, 
@@ -38,21 +24,25 @@ const {
 } = terminal;
 
 export default class InstallCommand extends Command {
-    constructor() {
+    /**
+     * 
+     * @param {InstallService} installService 
+     * @param {DependencyResolver} dependencyResolver 
+     */
+    constructor(
+        installService, 
+        dependencyResolver, 
+        default_libraries,
+        babel_libraries,
+        defaults = {}
+    ) {
         super();
 
-        const onCloseHook = (code, data) => {
-            if (data) {
-                new TimestampWarning(data);
-            }
-        };
-
-        this.installService = new InstallService(
-            new PackageManagementProvider(new ShellProvider({onCloseHook})), 
-            new ServiceLibraryResolver(libraries)
-        );
-
-        this.directoryResolver = new DirectoryResolver();
+        this.installService = installService;
+        this.directoryResolver = dependencyResolver;
+        this.defaults = defaults;
+        this.default_libraries = default_libraries;
+        this.babel_libraries = babel_libraries;
     }
 
     configure() {
@@ -64,10 +54,26 @@ export default class InstallCommand extends Command {
         let services = this.getArgument('services');
         const type = this.getOption('type');
 
+        const { 
+            DEV_DIRECTORY,
+            DEPENDENCY_INJECTION_SERVICES_DIRECTORY,
+            DEPENDENCY_INJECTION_SERVICES_FILENAME,
+            DEPENDENCY_INJECTION_CORE_FILENAME,
+            DEPENDENCY_INJECTION_PARAMETERS_GLOBAL_DIRECTORY,
+            ROUTES_CONFIG_FILENAME,
+            DEPENDENCY_INJECTION_PARAMETERS_DIRECTORY,
+            DEPENDENCY_INJECTION_CONTROLLERS_FILENAME,
+            CONTROLLER_DIRECTORY,
+        } = this.defaults;
+
         let progressBar = new ProgressBar('Installing Tramway', 9);
 
+        let {default_libraries, babel_libraries} = this;
+        default_libraries = Array.isArray(default_libraries) ? default_libraries : Object.values(default_libraries);
+        babel_libraries = Array.isArray(babel_libraries) ? babel_libraries : Object.values(babel_libraries);
+
         if (!services.length) {
-            services = defaultLibraries;
+            services = default_libraries;
         }
 
         let packages = [];
@@ -98,10 +104,10 @@ export default class InstallCommand extends Command {
             new CreateBabelrc().execute();
             progressBar.finish('Adding .babelrc');
 
-            new TimestampLog(`Installing ${babelLibraries.join(', ')}`);
+            new TimestampLog(`Installing ${babel_libraries.join(', ')}`);
 
             progressBar.start('Installing babel presets');
-            let data = await this.installService.installDev(...babelLibraries);
+            let data = await this.installService.installDev(...babel_libraries);
             progressBar.finish('Installing babel presets');
 
             new TimestampSuccess(`npm install of babel presets completed successfully \n${data}`);
