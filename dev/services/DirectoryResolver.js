@@ -1,11 +1,13 @@
-import {location} from '../config';
-
 export default class DirectoryResolver {
+    constructor(location) {
+        this.location = location;
+    }
+
     resolve(path) {
         if (!path) {
-            return location;
+            return this.location;
         }
         
-        return `${location}/${path}`;
+        return `${this.location}/${path}`;
     }
 }

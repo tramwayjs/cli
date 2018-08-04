@@ -7,6 +7,7 @@ export default class InstallService {
     gatherLibraries(...services) {
         return services.reduce((result, service) => {
             let {library, dependencies} = this.serviceLibraryResolver.getLibrary(service);
+            dependencies = Array.isArray(dependencies) ? dependencies : Object.values(dependencies);
             let list = this.buildLibrariesList({library, dependencies});
             return [...result, ...list].filter((value, index, self) => index === self.indexOf(value));
         }, []);
@@ -18,6 +19,7 @@ export default class InstallService {
         }
 
         dependencies = dependencies.reduce((result, {library, dependencies}) => {
+            dependencies = Array.isArray(dependencies) ? dependencies : Object.values(dependencies);
             let list = this.buildLibrariesList({library, dependencies});
             return [...result, ...list];
         }, []);

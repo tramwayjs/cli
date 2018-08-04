@@ -39,6 +39,8 @@
     "gulp-nodemon": "^2.2.1",
     "mkdirp": "^0.5.1",
     "terminal-kit": "^1.19.2",
-    "tramway-command": "^1.1.0"
+    "tramway-command": "^1.2.0",
+    "tramway-command-di-factory": "^1.0.0",
+    "tramway-core-dependency-injector": "^1.1.1"
   }
 }

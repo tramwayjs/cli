@@ -10,17 +10,6 @@ import {
     CreateRoute,
 } from '../recipes';
 
-import { 
-    ENTITY_DIRECTORY,
-    CONTROLLER_DIRECTORY,
-    CONFIG_DIRECTORY,
-    REPOSITORY_DIRECTORY,
-    SERVICE_DIRECTORY,
-    ROUTES_CONFIG_FILENAME,
-    DEPENDENCY_INJECTION_SERVICES_DIRECTORY, 
-    DEPENDENCY_INJECTION_SERVICES_FILENAME 
-} from '../config/defaults';
-
 const {InputOption} = commands;
 
 export default class CreateApiCommand extends CreateClassCommand {
@@ -150,9 +139,20 @@ export default class CreateApiCommand extends CreateClassCommand {
     }
 
     prepareAdditionalOptions() {
+        const { 
+            ENTITY_DIRECTORY,
+            CONTROLLER_DIRECTORY,
+            REPOSITORY_DIRECTORY,
+            SERVICE_DIRECTORY,
+            ROUTES_CONFIG_FILENAME,
+            DEPENDENCY_INJECTION_SERVICES_DIRECTORY, 
+            DEPENDENCY_INJECTION_SERVICES_FILENAME, 
+            DEPENDENCY_INJECTION_PARAMETERS_GLOBAL_DIRECTORY
+        } = this.defaults;
+
         this.options.add(new InputOption('entity-dir', InputOption.string, ENTITY_DIRECTORY));
         this.options.add(new InputOption('controller-dir', InputOption.string, CONTROLLER_DIRECTORY));
-        this.options.add(new InputOption('routes-dir', InputOption.string, CONFIG_DIRECTORY));
+        this.options.add(new InputOption('routes-dir', InputOption.string, DEPENDENCY_INJECTION_PARAMETERS_GLOBAL_DIRECTORY));
         this.options.add(new InputOption('routes-filename', InputOption.string, ROUTES_CONFIG_FILENAME));
         this.options.add(new InputOption('repository-dir', InputOption.string, REPOSITORY_DIRECTORY));
         this.options.add(new InputOption('services-dir', InputOption.string, SERVICE_DIRECTORY));
