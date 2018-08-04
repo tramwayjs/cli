@@ -1,0 +1,3 @@
+async METHOD_NAME(req, res, next) {
+    return res.send('Welcome to TramwayJS, this is the METHOD_NAME action');
+}

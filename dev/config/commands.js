@@ -6,6 +6,11 @@ import {
     CreateEntityCommand,
     CreateConnectionCommand,
     CreateRepositoryCommand,
+    CreateProviderCommand,
+    CreateApiCommand,
+    InstallCommand,
+    BuildCommand,
+    StartCommand,
 } from "../commands";
 
 export default {
@@ -15,5 +20,10 @@ export default {
     "create:dependency": CreateDependencyCommand,
     "create:entity": CreateEntityCommand,
     "create:connection": CreateConnectionCommand,
+    "create:provider": CreateProviderCommand,
     "create:repository": CreateRepositoryCommand,
+    "create:api": CreateApiCommand,
+    "install": InstallCommand,
+    "build": BuildCommand,
+    "start": StartCommand,
 };

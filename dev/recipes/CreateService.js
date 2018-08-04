@@ -8,10 +8,11 @@ const {ClassTemplate} = classes;
 const {MethodTemplate} = methods;
 
 export default class CreateService extends Recipe {
-    constructor(dir) {
+    constructor(dir, version) {
         super();
 
         this.dir = dir;
+        this.version = version;
 
         this.classTemplate = new ClassTemplate();
         this.indexTemplate = new MultiClassDirectory(new ModuleGenerationService());
@@ -26,7 +27,7 @@ export default class CreateService extends Recipe {
             throw new Error(`${className} already exists in ${this.dir}`);
         }
 
-        this.createClass(className, dependencies, this.dir);
+        this.createClass(className, dependencies, this.dir, this.version);
         this.createIndex(className, this.dir);
 
         let [first, ...rest] = next;
@@ -41,11 +42,11 @@ export default class CreateService extends Recipe {
         }
     }
 
-    createClass(className, dependencies, dir) {
-        let contents = this.classTemplate.format(className, "service");
+    createClass(className, dependencies, dir, version) {
+        let contents = this.classTemplate.format(className, "service", version);
         
         if (dependencies) {
-            let constructor = this.methodTemplate.format(null, "constructor");
+            let constructor = this.methodTemplate.format(null, "constructor", 1);
             constructor = constructor.replace('()', `(${dependencies.join(', ')})`);
             dependencies = dependencies.map(dependency => `this.${dependency} = ${dependency};`);
             dependencies = dependencies.join('\n');

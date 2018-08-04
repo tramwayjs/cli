@@ -6,10 +6,11 @@ const {MultiClassDirectory} = indexing;
 const {ClassTemplate} = classes;
 
 export default class CreateConnection extends Recipe {
-    constructor(dir) {
+    constructor(dir, version) {
         super();
 
         this.dir = dir;
+        this.version = version;
 
         this.classTemplate = new ClassTemplate();
         this.indexTemplate = new MultiClassDirectory(new ModuleGenerationService());
@@ -23,7 +24,7 @@ export default class CreateConnection extends Recipe {
             throw new Error(`${className} already exists in ${this.dir}`);
         }
 
-        this.createClass(className, this.dir);
+        this.createClass(className, this.dir, this.version);
         this.createIndex(className, this.dir);
 
         let [first, ...rest] = next;
@@ -38,8 +39,8 @@ export default class CreateConnection extends Recipe {
         }
     }
 
-    createClass(className, dir) {
-        let contents = this.classTemplate.format(className, "connection");
+    createClass(className, dir, version) {
+        let contents = this.classTemplate.format(className, "connection", version);
         this.fileProvider.write(dir, className, contents);
     }
 

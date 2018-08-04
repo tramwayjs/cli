@@ -1,23 +1,8 @@
-import path from 'path';
-import {FileProvider} from "../../../providers";
+import AbstractTemplate from '../../AbstractTemplate';
+import { methods } from '../../../config/versions';
 
-export default class MethodTemplate {
+export default class MethodTemplate extends AbstractTemplate {
     constructor() {
-        this.fileProvider = new FileProvider();
-    }
-
-    format(methodName, template) {
-        let templatePath = path.join(__dirname, `${template}.txt`);
-        let contents;
-
-        try {
-            contents = this.fileProvider.read(templatePath);
-        } catch (e) {
-            throw new Error(`Template ${templatePath} doesn't exist`);
-        }
-
-        contents = contents.replace(/METHOD_NAME/g, methodName);
-
-        return contents;
+        super(/METHOD_NAME/g, __dirname, methods);
     }
 }

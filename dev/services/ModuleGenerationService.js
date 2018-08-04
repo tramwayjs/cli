@@ -39,7 +39,7 @@ export default class ModuleGenerationService {
     }
 
     addImportGroup(group) {
-        return `import * as ${group} from './${group};`;
+        return `import * as ${group} from './${group}';`;
     }
 
     addExportLine(className, isDefault = true) {
@@ -59,6 +59,10 @@ export default class ModuleGenerationService {
     appendToGroup(type, className, block, group) {
         if (!block) {
             return this.addToGroup(type, className, group);
+        }
+
+        if (new RegExp(`${className},`).test(block)) {
+            throw new Error(`${className} already exists in ${type}s`);
         }
 
         return block.replace('}', `${INDENTATION}${className},\n}`);

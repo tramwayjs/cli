@@ -3,7 +3,7 @@ import MethodTemplate from './MethodTemplate';
 
 export default class GetterSetterTemplate extends MethodTemplate {
     format(paramName, template) {
-        let templatePath = path.join(__dirname, `${template}.txt`);
+        let templatePath = path.join(__dirname, template, `v1.txt`);
         let contents;
 
         try {

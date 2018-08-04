@@ -2,16 +2,23 @@ import Recipe from "./Recipe";
 import { FileProvider } from "../providers";
 import { ModuleGenerationService, templates } from '../services';
 import { INDENTATION } from "../config/format";
-const {indexing} = templates;
-const {DependencyExposure} = indexing;
+const {indexing, routes} = templates;
+const {DependencyExposure, MultiClassDirectory} = indexing;
+const {RouteBuilder} = routes;
 
 export default class CreateRoute extends Recipe {
-    constructor(dir, filename) {
+    constructor(dir, filename, version) {
         super();
         this.dir = dir;
         this.filename = filename;
-        this.indexTemplate = new DependencyExposure(new ModuleGenerationService());
+        this.version = version;
+
+        const moduleGenerationService = new ModuleGenerationService();
+
+        this.indexTemplate = new DependencyExposure(moduleGenerationService);
+        this.indexFileTemplate = new MultiClassDirectory(moduleGenerationService);
         this.fileProvider = new FileProvider();
+        this.builder = new RouteBuilder(version);
     }
 
     execute(data, ...next) {
@@ -24,7 +31,8 @@ export default class CreateRoute extends Recipe {
             action,
             path,
             methods,
-            args
+            args,
+            service,
         } = data;
 
         try {
@@ -34,46 +42,37 @@ export default class CreateRoute extends Recipe {
         } catch (e) {
 
         }
-
-        let imports = this.indexTemplate.buildImport(className, importStatement, "../controllers");
-
-        let routeEntry = this.createRouteEntry(className, action, path, methods, args);
-
+        
+        let routeEntry = this.createRouteEntry({className, action, path, methods, args, service});
         routes = this.addRouteEntry(routeEntry, routes);
+        let content = routes;
 
-        let content = `${imports}\n\n${routes}`;
+        if (className && !service) {
+            let imports;
+    
+            try {
+                imports = this.indexTemplate.buildImport(className, importStatement, "../controllers");
+            } catch (e) {
+                imports = importStatement;
+            }
+
+            content = `${imports}\n\n${routes}`;
+        }
+
         this.fileProvider.write(this.dir, this.filename, content);
+        
+        try {
+            this.createIndex(this.dir, this.filename);
+        } catch (e) {
+
+        }
 
         let [first, ...rest] = next;
         return first && first.execute(data, ...rest);
     }
 
-    createRouteEntry(className, func, path, methods, args) {
-        let pieces = [];
-
-        if (func) {
-            pieces.push(`\"controller\": ${className}.${func}`);
-        }
-
-        if (className && !func) {
-            pieces.push(`\"controllerClass\": ${className}`);
-        }
-
-        if (path) {
-            pieces.push(`\"path\": \"${path}\"`);
-        }
-
-        if (methods) {
-            pieces.push(`\"methods\": ${JSON.stringify(methods)}`);
-        }
-
-        if (args) {
-            pieces.push(`\"arguments\": ${JSON.stringify(args)}`);
-        }
-
-        let parts = pieces.join(`,\n${INDENTATION}${INDENTATION}`);
-
-        return `{\n${INDENTATION}${INDENTATION}${parts}\n${INDENTATION}}`;
+    createRouteEntry(params) {
+        return this.builder.create(params);
     }
 
     addRouteEntry(routeEntry, routes) {
@@ -88,5 +87,27 @@ export default class CreateRoute extends Recipe {
         const start = content.indexOf('const routeValues');
         const finish = 1 + content.lastIndexOf(';');
         return content.substring(start, finish);
+    }
+
+    createIndex(dir, filename) {
+        let contents;
+        let imports = '';
+        let exports = '';
+
+        try {
+            contents = this.fileProvider.read(`${dir}/index.js`);
+            imports = this.indexFileTemplate.findImport(contents);
+            exports = this.indexFileTemplate.findExport(contents);
+        } catch (e) {
+            
+        }
+
+        if (imports.includes(`./${filename}`)) {
+            throw new Error('Routes configuration already declared');
+        }
+        
+        contents = this.indexFileTemplate.format(filename, imports, exports);
+
+        this.fileProvider.write(dir, "index", contents);
     }
 }

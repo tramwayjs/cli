@@ -8,10 +8,11 @@ const {ClassTemplate} = classes;
 const {MethodTemplate} = methods;
 
 export default class CreateController extends Recipe {
-    constructor(dir) {
+    constructor(dir, version) {
         super();
 
         this.dir = dir;
+        this.version = version;
 
         this.classTemplate = new ClassTemplate();
         this.indexTemplate = new MultiClassDirectory(new ModuleGenerationService());
@@ -26,7 +27,7 @@ export default class CreateController extends Recipe {
             throw new Error(`${className} already exists in ${this.dir}`);
         }
 
-        this.createClass(className, actions, this.dir);
+        this.createClass(className, actions, this.dir, this.version);
         this.createIndex(className, this.dir);
 
         let [first, ...rest] = next;
@@ -41,11 +42,11 @@ export default class CreateController extends Recipe {
         }
     }
 
-    createClass(className, methods, dir) {
-        let contents = this.classTemplate.format(className, "controller");
+    createClass(className, methods, dir, version) {
+        let contents = this.classTemplate.format(className, "controller", version);
         
         if (methods) {
-            methods = methods.map(method => this.methodTemplate.format(method, "controllerAction").replace(/^/gm, INDENTATION));
+            methods = methods.map(method => this.methodTemplate.format(method, "controllerAction", version).replace(/^/gm, INDENTATION));
             methods = methods.join('\n\n');
             contents = contents.replace('{}', `{\n${methods}\n}`);
         }
