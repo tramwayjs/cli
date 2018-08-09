@@ -1,42 +1,39 @@
-import Recipe from "./Recipe";
-import { FileProvider } from "../providers";
-import { ModuleGenerationService, templates } from '../services';
-import { INDENTATION } from "../config/format";
-const {indexing, dependencies} = templates;
-const {ConvergenceTemplate} = indexing;
-const {DependencyTemplate} = dependencies;
-
-export default class CreateDependency extends Recipe {
-    constructor(dir, filename) {
-        super();
-
-        this.dir = dir;
-        this.filename = filename;
-
-        this.fileProvider = new FileProvider();
-        this.moduleGenerationService = new ModuleGenerationService();
-        this.indexTemplate = new ConvergenceTemplate(this.moduleGenerationService);
-        this.dependencyTemplate = new DependencyTemplate();
+export default class DependencyFactory {
+    constructor(dependencyTemplate, fileProvider, moduleGenerationService, indexFactory, format = {}) {
+        this.dependencyTemplate = dependencyTemplate;
+        this.fileProvider = fileProvider;
+        this.moduleGenerationService = moduleGenerationService;
+        this.indexFactory = indexFactory;
+        this.format = format;
     }
 
-    execute(data, ...next) {
-        const {className, key, functions = [], args, classDirectory} = data;
-        let fileContents = this.checkFileExistance(this.dir, this.filename);
+    create(name, dir, options = {}) {
+        const {
+            key, 
+            functions = [], 
+            constructorArgs, 
+            filename,
+            parentDir, 
+        } = options;
+
+        const {INDENTATION} = this.format;
+
+        let fileContents = this.checkExistance(dir, filename);
         const fileExists = !!fileContents;
 
         if (!fileExists) {
             fileContents = this.dependencyTemplate.create();
-            this.createIndex(this.dir, this.filename);
+            this.indexFactory.create(filename, dir);
         }
 
         let imports = this.moduleGenerationService.findLastOfGroup('import', fileContents);
-        let importsUpdate = this.moduleGenerationService.appendToGroup('import', className, imports, classDirectory);
+        let importsUpdate = this.moduleGenerationService.appendToGroup('import', name, imports, parentDir);
 
         if (imports) {
             fileContents = fileContents.replace(imports, importsUpdate);
         }
 
-        let dependency = this.createDependency(key, className, args, functions).replace(/^/gm, INDENTATION);
+        let dependency = this.createDependency(key, name, constructorArgs, functions).replace(/^/gm, INDENTATION);
 
         if (fileExists) {
             fileContents = fileContents.replace('},\n}', `},\n${dependency}\n}`);
@@ -46,13 +43,10 @@ export default class CreateDependency extends Recipe {
             fileContents = `${importsUpdate}\n\n${fileContents}`;
         }
     
-        this.fileProvider.write(this.dir, this.filename, fileContents);
-
-        let [first, ...rest] = next;
-        return first && first.execute(data, ...rest);
+        this.fileProvider.write(dir, filename, fileContents);
     }
 
-    checkFileExistance(dir, filename) {
+    checkExistance(dir, filename) {
         try {
             return this.fileProvider.read(`${dir}/${filename}.js`);
         } catch (e) {
@@ -69,27 +63,12 @@ export default class CreateDependency extends Recipe {
         return contents;
     }
 
-    createIndex(dir, filename) {
-        let contents;
-        let imports = '';
-        let exports = '';
-
-        try {
-            contents = this.fileProvider.read(`${dir}/index.js`);
-            imports = this.indexTemplate.findImport(contents);
-            exports = this.indexTemplate.findExport(contents);
-        } catch (e) {
-        }
-
-        contents = this.indexTemplate.format(filename, imports, exports);
-
-        this.fileProvider.write(dir, "index", contents);
-    }
-
     prepareConstructor(contents, args = []) {
         if (!args || !args.length) {
             return contents;
         }
+
+        const {INDENTATION} = this.format;
 
         args = args.map(arg => `${arg}`).join(',\n').replace(/^/gm, `${INDENTATION}${INDENTATION}`);
         return contents.replace('"constructor": [],', `"constructor": [\n${args}\n${INDENTATION}],`);
@@ -99,6 +78,8 @@ export default class CreateDependency extends Recipe {
         if (!functions || !functions.length) {
             return contents;
         }
+
+        const {INDENTATION} = this.format;
 
         functions = functions.map(({name, args}) => {
             let func = this.dependencyTemplate.formatFunction(name);

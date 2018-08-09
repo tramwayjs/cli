@@ -1,3 +1,7 @@
 import RouteBuilder from './RouteBuilder';
+import * as versions from './versions';
 
-export {RouteBuilder};
+export {
+    RouteBuilder,
+    versions,
+};

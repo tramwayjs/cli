@@ -1,14 +1,14 @@
 import CreateClassCommand from './CreateClassCommand';
 import {commands} from 'tramway-command';
 
-import { 
-    CreateController, 
-    CreateRoute 
-} from '../recipes';
-
 const {InputOption} = commands;
 
 export default class CreateRouteCommand extends CreateClassCommand {
+    constructor(recipe, directoryResolver, defaults, controllerRecipe) {
+        super(recipe, directoryResolver, defaults);
+        this.controllerRecipe = controllerRecipe;
+    }
+
     configure() {
         const { 
             CONTROLLER_DIRECTORY, 
@@ -40,16 +40,21 @@ export default class CreateRouteCommand extends CreateClassCommand {
         const args = this.getOption('args');
         const shouldCreateController = this.getOption('create-controller');
         const version = this.getOption('version');
-
-        let recipe = new CreateRoute(dir, filename);
-
-        let next = [];
+        
+        this.recipe.create(
+            filename, 
+            dir, 
+            {
+                className: controller,
+                action,
+                path,
+                methods,
+                routeArgs: args,
+            }
+        );
 
         if (shouldCreateController) {
-            next.push(new CreateController(controllerDir, version));
+            this.controllerRecipe.create(controller, controllerDir, {version, args: [actions, version]})
         }
-
-        recipe.execute({className: controller, action, actions: [action], path, methods, args}, ...next);
     }
-
 }

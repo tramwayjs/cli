@@ -2,14 +2,18 @@ import path from 'path';
 import {FileProvider} from "../providers";
 
 export default class AbstractTemplate {
-    constructor(pattern, root, versions) {
-        this.pattern = pattern;
-        this.root = root;
+    /**
+     * @param {FileProvider}
+     * @param {number} versions 
+     * @param {string} root 
+     */
+    constructor(fileProvider, versions, root) {
+        this.fileProvider = fileProvider;
         this.versions = versions;
-        this.fileProvider = new FileProvider();
+        this.root = root;
     }
 
-    format(methodName, template, version) {
+    format(template, version) {
         if (!version) {
             version = this.getLatestVersion(template);
         }
@@ -22,8 +26,6 @@ export default class AbstractTemplate {
         } catch (e) {
             throw new Error(`Template ${templatePath} doesn't exist`);
         }
-
-        contents = contents.replace(this.pattern, methodName);
 
         return contents;
     }

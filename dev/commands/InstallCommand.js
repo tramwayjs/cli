@@ -3,17 +3,6 @@ import {
     InstallService, 
     DirectoryResolver
 } from '../services';
-import { 
-    CreateBabelrc, 
-    CreateServer, 
-    CreateDependency,
-    CreateRouterConfig,
-    CreateParameters,
-    CreateRoute,
-    CreateController,
-    CreateApp,
-    CreateGitignore,
-} from '../recipes';
 const {InputOption} = commands;
 const {
     TimestampSuccess, 
@@ -27,22 +16,41 @@ export default class InstallCommand extends Command {
     /**
      * 
      * @param {InstallService} installService 
-     * @param {DependencyResolver} dependencyResolver 
+     * @param {DirectoryResolver} directoryResolver 
      */
     constructor(
         installService, 
-        dependencyResolver, 
+        directoryResolver, 
         default_libraries,
         babel_libraries,
-        defaults = {}
+        defaults = {},
+        serverRecipe,
+        appBatchRecipe,
+        babelRcRecipe,
+        dependencyRecipe,
+        routerRecipe,
+        parametersRecipe,
+        controllerRecipe,
+        routeRecipe,
+        gitignoreRecipe,
     ) {
         super();
 
         this.installService = installService;
-        this.directoryResolver = dependencyResolver;
+        this.directoryResolver = directoryResolver;
         this.defaults = defaults;
         this.default_libraries = default_libraries;
         this.babel_libraries = babel_libraries;
+
+        this.serverRecipe = serverRecipe;
+        this.appBatchRecipe = appBatchRecipe;
+        this.babelRcRecipe = babelRcRecipe;
+        this.dependencyRecipe = dependencyRecipe;
+        this.routerRecipe = routerRecipe;
+        this.parametersRecipe = parametersRecipe;
+        this.controllerRecipe = controllerRecipe;
+        this.routeRecipe = routeRecipe;
+        this.gitignoreRecipe = gitignoreRecipe;
     }
 
     configure() {
@@ -101,7 +109,8 @@ export default class InstallCommand extends Command {
 
         try {
             progressBar.start('Adding .babelrc');
-            new CreateBabelrc().execute();
+            
+            this.babelRcRecipe.create();
             progressBar.finish('Adding .babelrc');
 
             new TimestampLog(`Installing ${babel_libraries.join(', ')}`);
@@ -115,33 +124,25 @@ export default class InstallCommand extends Command {
             new TimestampWarning(e.message.replace('undefined', 'the root of your project'))
         }
 
+        progressBar.start('Creating router setup');
         try {
-            progressBar.start('Creating router setup');
-            new CreateRouterConfig(
-                this.directoryResolver.resolve(DEPENDENCY_INJECTION_SERVICES_DIRECTORY)
-            ).execute();
-
-            progressBar.finish('Creating router setup');
+            this.routerRecipe.create(
+                'router',
+                this.directoryResolver.resolve(DEPENDENCY_INJECTION_SERVICES_DIRECTORY),
+            );
         } catch(e) {
             new TimestampError(`Failed to create router setup \n${e.message}`);
         }
+        progressBar.finish('Creating router setup');
 
+        progressBar.start('Creating server setup');
         try {
-            progressBar.start('Creating server setup');
-            
-            new CreateServer(
-                this.directoryResolver.resolve()
-            ).execute({
-                type,
-            });
+            this.serverRecipe.create(type, this.directoryResolver.resolve());
 
-            let createApp = new CreateApp(
-                this.directoryResolver.resolve(DEPENDENCY_INJECTION_PARAMETERS_GLOBAL_DIRECTORY),
+            this.appBatchRecipe.create(
+                ['app', 'cors', 'port'], 
+                this.directoryResolver.resolve(DEPENDENCY_INJECTION_PARAMETERS_GLOBAL_DIRECTORY)
             );
-
-            createApp.execute({type: 'app'});
-            createApp.execute({type: 'cors'});
-            createApp.execute({type: 'port'});
 
             const functions = [
                 {
@@ -158,71 +159,65 @@ export default class InstallCommand extends Command {
                 {"type": "parameter", "key": "port"},
             ];
 
-            new CreateDependency(
+            this.dependencyRecipe.create(
+                'App', 
                 this.directoryResolver.resolve(DEPENDENCY_INJECTION_SERVICES_DIRECTORY),
-                DEPENDENCY_INJECTION_CORE_FILENAME
-            ).execute({
-                className: 'App', 
-                key: 'app', 
-                classDirectory: 'tramway-core', 
-                args: this.prepareArgs(args), 
-                functions: this.prepareFunctionArgs(functions),
-            });
-
-            progressBar.finish('Creating server setup');
+                {
+                    key: 'app', 
+                    parentDir: 'tramway-core',
+                    constructorArgs: this.prepareArgs(args), 
+                    functions: this.prepareFunctionArgs(functions),
+                    filename: DEPENDENCY_INJECTION_CORE_FILENAME
+                }
+            );
 
             new TimestampSuccess(`Server file successfully created in ${this.directoryResolver.resolve()}`);
         } catch(e) {
             new TimestampError(`Failed to create server setup \n${e.message}`);
         }
+        progressBar.finish('Creating server setup');
 
+        progressBar.start('Creating main route');
         try {
-            progressBar.start('Creating main route');
+            this.parametersRecipe.create(
+                'global', 
+                this.directoryResolver.resolve(DEPENDENCY_INJECTION_PARAMETERS_DIRECTORY)
+            );
 
-            new CreateParameters(
-                this.directoryResolver.resolve(DEPENDENCY_INJECTION_PARAMETERS_DIRECTORY),
-                'global'
-            ).execute();
+            this.controllerRecipe.create(
+                'MainController', 
+                this.directoryResolver.resolve(CONTROLLER_DIRECTORY),
+                {
+                    args: [['index']],
+                    key: 'controller.main', 
+                    parentDir: `../../${CONTROLLER_DIRECTORY}`,
+                    filename: DEPENDENCY_INJECTION_CONTROLLERS_FILENAME,
+                    diDir: this.directoryResolver.resolve(DEPENDENCY_INJECTION_SERVICES_DIRECTORY),
+                }
+            );
 
-            const controllerConfig = {
-                actions: ['index'],
-                className: 'MainController',
-            };
-
-            new CreateController(
-                this.directoryResolver.resolve(CONTROLLER_DIRECTORY)
-            ).execute(controllerConfig);
-
-            new CreateDependency(
-                this.directoryResolver.resolve(DEPENDENCY_INJECTION_SERVICES_DIRECTORY),
-                DEPENDENCY_INJECTION_CONTROLLERS_FILENAME
-            ).execute({
-                className: 'MainController', 
-                key: 'controller.main', 
-                classDirectory: `../../${CONTROLLER_DIRECTORY}`,
-            });
-
-            new CreateRoute(
+            this.routeRecipe.create(
+                ROUTES_CONFIG_FILENAME, 
                 this.directoryResolver.resolve(DEPENDENCY_INJECTION_PARAMETERS_GLOBAL_DIRECTORY), 
-                ROUTES_CONFIG_FILENAME
-            ).execute({
-                action: 'index', 
-                service: 'controller.main',
-                action: 'index',
-                methods: ['get'],
-            });
-
-            progressBar.finish('Creating main route');
+                {
+                    action: 'index', 
+                    service: 'controller.main',
+                    methods: ['get'],
+                }
+            );
         } catch (e) {
             new TimestampError(`Failed to create main route \n${e.message}`);
         }
+        progressBar.finish('Creating main route');
 
         progressBar.start('Adding .gitignore');
-        new CreateGitignore().execute();
+        try {
+            this.gitignoreRecipe.create();
+        } catch (e) {
+            new TimestampWarning(e.message.replace('undefined', 'the root of your project'));
+        }
         progressBar.finish('Adding .gitignore');
     }
-
-
 
     prepareFunctionArgs(dependencies) {
         return dependencies.map(({name, args}) => {
