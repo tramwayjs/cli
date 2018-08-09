@@ -14,6 +14,8 @@ export const ROUTES_CONFIG_FILENAME = process.env.TRAMWAY_PROJECT_ROUTES_FILE ||
 export const DEPENDENCY_INJECTION_SERVICES_FILENAME = process.env.TRAMWAY_PROJECT_SERVICES_FILE || 'services';
 export const DEPENDENCY_INJECTION_CORE_FILENAME = 'core';
 export const DEPENDENCY_INJECTION_CONTROLLERS_FILENAME = 'controllers';
+export const DEPENDENCY_INJECTION_REPOSITORIES_FILENAME = 'repositories';
+export const DEPENDENCY_INJECTION_PROVIDERS_FILENAME = 'providers';
 
 export const DEV_DIRECTORY = 'src';
 export const DIST_DIRECTORY = 'dist';

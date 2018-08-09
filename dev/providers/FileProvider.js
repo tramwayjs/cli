@@ -13,7 +13,7 @@ export default class FileProvider {
         } catch (e) {
             if (e.message.includes('no such file or directory')) {
                 mkdirp.sync(dir);
-                return this.write(dir, fileName, content);
+                return this.write(dir, fileName, content, ext);
             }
 
             throw e;

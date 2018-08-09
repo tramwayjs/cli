@@ -1,19 +1,19 @@
 import CreateClassCommand from './CreateClassCommand';
 import {commands} from 'tramway-command';
 
-import { 
-    CreateRepository,
-    CreateDependency,
-} from '../recipes';
-
 const {InputOption} = commands;
 
 export default class CreateRepositoryCommand extends CreateClassCommand {
+    constructor(recipe, directoryResolver, defaults, dependencyRecipe) {
+        super(recipe, directoryResolver, defaults);
+        this.dependencyRecipe = dependencyRecipe;
+    }
+
     configure() {
         const { 
             REPOSITORY_DIRECTORY, 
             DEPENDENCY_INJECTION_SERVICES_DIRECTORY, 
-            DEPENDENCY_INJECTION_SERVICES_FILENAME 
+            DEPENDENCY_INJECTION_REPOSITORIES_FILENAME,
         } = this.defaults;
 
         this.args.add((new InputOption('name', InputOption.string)).isRequired());
@@ -40,7 +40,7 @@ export default class CreateRepositoryCommand extends CreateClassCommand {
             new InputOption(
                 'dependency-injection-filename', 
                 InputOption.string, 
-                DEPENDENCY_INJECTION_SERVICES_FILENAME
+                DEPENDENCY_INJECTION_REPOSITORIES_FILENAME
             )
         );
         this.options.add(new InputOption('version', InputOption.number));
@@ -51,40 +51,41 @@ export default class CreateRepositoryCommand extends CreateClassCommand {
         const dir = this.getOption('dir');
         const version = this.getOption('version');
 
-        let recipe = new CreateRepository(dir, version);
-        let next = [];
+        this.recipe.create(name, dir, {version});
 
         const shouldAddDependencyInjection = this.getOption('add-dependency-injection');
-        const key = this.getOption('key');
+        let key = this.getOption('key');
         const connection = this.getOption('connection');
         const provider = this.getOption('provider');
         const diDir = this.getOption('dependency-injection-dir');
         const diFilename = this.getOption('dependency-injection-filename');
         
         if (shouldAddDependencyInjection) {
-            next.push(new CreateDependency(diDir, diFilename));
+            if (!key) {
+                key = `repository.${name.toLowerCase()}`;
+            }
+            
+            const args = [
+                provider && {"type": "service", "key": provider},
+                connection &&  {"type": "service", "key": connection},
+            ].filter(a => a);
+
+            this.dependencyRecipe.create(
+                name, 
+                diDir,
+                {
+                    key, 
+                    parentDir: dir,
+                    constructorArgs: this.prepareArgs(args), 
+                    filename: diFilename,
+                }
+            );
         }
 
-        recipe.execute(
-            {
-                className: name, 
-                key, 
-                classDirectory: dir, 
-                args: (
-                    (
-                        provider && [
-                            `{"type": "service", "key": "${provider}"}`
-                        ]
-                    ) || 
-                    (
-                        connection && [
-                            `{"type": "service", "key": "${connection}"}`
-                        ]
-                    )
-                )
-            }, 
-            ...next
-        );
+    }
+
+    prepareArgs(dependencies) {
+        return dependencies.map(({type, key}) => `{"type": "${type}", "key": "${key}"},`);
     }
 
 }

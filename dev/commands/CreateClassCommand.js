@@ -2,9 +2,15 @@ import {Command} from 'tramway-command';
 import { DirectoryResolver } from '../services';
 
 export default class CreateClassCommand extends Command {
-    constructor(dependencyResolver, defaults = {}) {
+    /**
+     * 
+     * @param {DirectoryResolver} directoryResolver 
+     * @param {*} defaults 
+     */
+    constructor(recipe, directoryResolver, defaults = {}) {
         super();
-        this.directoryResolver = dependencyResolver;
+        this.recipe = recipe;
+        this.directoryResolver = directoryResolver;
         this.defaults = defaults;
     }
 }

@@ -2,8 +2,12 @@ import path from 'path';
 import {FileProvider} from "../../../providers";
 
 export default class DependencyTemplate {
-    constructor() {
-        this.fileProvider = new FileProvider();
+    /**
+     * 
+     * @param {FileProvider} fileProvider 
+     */
+    constructor(fileProvider) {
+        this.fileProvider = fileProvider;
     }
 
     formatDependency(type, key) {

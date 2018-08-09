@@ -14,7 +14,7 @@ export default {
             {"type": "parameter", "key": "format"},
         ]
     },
-    "service.dependency_resolver": {
+    "service.directory_resolver": {
         "class": DirectoryResolver,
         "constructor": [
             {"type": "parameter", "key": "location"},

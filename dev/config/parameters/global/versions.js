@@ -1,3 +1,11 @@
+export const class_type_connection = "connection";
+export const class_type_controller = "controller";
+export const class_type_restfulcontroller = "restfulcontroller";
+export const class_type_entity = "entity";
+export const class_type_provider = "provider";
+export const class_type_repository = "repository";
+export const class_type_service = "service";
+
 export const classes = {
     connection: 1,
     controller: 3,

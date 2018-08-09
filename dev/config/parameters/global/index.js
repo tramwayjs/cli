@@ -17,7 +17,18 @@ import {
     methods as method_versions, 
     config as config_versions, 
     server as server_versions,
+    class_type_connection,
+    class_type_controller,
+    class_type_restfulcontroller,
+    class_type_entity,
+    class_type_provider,
+    class_type_repository,
+    class_type_service,
 } from './versions';
+import {
+    recipe_babelrc_parameters,
+    recipe_gitignore_parameters,
+} from './recipes';
 
 export {
     commands,
@@ -34,4 +45,13 @@ export {
     method_versions,
     config_versions,
     server_versions,
+    class_type_connection,
+    class_type_controller,
+    class_type_restfulcontroller,
+    class_type_entity,
+    class_type_provider,
+    class_type_repository,
+    class_type_service,
+    recipe_babelrc_parameters,
+    recipe_gitignore_parameters,
 };
