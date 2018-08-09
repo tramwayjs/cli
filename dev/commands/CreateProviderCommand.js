@@ -1,17 +1,16 @@
 import CreateClassCommand from './CreateClassCommand';
 import {commands} from 'tramway-command';
 
-import { 
-    CreateProvider,
-    CreateDependency,
-} from '../recipes';
-
-import { PROVIDER_DIRECTORY, DEPENDENCY_INJECTION_SERVICES_DIRECTORY, DEPENDENCY_INJECTION_SERVICES_FILENAME } from '../config/defaults';
-
 const {InputOption} = commands;
 
 export default class CreateProviderCommand extends CreateClassCommand {
     configure() {
+        const { 
+            PROVIDER_DIRECTORY, 
+            DEPENDENCY_INJECTION_SERVICES_DIRECTORY, 
+            DEPENDENCY_INJECTION_PROVIDERS_FILENAME 
+        } = this.defaults;
+        
         this.args.add((new InputOption('name', InputOption.string)).isRequired());
         this.options.add(
             new InputOption(
@@ -30,7 +29,7 @@ export default class CreateProviderCommand extends CreateClassCommand {
                 this.directoryResolver.resolve(DEPENDENCY_INJECTION_SERVICES_DIRECTORY)
             )
         );
-        this.options.add(new InputOption('dependency-injection-filename', InputOption.string, DEPENDENCY_INJECTION_SERVICES_FILENAME));
+        this.options.add(new InputOption('dependency-injection-filename', InputOption.string, DEPENDENCY_INJECTION_PROVIDERS_FILENAME));
         this.options.add(new InputOption('version', InputOption.number));    
     }
 
@@ -39,19 +38,27 @@ export default class CreateProviderCommand extends CreateClassCommand {
         const dir = this.getOption('dir');
         const version = this.getOption('version');
 
-        let recipe = new CreateProvider(dir, version);
-        let next = [];
+        this.recipe.create(name, dir, {version});
 
         const shouldAddDependencyInjection = this.getOption('add-dependency-injection');
-        const key = this.getOption('key');
+        let key = this.getOption('key');
         const diDir = this.getOption('dependency-injection-dir');
         const diFilename = this.getOption('dependency-injection-filename');
         
         if (shouldAddDependencyInjection) {
-            next.push(new CreateDependency(diDir, diFilename));
+            if (!key) {
+                key = `provider.${name.toLowerCase()}`;
+            }
+
+            this.dependencyRecipe.create(
+                name, 
+                diDir,
+                {
+                    key, 
+                    parentDir: dir,
+                    filename: diFilename,
+                }
+            );
         }
-
-        recipe.execute({className: name, key, classDirectory: dir}, ...next);
     }
-
 }

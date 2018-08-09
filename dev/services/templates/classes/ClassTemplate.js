@@ -1,8 +1,13 @@
 import AbstractTemplate from '../../AbstractTemplate';
-import {classes} from '../../../config/versions';
 
 export default class ClassTemplate extends AbstractTemplate {
-    constructor() {
-        super(/CLASS_NAME/g, __dirname, classes);
+    constructor(fileProvider, classes) {
+        super(fileProvider, classes, __dirname, );
+        this.pattern = /CLASS_NAME/g;
+    }
+
+    format(methodName, template, version) {
+        let contents = super.format(template, version);
+        return contents.replace(this.pattern, methodName);
     }
 }

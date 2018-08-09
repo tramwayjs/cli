@@ -1,14 +1,8 @@
-import {commands} from 'tramway-command';
-let {CommandResolver} = commands;
-import {
-    commands as commandsIndex, 
-    location,
-} from './config';
+import {DependencyResolver, dependencies} from 'tramway-core-dependency-injector';
+import * as parameters from './config/parameters';
+import services from './config/services';
 
-let config = commandsIndex;
+const {ParametersManager, ServicesManager} = dependencies;
 
-if (commandsIndex.default) {
-    config = commandsIndex.default;
-}
-
-export default (new CommandResolver(config)).run();
+DependencyResolver.create(new ServicesManager(), new ParametersManager()).initialize(services, parameters);
+DependencyResolver.getService('app').run();

@@ -1,16 +1,16 @@
 import CreateClassCommand from './CreateClassCommand';
 import {commands} from 'tramway-command';
 
-import { 
-    CreateService, 
-} from '../recipes';
-
-import { SERVICE_DIRECTORY, DEPENDENCY_INJECTION_SERVICES_FILENAME, DEPENDENCY_INJECTION_SERVICES_DIRECTORY } from '../config/defaults';
-
 const {InputOption} = commands;
 
 export default class CreateServiceCommand extends CreateClassCommand {
     configure() {
+        const { 
+            SERVICE_DIRECTORY, 
+            DEPENDENCY_INJECTION_SERVICES_FILENAME, 
+            DEPENDENCY_INJECTION_SERVICES_DIRECTORY 
+        } = this.defaults;
+
         this.args.add((new InputOption('name', InputOption.string)).isRequired());
         this.options.add(
             new InputOption(
@@ -36,6 +36,7 @@ export default class CreateServiceCommand extends CreateClassCommand {
             )
         );
         this.options.add(new InputOption('version', InputOption.number));
+        this.options.add(new InputOption('key', InputOption.string));
     }
 
     action() {
@@ -46,16 +47,34 @@ export default class CreateServiceCommand extends CreateClassCommand {
         const diDir = this.getOption('dependency-injection-dir');
         const diFilename = this.getOption('dependency-injection-filename');
         const version = this.getOption('version');
+        const key = this.getOption('key');
 
-        let recipe = new CreateService(dir, version);
+        this.recipe.create(name, dir, {
+            version, 
+            args: [dependencies],
+        });
 
-        let next = [];
+        if (shouldAddDependencyInjection) {
+            if (!key) {
+                key = `service.${name.toLowerCase()}`;
+            }
+            
+            const args = dependencies.map(dependency => {
+                return `{"type": "service", "key": "${provider}"}`
+            });
 
-        // if (shouldAddDependencyInjection) {
-        //     next.push(new CreateRoute(diDir, diFilename));
-        // }
+            this.dependencyRecipe.create(
+                name, 
+                diDir,
+                {
+                    key, 
+                    parentDir: dir,
+                    constructorArgs: args, 
+                    filename: diFilename,
+                }
+            );
+        }
 
-        recipe.execute({className: name, dependencies}, ...next);
     }
 
 }

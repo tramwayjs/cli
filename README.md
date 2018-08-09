@@ -20,9 +20,7 @@ Tramway is a development utility to facilitate rapid development by generating c
 * Create Service 
 * Create Entity
 * Create Provider
-* Create Connection
 * Create Repository
-* Create Dependency
 * Configuration
 
 ## Usage
@@ -102,31 +100,21 @@ tramway create:api Product
 
 This command will create the following new files and update corresponding index.js files, as well as configuration files:
 
-config
-
--- services
-
----- services.js
-
----- repositories.js
-
--- routes.js
-
-entities
-
--- Product.js
-
-controllers
-
--- ProductController.js
-
-services
-
--- ProductService.js
-
-repositories
-
--- ProductRepositories.js
+```
++ config
+++ services
+ +- services.js
+ +- repositories.js
++- routes.js
++ entities
++- Product.js
++ controllers
++- ProductController.js
++ services
++- ProductService.js
++ repositories
++- ProductRepositories.js
+```
 
 ## Create Route
 Will add the necessary routing config to the routes file in the config folder and optionally create the corresponding Controller file with its index.
@@ -178,6 +166,7 @@ Will add a new Service file with a constructor featuring dependency mapping for 
 | dir | option | string | services | no | An option to override the default folder the Service class will be created in |
 | dependencies | option | array | none | no | An array of dependencies the Service will have |
 | add-dependency-injection | option | boolean | false | no | A flag to indicate that a service declaration should be created when making the Service |
+| key | option | string | none | no | The name of the key to use in dependency injection configuration |
 | dependency-injection-dir | option | string | services | no | An option to override the default folder where the service config will be placed |
 | dependency-injection-filename | option | string | services | no | An option to override the default filename of the service config |
 | version | option | number | latest | no | An option to specify which version of the class to use |
@@ -224,26 +213,6 @@ Example:
 tramway create:provider MySQLProvider --add-dependency-injection --key provider:mysql
 ```
 
-## Create Connection
-
-*Deprecated as of `tramway-core-connection` v 2.0.0 in favor of Providers* Will add a new Connection file with supported stubs and the option of adding to dependency injection.
-
-| Argument | Command Type | Type | Default | Required | Comments |
-| --- | --- | --- | --- | --- | --- |
-| name | argument | string | none | yes | The name of the Connection class |
-| dir | option | string | connections | no | An option to override the default folder the Connection class will be created in |
-| add-dependency-injection | option | boolean | false | no | A flag to indicate that a service declaration should be created when making the Connection |
-| key | option | string | none | no | The name of the key to use in dependency injection configuration |
-| dependency-injection-dir | option | string | services | no | An option to override the default folder where the service config will be placed |
-| dependency-injection-filename | option | string | services | no | An option to override the default filename of the service config |
-| version | option | number | latest | no | An option to specify which version of the class to use |
-
-Example:
-
-```
-tramway create:connection MySQLConnection --add-dependency-injection --key connection:mysql
-```
-
 ## Create Repository
 Will add a new Repository file with supported stubs and the option of adding to dependency injection with linked connection.
 
@@ -264,43 +233,20 @@ Example:
 tramway create:repository ProductsRepository --add-dependency-injection --connection connection:things --key repositories:products
 ```
 
-## Create Dependency
-
-| Argument | Command Type | Type | Default | Required | Comments |
-| --- | --- | --- | --- | --- | --- |
-| name | argument | string | none | yes | The name of the class |
-| key | argument | string | none | yes | The name of the key to use in dependency injection configuration |
-| dir | option | string | config/services | no | An option to override the default folder the service declaration will be created in |
-| filename | option | string | services | no | An option to override the default filename of the service config |
-| classDirectory | option | string | none | no | The relative import location of the class being imported |
-| args | option | array | none | no | An array of arguments to be passed to the constructor in the service declaration |
-| functions | option | array | none | no | An array of function calls to add to the declaration. Currently unavailable. |
-
-Example:
-
-```
-tramway create:dependency service.stuff StuffService --args dep1 dep2 dep3 --dir testservices --classDirectory ser
-```
-
 ## Configuration
 
 The commands create their files in the default scalpel that TramwayJS follows
 
-src
-
--- config
-
--- controllers
-
--- services
-
--- entities
-
--- repositories
-
--- providers
-
--- commands
+```
++ src
++- config
++- controllers
++- services
++- entities
++- repositories
++- providers
++- commands
+```
 
 In some projects, however, the structure can vary and the framework is able to adapt to adjustments using environment variables.
 
