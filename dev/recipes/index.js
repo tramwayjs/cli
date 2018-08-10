@@ -5,6 +5,7 @@ import BatchItemRecipe from './BatchItemRecipe';
 import FixedItemRecipe from './FixedItemRecipe';
 import SequentialRecipe from './SequentialRecipe';
 import ContainerizedItemRecipe from './ContainerizedItemRecipe';
+import IncludesDependencyRecipe from './IncludesDependencyRecipe';
 
 export {
     // Recipe,
@@ -14,4 +15,5 @@ export {
     FixedItemRecipe,
     SequentialRecipe,
     ContainerizedItemRecipe,
+    IncludesDependencyRecipe,
 }

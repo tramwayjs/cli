@@ -34,4 +34,8 @@ export default class InstallService {
     async installDev(...components) {
         return await this.packageManagementProvider.installDev(...components);
     }
+
+    isInstalled(component) {
+        return this.packageManagementProvider.isInstalled(component);
+    }
 }
