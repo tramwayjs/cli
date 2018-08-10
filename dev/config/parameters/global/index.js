@@ -28,6 +28,9 @@ import {
 import {
     recipe_babelrc_parameters,
     recipe_gitignore_parameters,
+    recipe_dependency_entity_parameters,
+    recipe_dependency_provider_parameters,
+    recipe_dependency_repository_parameters,
 } from './recipes';
 
 export {
@@ -54,4 +57,7 @@ export {
     class_type_service,
     recipe_babelrc_parameters,
     recipe_gitignore_parameters,
+    recipe_dependency_entity_parameters,
+    recipe_dependency_provider_parameters,
+    recipe_dependency_repository_parameters,
 };

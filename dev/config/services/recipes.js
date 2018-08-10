@@ -4,6 +4,7 @@ import {
     BatchItemRecipe,
     FixedItemRecipe,
     ContainerizedItemRecipe,
+    IncludesDependencyRecipe,
 } from '../../recipes';
 
 export default {
@@ -55,11 +56,19 @@ export default {
             {"type": "service", "key": "injector.class_properties"},
         ]
     },
-    "recipe.entity": {
+    "recipe.entity.indexed": {
         "class": IndexedItemRecipe,
         "constructor": [
             {"type": "service", "key": "recipe.entity.standalone"},
             {"type": "service", "key": "factory.index:multiclass"},
+        ]
+    },
+    "recipe.entity": {
+        "class": IncludesDependencyRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.entity.indexed"},
+            {"type": "service", "key": "service.install:npm"},
+            {"type": "parameter", "key": "recipe_dependency_entity_parameters"},
         ]
     },
     "recipe.provider.standalone": {
@@ -68,11 +77,19 @@ export default {
             {"type": "service", "key": "factory.class:provider"},
         ]
     },
-    "recipe.provider": {
+    "recipe.provider.indexed": {
         "class": IndexedItemRecipe,
         "constructor": [
             {"type": "service", "key": "recipe.provider.standalone"},
             {"type": "service", "key": "factory.index:multiclass"},
+        ]
+    },
+    "recipe.provider": {
+        "class": IncludesDependencyRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.provider.indexed"},
+            {"type": "service", "key": "service.install:npm"},
+            {"type": "parameter", "key": "recipe_dependency_provider_parameters"},
         ]
     },
     "recipe.service.standalone": {
@@ -95,11 +112,19 @@ export default {
             {"type": "service", "key": "factory.class:repository"},
         ]
     },
-    "recipe.repository": {
+    "recipe.repository.indexed": {
         "class": IndexedItemRecipe,
         "constructor": [
             {"type": "service", "key": "recipe.repository.standalone"},
             {"type": "service", "key": "factory.index:multiclass"},
+        ]
+    },
+    "recipe.repository": {
+        "class": IncludesDependencyRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.repository.indexed"},
+            {"type": "service", "key": "service.install:npm"},
+            {"type": "parameter", "key": "recipe_dependency_repository_parameters"},
         ]
     },
     "recipe.server": {

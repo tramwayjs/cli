@@ -23,4 +23,12 @@ export default class PackageManagementProvider {
 
         return await this.shellProvider.run(this.packageManager, this.command, ...args, ...components);
     }
+
+    isInstalled(component) {
+        try {
+            return require.resolve(component);
+        } catch(e) {
+            return false;
+        }
+    }
 }
