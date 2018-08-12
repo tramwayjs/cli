@@ -33,5 +33,5 @@ export const config = {
 }
 
 export const server = {
-    api: 1,
+    api: 2,
 }
