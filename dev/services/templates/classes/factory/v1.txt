@@ -1,0 +1,22 @@
+import {Factory} from 'tramway-core-connection';
+import {errors} from "tramway-core";
+const {AbstractMethodError} = errors;
+
+/**
+ * @abstract
+ * @export
+ * @class CLASS_NAME
+ */
+export default class CLASS_NAME extends Factory {
+
+    /**
+     * @param {Object} item
+     * @returns {Entity}
+     * 
+     * @memberOf CLASS_NAME
+     */
+    create(item) {
+        throw new AbstractMethodError();
+    }
+
+}
