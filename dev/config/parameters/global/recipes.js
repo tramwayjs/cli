@@ -17,3 +17,7 @@ export const recipe_dependency_provider_parameters = [
 export const recipe_dependency_repository_parameters = [
     'connection',
 ]
+
+export const recipe_dependency_factory_parameters = [
+    'connection',
+]

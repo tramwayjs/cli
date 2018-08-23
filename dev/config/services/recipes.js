@@ -92,6 +92,27 @@ export default {
             {"type": "parameter", "key": "recipe_dependency_provider_parameters"},
         ]
     },
+    "recipe.factory.standalone": {
+        "class": BasicItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "factory.class:factory"},
+        ]
+    },
+    "recipe.factory.indexed": {
+        "class": IndexedItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.factory.standalone"},
+            {"type": "service", "key": "factory.index:multiclass"},
+        ]
+    },
+    "recipe.factory": {
+        "class": IncludesDependencyRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.factory.indexed"},
+            {"type": "service", "key": "service.install:npm"},
+            {"type": "parameter", "key": "recipe_dependency_factory_parameters"},
+        ]
+    },
     "recipe.service.standalone": {
         "class": BasicItemRecipe,
         "constructor": [

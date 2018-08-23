@@ -4,6 +4,7 @@ export const ENTITY_DIRECTORY = process.env.TRAMWAY_PROJECT_ENTITIES_PATH || "en
 export const CONNECTION_DIRECTORY = process.env.TRAMWAY_PROJECT_CONNECTIONS_PATH || "connections";
 export const REPOSITORY_DIRECTORY = process.env.TRAMWAY_PROJECT_REPOSITORIES_PATH || "repositories";
 export const PROVIDER_DIRECTORY = process.env.TRAMWAY_PROJECT_PROVIDERS_PATH || "providers";
+export const FACTORY_DIRECTORY = process.env.TRAMWAY_PROJECT_FACTORIES_PATH || "factories";
 
 export const CONFIG_DIRECTORY = process.env.TRAMWAY_PROJECT_CONFIG_PATH || 'config';
 export const DEPENDENCY_INJECTION_SERVICES_DIRECTORY = `${CONFIG_DIRECTORY}/services`;
@@ -16,6 +17,7 @@ export const DEPENDENCY_INJECTION_CORE_FILENAME = 'core';
 export const DEPENDENCY_INJECTION_CONTROLLERS_FILENAME = 'controllers';
 export const DEPENDENCY_INJECTION_REPOSITORIES_FILENAME = 'repositories';
 export const DEPENDENCY_INJECTION_PROVIDERS_FILENAME = 'providers';
+export const DEPENDENCY_INJECTION_FACTORIES_FILENAME = 'factories';
 
 export const DEV_DIRECTORY = 'src';
 export const DIST_DIRECTORY = 'dist';

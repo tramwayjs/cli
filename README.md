@@ -90,12 +90,12 @@ Will create all the necessary classes and mappings to have a full API ready. The
 | Argument | Command Type | Type | Default | Required | Comments |
 | --- | --- | --- | --- | --- | --- |
 | resource | argument | string | none | yes | The name of the Resource to use for all naming |
-| provider | option | string | none | no | Adds a provider key to the Repository declaration to link them |
+| provider | option | string | none | yes | Adds a provider key to the Repository declaration to link them |
 
 Example:
 
 ```
-tramway create:api Product
+tramway create:api Product --provider=mysql
 ```
 
 This command will create the following new files and update corresponding index.js files, as well as configuration files:
@@ -105,6 +105,8 @@ This command will create the following new files and update corresponding index.
 ++ services
  +- services.js
  +- repositories.js
+ +- factories.js
+ +- controllers.js
 +- routes.js
 + entities
 +- Product.js
@@ -113,7 +115,9 @@ This command will create the following new files and update corresponding index.
 + services
 +- ProductService.js
 + repositories
-+- ProductRepositories.js
++- ProductRepository.js
++ factories
++- ProductFactory.js
 ```
 
 ## Create Route
@@ -191,6 +195,21 @@ Example:
 
 ```
 tramway create:entity Product --properties width height price
+```
+
+## Create Factory
+Will add a new Factory file with a placeholder for building the entity.
+
+| Argument | Command Type | Type | Default | Required | Comments |
+| --- | --- | --- | --- | --- | --- |
+| name | argument | string | none | yes | The name of the Factory class |
+| dir | option | string | entities | no | An option to override the default folder the Factory class will be created in |
+| version | option | number | latest | no | An option to specify which version of the class to use |
+
+Example:
+
+```
+tramway create:factory ProductFactory --add-dependency-injection --key factory.product
 ```
 
 ## Create Provider

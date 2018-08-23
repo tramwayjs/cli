@@ -5,6 +5,7 @@ export const class_type_entity = "entity";
 export const class_type_provider = "provider";
 export const class_type_repository = "repository";
 export const class_type_service = "service";
+export const class_type_factory = "factory";
 
 export const classes = {
     connection: 1,
@@ -14,6 +15,7 @@ export const classes = {
     provider: 1,
     repository: 2,
     service: 1, 
+    factory: 1,
 };
 
 export const methods = {
