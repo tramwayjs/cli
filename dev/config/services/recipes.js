@@ -216,4 +216,30 @@ export default {
             {"type": "service", "key": "factory.index:convergence"},
         ]
     },
+    "recipe.logger.basic": {
+        "class": BasicItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "factory.config"},
+        ]
+    },
+    "recipe.logger": {
+        "class": IndexedItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.logger.basic"},
+            {"type": "service", "key": "factory.index:convergence"},
+        ]
+    },
+    "recipe.winston.basic": {
+        "class": BasicItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "factory.config"},
+        ]
+    },
+    "recipe.winston": {
+        "class": IndexedItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.winston.basic"},
+            {"type": "service", "key": "factory.index:convergence"},
+        ]
+    },
 }

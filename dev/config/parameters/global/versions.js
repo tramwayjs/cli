@@ -30,6 +30,8 @@ export const config = {
     cors: 1,
     port: 1,
     gitignore: 1,
+    logger: 1,
+    winston: 1,
 }
 
 export const server = {

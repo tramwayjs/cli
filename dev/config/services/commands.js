@@ -95,6 +95,8 @@ export default {
             {"type": "service", "key": "recipe.controller"},
             {"type": "service", "key": "recipe.route"},
             {"type": "service", "key": "recipe.gitignore"},
+            {"type": "service", "key": "recipe.logger"},
+            {"type": "service", "key": "recipe.winston"},
         ]
     },
     "command.build": {
