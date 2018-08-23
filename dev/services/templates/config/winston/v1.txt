@@ -1,0 +1,21 @@
+export const winston = {}
+
+export const file_error = {
+   filename: './logs/error.log', 
+   level: 'error',
+   json: true,
+   colorize: false,
+}
+
+export const file_all = {
+   filename: './logs/all.log', 
+   json: true,
+   handleExceptions: true,
+   colorize: false,
+}
+
+export const console_all = {
+    handleExceptions: true,
+    json: false,
+    colorize: true,
+}

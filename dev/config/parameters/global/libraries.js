@@ -14,6 +14,8 @@ const mongodb = {library: 'tramway-connection-mongodb', dependencies: [connectio
 const api = {library: 'tramway-connection-rest-api', dependencies: [connection]};
 const command = {library: 'tramway-command', dependencies: []};
 const auth0 = {library: 'tramway-authentication-auth0-api', dependencies: []};
+const logger = {library: 'tramway-core-logger', dependencies: []};
+const winston = {library: 'tramway-logger-winston', dependencies: [logger]};
 
 export const libraries = {
     mysql,
@@ -32,12 +34,15 @@ export const libraries = {
     DI: dependencyInjection,
     'depenency-injection': dependencyInjection,
     router,
+    logger,
+    winston,
 }
 
 export const defaultLibraries = [
     'core',
     'router',
     'dependencyInjection',
+    'winston',
 ];
 
 export const keys = [
@@ -50,6 +55,8 @@ export const keys = [
     'core',
     'dependencyInjection',
     'router',
+    'logger',
+    'winston',
 ];
 
 export const babelLibraries = [
