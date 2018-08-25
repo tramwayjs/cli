@@ -33,6 +33,8 @@ export default class InstallCommand extends Command {
         controllerRecipe,
         routeRecipe,
         gitignoreRecipe,
+        loggerRecipe,
+        winstonRecipe,
     ) {
         super();
 
@@ -51,6 +53,8 @@ export default class InstallCommand extends Command {
         this.controllerRecipe = controllerRecipe;
         this.routeRecipe = routeRecipe;
         this.gitignoreRecipe = gitignoreRecipe;
+        this.loggerRecipe = loggerRecipe;
+        this.winstonRecipe = winstonRecipe;
     }
 
     configure() {
@@ -74,7 +78,7 @@ export default class InstallCommand extends Command {
             CONTROLLER_DIRECTORY,
         } = this.defaults;
 
-        let progressBar = new ProgressBar('Installing Tramway', 9);
+        let progressBar = new ProgressBar('Installing Tramway', 10);
 
         let {default_libraries, babel_libraries} = this;
         default_libraries = Array.isArray(default_libraries) ? default_libraries : Object.values(default_libraries);
@@ -135,6 +139,23 @@ export default class InstallCommand extends Command {
         }
         progressBar.finish('Creating router setup');
 
+        progressBar.start('Creating logging setup');
+
+        try {
+            this.loggerRecipe.create(
+                'logger',
+                this.directoryResolver.resolve(DEPENDENCY_INJECTION_SERVICES_DIRECTORY),
+            );
+            this.winstonRecipe.create(
+                'winston',
+                this.directoryResolver.resolve(DEPENDENCY_INJECTION_PARAMETERS_GLOBAL_DIRECTORY),
+            );
+        } catch(e) {
+            new TimestampError(`Failed to create logger setup \n${e.message}`);
+        }
+
+        progressBar.finish('Creating logging setup');
+
         progressBar.start('Creating server setup');
         try {
             this.serverRecipe.create(type, this.directoryResolver.resolve());
@@ -150,7 +171,13 @@ export default class InstallCommand extends Command {
                     args: [
                         {"type": "parameter", "key": "cors"},
                     ]
-                }
+                },
+                {
+                    name: 'addLogger',
+                    args: [
+                        {"type": "service", "key": "logger.middleware"}
+                    ]
+                },
             ];
 
             const args = [

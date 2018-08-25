@@ -2,6 +2,7 @@ import {
     CreateControllerCommand,
     CreateRouteCommand,
     CreateServiceCommand,
+    CreateFactoryCommand,
     CreateEntityCommand,
     CreateRepositoryCommand,
     CreateProviderCommand,
@@ -64,6 +65,14 @@ export default {
             {"type": "parameter", "key": "defaults"},
         ]
     },
+    "command.create.factory": {
+        "class": CreateFactoryCommand,
+        "constructor": [
+            {"type": "service", "key": "recipe.factory"},
+            {"type": "service", "key": "service.directory_resolver"},
+            {"type": "parameter", "key": "defaults"},
+        ]
+    },
     "command.create.api": {
         "class": CreateApiCommand,
         "constructor": [
@@ -76,6 +85,7 @@ export default {
             {"type": "service", "key": "recipe.service"},
             {"type": "service", "key": "recipe.dependency"},
             {"type": "service", "key": "recipe.restfulcontroller"},
+            {"type": "service", "key": "recipe.factory"},
         ]
     },
     "command.install": {
@@ -95,6 +105,8 @@ export default {
             {"type": "service", "key": "recipe.controller"},
             {"type": "service", "key": "recipe.route"},
             {"type": "service", "key": "recipe.gitignore"},
+            {"type": "service", "key": "recipe.logger"},
+            {"type": "service", "key": "recipe.winston"},
         ]
     },
     "command.build": {

@@ -24,6 +24,7 @@ import {
     class_type_provider,
     class_type_repository,
     class_type_service,
+    class_type_factory,
 } from './versions';
 import {
     recipe_babelrc_parameters,
@@ -31,6 +32,7 @@ import {
     recipe_dependency_entity_parameters,
     recipe_dependency_provider_parameters,
     recipe_dependency_repository_parameters,
+    recipe_dependency_factory_parameters,
 } from './recipes';
 
 export {
@@ -55,9 +57,11 @@ export {
     class_type_provider,
     class_type_repository,
     class_type_service,
+    class_type_factory,
     recipe_babelrc_parameters,
     recipe_gitignore_parameters,
     recipe_dependency_entity_parameters,
     recipe_dependency_provider_parameters,
     recipe_dependency_repository_parameters,
+    recipe_dependency_factory_parameters,
 };

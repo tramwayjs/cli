@@ -92,6 +92,27 @@ export default {
             {"type": "parameter", "key": "recipe_dependency_provider_parameters"},
         ]
     },
+    "recipe.factory.standalone": {
+        "class": BasicItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "factory.class:factory"},
+        ]
+    },
+    "recipe.factory.indexed": {
+        "class": IndexedItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.factory.standalone"},
+            {"type": "service", "key": "factory.index:multiclass"},
+        ]
+    },
+    "recipe.factory": {
+        "class": IncludesDependencyRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.factory.indexed"},
+            {"type": "service", "key": "service.install:npm"},
+            {"type": "parameter", "key": "recipe_dependency_factory_parameters"},
+        ]
+    },
     "recipe.service.standalone": {
         "class": BasicItemRecipe,
         "constructor": [
@@ -187,7 +208,7 @@ export default {
     "recipe.parameters": {
         "class": BasicItemRecipe,
         "constructor": [
-            {"type": "service", "key": "factory.index:unification"},
+            {"type": "service", "key": "factory.index:multiclass"},
         ]
     },
     "recipe.route.standalone": {
@@ -213,6 +234,32 @@ export default {
         "class": IndexedItemRecipe,
         "constructor": [
             {"type": "service", "key": "recipe.router.basic"},
+            {"type": "service", "key": "factory.index:convergence"},
+        ]
+    },
+    "recipe.logger.basic": {
+        "class": BasicItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "factory.config"},
+        ]
+    },
+    "recipe.logger": {
+        "class": IndexedItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.logger.basic"},
+            {"type": "service", "key": "factory.index:convergence"},
+        ]
+    },
+    "recipe.winston.basic": {
+        "class": BasicItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "factory.config"},
+        ]
+    },
+    "recipe.winston": {
+        "class": IndexedItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.winston.basic"},
             {"type": "service", "key": "factory.index:convergence"},
         ]
     },

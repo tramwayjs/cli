@@ -20,13 +20,9 @@ export default class ModuleGenerationService {
         }
 
         let finish = 1;
+        let symbol = "import" === type ? ";" : "}";
 
-        if ("import" === type) {
-            finish += indexContents.indexOf(";", start);
-        } else {
-            finish += indexContents.indexOf("}", start);
-        }
-
+        finish += indexContents.indexOf(symbol, start);
         return indexContents.substring(start, finish);
     }
 

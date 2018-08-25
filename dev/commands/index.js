@@ -5,6 +5,7 @@ import CreateServiceCommand from './CreateServiceCommand';
 import CreateEntityCommand from './CreateEntityCommand';
 import CreateRepositoryCommand from './CreateRepositoryCommand';
 import CreateProviderCommand from './CreateProviderCommand';
+import CreateFactoryCommand from './CreateFactoryCommand';
 import CreateApiCommand from './CreateApiCommand';
 import InstallCommand from './InstallCommand';
 import BuildCommand from './BuildCommand';
@@ -18,6 +19,7 @@ export {
     CreateEntityCommand,
     CreateRepositoryCommand,
     CreateProviderCommand,
+    CreateFactoryCommand,
     CreateApiCommand,
     InstallCommand,
     BuildCommand,
