@@ -208,7 +208,7 @@ export default {
     "recipe.parameters": {
         "class": BasicItemRecipe,
         "constructor": [
-            {"type": "service", "key": "factory.index:unification"},
+            {"type": "service", "key": "factory.index:multiclass"},
         ]
     },
     "recipe.route.standalone": {
