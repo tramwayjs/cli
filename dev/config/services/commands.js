@@ -83,7 +83,7 @@ export default {
             {"type": "service", "key": "recipe.route"},
             {"type": "service", "key": "recipe.entity"},
             {"type": "service", "key": "recipe.repository"},
-            {"type": "service", "key": "recipe.service"},
+            {"type": "service", "key": "recipe.service:rest"},
             {"type": "service", "key": "recipe.dependency"},
             {"type": "service", "key": "recipe.restfulcontroller"},
             {"type": "service", "key": "recipe.factory"},

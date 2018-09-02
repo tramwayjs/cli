@@ -1,6 +1,6 @@
 {
   "name": "tramway",
-  "version": "0.3.2",
+  "version": "0.4.0",
   "description": "A utility class for creating classes and key operations in the Tramway framework",
   "author": "Julian Wolfe",
   "license": "MIT",
@@ -38,6 +38,7 @@
     "gulp-babel": "^7.0.1",
     "gulp-nodemon": "^2.2.1",
     "mkdirp": "^0.5.1",
+    "pluralize": "^7.0.0",
     "terminal-kit": "^1.19.2",
     "tramway-command": "^1.2.0",
     "tramway-command-di-factory": "^1.0.0",

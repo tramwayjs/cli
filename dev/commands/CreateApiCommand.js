@@ -1,20 +1,21 @@
 import CreateClassCommand from './CreateClassCommand';
-import {IndexEntryExistsError} from '../errors';
-import {commands, terminal} from 'tramway-command';
+import { IndexEntryExistsError } from '../errors';
+import { commands, terminal } from 'tramway-command';
+import pluralize from 'pluralize';
 
-const {InputOption} = commands;
-const {TimestampWarning} = terminal;
+const { InputOption } = commands;
+const { TimestampWarning } = terminal;
 
 export default class CreateApiCommand extends CreateClassCommand {
     constructor(
-        recipe, 
-        directoryResolver, 
-        defaults, 
-        routeRecipe, 
-        entityRecipe, 
-        repositoryRecipe, 
-        serviceRecipe, 
-        dependencyRecipe, 
+        recipe,
+        directoryResolver,
+        defaults,
+        routeRecipe,
+        entityRecipe,
+        repositoryRecipe,
+        serviceRecipe,
+        dependencyRecipe,
         controllerRecipe,
         factoryRecipe
     ) {
@@ -59,26 +60,26 @@ export default class CreateApiCommand extends CreateClassCommand {
             {
                 action: 'get',
                 methods: ['get'],
-            }, 
+            },
             {
                 action: 'getOne',
                 methods: ['get'],
                 args: ["id"],
-            }, 
+            },
             {
                 action: 'create',
                 methods: ['post'],
-            }, 
+            },
             {
                 action: 'update',
                 methods: ['patch'],
                 args: ["id"],
-            }, 
+            },
             {
                 action: 'replace',
                 methods: ['put'],
                 args: ["id"],
-            }, 
+            },
             {
                 action: 'delete',
                 methods: ['delete'],
@@ -96,7 +97,7 @@ export default class CreateApiCommand extends CreateClassCommand {
 
     createEntity(resource, entityDirectory) {
         this.entityRecipe.create(
-            resource, 
+            resource,
             this.directoryResolver.resolve(entityDirectory)
         );
     }
@@ -105,17 +106,17 @@ export default class CreateApiCommand extends CreateClassCommand {
         const className = `${resource}Repository`;
 
         this.repositoryRecipe.create(
-            className, 
+            className,
             this.directoryResolver.resolve(repositoryDirectory),
         );
 
-        const {DEPENDENCY_INJECTION_REPOSITORIES_FILENAME} = this.defaults;
+        const { DEPENDENCY_INJECTION_REPOSITORIES_FILENAME } = this.defaults;
 
         this.dependencyRecipe.create(
-            className, 
+            className,
             diDir,
             {
-                key, 
+                key,
                 parentDir: `../../${repositoryDirectory}`,
                 filename: DEPENDENCY_INJECTION_REPOSITORIES_FILENAME,
                 constructorArgs: [
@@ -130,17 +131,24 @@ export default class CreateApiCommand extends CreateClassCommand {
         const className = `${resource}Factory`;
 
         this.factoryRecipe.create(
-            className, 
+            className,
             this.directoryResolver.resolve(factoryDirectory),
+            {
+                args: [
+                    [
+                        [/ENTITY_NAME/g, resource]
+                    ],
+                ]
+            }
         );
 
-        const {DEPENDENCY_INJECTION_FACTORIES_FILENAME} = this.defaults;
+        const { DEPENDENCY_INJECTION_FACTORIES_FILENAME } = this.defaults;
 
         this.dependencyRecipe.create(
-            className, 
+            className,
             diDir,
             {
-                key, 
+                key,
                 parentDir: `../../${factoryDirectory}`,
                 filename: DEPENDENCY_INJECTION_FACTORIES_FILENAME,
                 constructorArgs: []
@@ -151,20 +159,17 @@ export default class CreateApiCommand extends CreateClassCommand {
     createService(resource, key, serviceDirectory, repositoryKey, diDir) {
         const className = `${resource}Service`;
         this.serviceRecipe.create(
-            className, 
-            this.directoryResolver.resolve(serviceDirectory), 
-            {
-                args: [['repository']],
-            }
+            className,
+            this.directoryResolver.resolve(serviceDirectory),
         );
 
-        const {DEPENDENCY_INJECTION_SERVICES_FILENAME} = this.defaults;
+        const { DEPENDENCY_INJECTION_SERVICES_FILENAME } = this.defaults;
 
         this.dependencyRecipe.create(
-            className, 
+            className,
             diDir,
             {
-                key, 
+                key,
                 parentDir: `../../${serviceDirectory}`,
                 filename: DEPENDENCY_INJECTION_SERVICES_FILENAME,
                 constructorArgs: [
@@ -183,16 +188,17 @@ export default class CreateApiCommand extends CreateClassCommand {
             }
         )
 
-        const {DEPENDENCY_INJECTION_CONTROLLERS_FILENAME} = this.defaults;
+        const { DEPENDENCY_INJECTION_CONTROLLERS_FILENAME } = this.defaults;
 
         this.dependencyRecipe.create(
-            controllerName, 
+            controllerName,
             diDir,
             {
-                key, 
+                key,
                 parentDir: `../../${controllerDirectory}`,
                 filename: DEPENDENCY_INJECTION_CONTROLLERS_FILENAME,
                 constructorArgs: [
+                    `{"type": "service", "key": "router"}`,
                     serviceKey && `{"type": "service", "key": "${serviceKey}"}`,
                 ].filter(a => a)
             }
@@ -201,15 +207,15 @@ export default class CreateApiCommand extends CreateClassCommand {
 
     createRoutes(resource, routeDirectory, routeFileName, controllerKey, actions) {
         actions.forEach(
-            ({action, methods, args}) => {
+            ({ action, methods, args }) => {
                 try {
                     this.routeRecipe.create(
-                        routeFileName, 
-                        this.directoryResolver.resolve(routeDirectory), 
+                        routeFileName,
+                        this.directoryResolver.resolve(routeDirectory),
                         {
                             service: controllerKey,
                             action,
-                            path: resource.toLowerCase(),
+                            path: pluralize.plural(resource.toLowerCase()),
                             methods,
                             routeArgs: args,
                         }
@@ -218,7 +224,7 @@ export default class CreateApiCommand extends CreateClassCommand {
                     if (!(e instanceof IndexEntryExistsError)) {
                         throw e;
                     }
-                    
+
                     new TimestampWarning(e.message);
                 }
             }
@@ -226,15 +232,15 @@ export default class CreateApiCommand extends CreateClassCommand {
     }
 
     prepareAdditionalOptions() {
-        const { 
+        const {
             ENTITY_DIRECTORY,
             CONTROLLER_DIRECTORY,
             REPOSITORY_DIRECTORY,
             SERVICE_DIRECTORY,
             FACTORY_DIRECTORY,
             ROUTES_CONFIG_FILENAME,
-            DEPENDENCY_INJECTION_SERVICES_DIRECTORY, 
-            DEPENDENCY_INJECTION_SERVICES_FILENAME, 
+            DEPENDENCY_INJECTION_SERVICES_DIRECTORY,
+            DEPENDENCY_INJECTION_SERVICES_FILENAME,
             DEPENDENCY_INJECTION_PARAMETERS_GLOBAL_DIRECTORY
         } = this.defaults;
 
@@ -248,8 +254,8 @@ export default class CreateApiCommand extends CreateClassCommand {
 
         this.options.add(
             new InputOption(
-                'dependency-injection-dir', 
-                InputOption.string, 
+                'dependency-injection-dir',
+                InputOption.string,
                 this.directoryResolver.resolve(DEPENDENCY_INJECTION_SERVICES_DIRECTORY)
             )
         );

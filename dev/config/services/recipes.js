@@ -96,6 +96,7 @@ export default {
         "class": BasicItemRecipe,
         "constructor": [
             {"type": "service", "key": "factory.class:factory"},
+            {"type": "service", "key": "injector.replacement"},
         ]
     },
     "recipe.factory.indexed": {
@@ -124,6 +125,19 @@ export default {
         "class": IndexedItemRecipe,
         "constructor": [
             {"type": "service", "key": "recipe.service.standalone"},
+            {"type": "service", "key": "factory.index:multiclass"},
+        ]
+    },
+    "recipe.service.standalone:rest": {
+        "class": BasicItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "factory.class:service:rest"},
+        ]
+    },
+    "recipe.service:rest": {
+        "class": IndexedItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.service.standalone:rest"},
             {"type": "service", "key": "factory.index:multiclass"},
         ]
     },
