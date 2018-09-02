@@ -1,6 +1,5 @@
 import {Factory} from 'tramway-core-connection';
-import {errors} from "tramway-core";
-const {AbstractMethodError} = errors;
+import {ENTITY_NAME} from '../entities';
 
 /**
  * @abstract
@@ -16,7 +15,8 @@ export default class CLASS_NAME extends Factory {
      * @memberOf CLASS_NAME
      */
     create(item) {
-        throw new AbstractMethodError();
+        // @TODO: Update entity to ensure data in passed item is used
+        return new ENTITY_NAME();
     }
 
 }

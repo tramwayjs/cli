@@ -96,6 +96,7 @@ export default {
         "class": BasicItemRecipe,
         "constructor": [
             {"type": "service", "key": "factory.class:factory"},
+            {"type": "service", "key": "injector.replacement"},
         ]
     },
     "recipe.factory.indexed": {
