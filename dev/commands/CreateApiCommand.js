@@ -157,10 +157,7 @@ export default class CreateApiCommand extends CreateClassCommand {
         const className = `${resource}Service`;
         this.serviceRecipe.create(
             className, 
-            this.directoryResolver.resolve(serviceDirectory), 
-            {
-                args: [['repository']],
-            }
+            this.directoryResolver.resolve(serviceDirectory),
         );
 
         const {DEPENDENCY_INJECTION_SERVICES_FILENAME} = this.defaults;
