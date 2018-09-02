@@ -62,6 +62,14 @@ export default {
             {"type": "parameter", "key": "class_type_service"},
         ]
     },
+    "factory.class:service:rest": {
+        "class": ClassFactory,
+        "constructor": [
+            {"type": "service", "key": "template.class"},
+            {"type": "service", "key": "provider.file"},
+            {"type": "parameter", "key": "class_type_service_rest"},
+        ]
+    },
     "factory.class:connection": {
         "class": ClassFactory,
         "constructor": [
