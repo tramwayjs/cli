@@ -220,6 +220,9 @@ export default class InstallCommand extends Command {
                     parentDir: `../../${CONTROLLER_DIRECTORY}`,
                     filename: DEPENDENCY_INJECTION_CONTROLLERS_FILENAME,
                     diDir: this.directoryResolver.resolve(DEPENDENCY_INJECTION_SERVICES_DIRECTORY),
+                    constructorArgs: [
+                        `{"type": "service", "key": "router"}`,
+                    ].filter(a => a)
                 }
             );
 
