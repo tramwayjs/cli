@@ -132,6 +132,11 @@ export default class CreateApiCommand extends CreateClassCommand {
         this.factoryRecipe.create(
             className, 
             this.directoryResolver.resolve(factoryDirectory),
+            {
+                args: [
+                    ['ENTITY_NAME', resource]
+                ]
+            }
         );
 
         const {DEPENDENCY_INJECTION_FACTORIES_FILENAME} = this.defaults;

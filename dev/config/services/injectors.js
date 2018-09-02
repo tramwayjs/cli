@@ -2,6 +2,7 @@ import {
     ControllerActionsInjector,
     ClassPropertiesInjector,
     ConstructorDependenciesInjector,
+    ReplacementInjector,
 } from '../../injectors';
 
 export default {
@@ -25,5 +26,8 @@ export default {
             {"type": "service", "key": "template.method"},
             {"type": "parameter", "key": "format"},
         ]
+    },
+    "injector.replacement": {
+        "class": ReplacementInjector,
     },
 }
