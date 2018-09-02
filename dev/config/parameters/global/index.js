@@ -59,6 +59,7 @@ export {
     class_type_repository,
     class_type_service,
     class_type_factory,
+    class_type_service_rest,
     recipe_babelrc_parameters,
     recipe_gitignore_parameters,
     recipe_dependency_entity_parameters,
