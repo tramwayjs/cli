@@ -1,6 +1,7 @@
 import CreateClassCommand from './CreateClassCommand';
 import {IndexEntryExistsError} from '../errors';
 import {commands, terminal} from 'tramway-command';
+import pluralize from 'pluralize';
 
 const {InputOption} = commands;
 const {TimestampWarning} = terminal;
@@ -212,7 +213,7 @@ export default class CreateApiCommand extends CreateClassCommand {
                         {
                             service: controllerKey,
                             action,
-                            path: resource.toLowerCase(),
+                            path: pluralize(resource.toLowerCase()),
                             methods,
                             routeArgs: args,
                         }
