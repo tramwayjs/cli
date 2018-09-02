@@ -4,6 +4,11 @@ import {commands} from 'tramway-command';
 const {InputOption} = commands;
 
 export default class CreateProviderCommand extends CreateClassCommand {
+    constructor(recipe, dependencyRecipe, directoryResolver, defaults = {}) {
+        super(recipe, directoryResolver, defaults);
+        this.dependencyRecipe = dependencyRecipe;
+    }
+
     configure() {
         const { 
             PROVIDER_DIRECTORY, 

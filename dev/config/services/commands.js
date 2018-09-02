@@ -61,6 +61,7 @@ export default {
         "class": CreateProviderCommand,
         "constructor": [
             {"type": "service", "key": "recipe.provider"},
+            {"type": "service", "key": "recipe.dependency"},
             {"type": "service", "key": "service.directory_resolver"},
             {"type": "parameter", "key": "defaults"},
         ]
