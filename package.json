@@ -1,6 +1,6 @@
 {
   "name": "tramway",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "A utility class for creating classes and key operations in the Tramway framework",
   "author": "Julian Wolfe",
   "license": "MIT",
