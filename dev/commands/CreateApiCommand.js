@@ -193,6 +193,7 @@ export default class CreateApiCommand extends CreateClassCommand {
                 parentDir: `../../${controllerDirectory}`,
                 filename: DEPENDENCY_INJECTION_CONTROLLERS_FILENAME,
                 constructorArgs: [
+                    `{"type": "service", "key": "router"}`,
                     serviceKey && `{"type": "service", "key": "${serviceKey}"}`,
                 ].filter(a => a)
             }
