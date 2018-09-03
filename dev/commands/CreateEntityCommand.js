@@ -9,7 +9,7 @@ export default class CreateEntityCommand extends CreateClassCommand {
         
         this.args.add((new InputOption('name', InputOption.string)).isRequired());
         this.options.add(new InputOption('dir', InputOption.string, this.directoryResolver.resolve(ENTITY_DIRECTORY)));
-        this.options.add(new InputOption('properties', InputOption.array));
+        this.options.add(new InputOption('properties', InputOption.array, []));
         this.options.add(new InputOption('version', InputOption.number));
     }
 
