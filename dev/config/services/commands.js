@@ -35,9 +35,9 @@ export default {
         "class": CreateServiceCommand,
         "constructor": [
             {"type": "service", "key": "recipe.service"},
+            {"type": "service", "key": "recipe.dependency"},
             {"type": "service", "key": "service.directory_resolver"},
             {"type": "parameter", "key": "defaults"},
-            {"type": "service", "key": "recipe.dependency"},
         ]
     },
     "command.create.entity": {
