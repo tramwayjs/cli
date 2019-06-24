@@ -26,6 +26,7 @@ export default class InstallCommand extends Command {
         defaults = {},
         serverRecipe,
         appBatchRecipe,
+        appBatchExtraRecipe,
         babelRcRecipe,
         dependencyRecipe,
         routerRecipe,
@@ -46,6 +47,7 @@ export default class InstallCommand extends Command {
 
         this.serverRecipe = serverRecipe;
         this.appBatchRecipe = appBatchRecipe;
+        this.appBatchExtraRecipe = appBatchExtraRecipe;
         this.babelRcRecipe = babelRcRecipe;
         this.dependencyRecipe = dependencyRecipe;
         this.routerRecipe = routerRecipe;
@@ -161,23 +163,46 @@ export default class InstallCommand extends Command {
             this.serverRecipe.create(type, this.directoryResolver.resolve());
 
             this.appBatchRecipe.create(
-                ['app', 'cors', 'port'], 
+                ['app', 'cors', 'port', 'cookieParser'], 
                 this.directoryResolver.resolve(DEPENDENCY_INJECTION_PARAMETERS_GLOBAL_DIRECTORY)
             );
 
+            this.appBatchExtraRecipe.create(
+                ['bodyParser', 'methodOverrides'], 
+                this.directoryResolver.resolve(DEPENDENCY_INJECTION_PARAMETERS_GLOBAL_DIRECTORY)
+            )
+
             const functions = [
                 {
-                    name: 'use', 
-                    args: [
-                        {"type": "parameter", "key": "cors"},
-                    ]
+                    "name": "use",
+                    "args": [{"type": "parameter", "key": "_method"}],
                 },
                 {
-                    name: 'addLogger',
-                    args: [
+                    "name": "use",
+                    "args": [{"type": "parameter", "key": "xMethod"}],
+                },
+                {
+                    "name": "use",
+                    "args": [{"type": "parameter", "key": "cors"}],
+                },
+                {
+                    "name": "use",
+                    "args": [{"type": "parameter", "key": "json"}],
+                },
+                {
+                    "name": "use",
+                    "args": [{"type": "parameter", "key": "urlEncoding"}],
+                },
+                {
+                    "name": "use",
+                    "args": [{"type": "parameter", "key": "cookieParser"}],
+                },
+                {
+                    "name": "addLogger",
+                    "args": [
                         {"type": "service", "key": "logger.middleware"}
                     ]
-                },
+                }
             ];
 
             const args = [
