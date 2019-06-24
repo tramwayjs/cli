@@ -181,10 +181,23 @@ export default {
             {"type": "service", "key": "factory.index:multiclass"},
         ]
     },
+    "recipe.app.single.indexed.convergence": {
+        "class": IndexedItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.app.single.standalone"},
+            {"type": "service", "key": "factory.index:convergence"},
+        ]
+    },
     "recipe.app": {
         "class": BatchItemRecipe,
         "constructor": [
             {"type": "service", "key": "recipe.app.single.indexed"},
+        ]
+    },
+    "recipe.app:extra": {
+        "class": BatchItemRecipe,
+        "constructor": [
+            {"type": "service", "key": "recipe.app.single.indexed.convergence"},
         ]
     },
     "recipe.babelrc.basic": {

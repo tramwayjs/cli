@@ -99,6 +99,7 @@ export default {
             {"type": "parameter", "key": "defaults"},
             {"type": "service", "key": "recipe.server"},
             {"type": "service", "key": "recipe.app"},
+            {"type": "service", "key": "recipe.app:extra"},
             {"type": "service", "key": "recipe.babelrc"},
             {"type": "service", "key": "recipe.dependency"},
             {"type": "service", "key": "recipe.router"},
