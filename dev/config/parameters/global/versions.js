@@ -36,6 +36,9 @@ export const config = {
     gitignore: 1,
     logger: 1,
     winston: 1,
+    cookieParser: 1,
+    bodyParser: 1,
+    methodOverrides: 1,
 }
 
 export const server = {

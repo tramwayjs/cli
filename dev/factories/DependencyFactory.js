@@ -93,6 +93,6 @@ export default class DependencyFactory {
         });
 
         functions = functions.join(',\n').replace(/^/gm, `${INDENTATION}${INDENTATION}`);
-        return contents.replace('"functions": []', `"functions": [\n${functions}\n${INDENTATION}]`);
+        return contents.replace('"functions": []', `"functions": [\n${functions},\n${INDENTATION}]`);
     }
 }
