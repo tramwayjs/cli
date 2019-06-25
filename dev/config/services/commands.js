@@ -10,6 +10,7 @@ import {
     InstallCommand,
     BuildCommand,
     StartCommand,
+    UpgradeBabelCommand,
 } from "../../commands";
 
 export default {
@@ -109,6 +110,15 @@ export default {
             {"type": "service", "key": "recipe.gitignore"},
             {"type": "service", "key": "recipe.logger"},
             {"type": "service", "key": "recipe.winston"},
+        ]
+    },
+    "command.upgrade.babel": {
+        "class": UpgradeBabelCommand,
+        "constructor": [
+            {"type": "service", "key": "service.install:npm"},
+            {"type": "service", "key": "recipe.babelrc"},
+            {"type": "parameter", "key": "babel_libraries"},
+            {"type": "parameter", "key": "babel_uninstall_libraries"},
         ]
     },
     "command.build": {
