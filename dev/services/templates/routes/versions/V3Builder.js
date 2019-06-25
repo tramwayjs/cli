@@ -1,7 +1,11 @@
-import { INDENTATION } from "../../../../config/format";
-
 export default class V3Builder {
+    constructor(format = {}) {
+        this.format = format;
+    }
+
     create({className, func, path, methods, args, service, action}) {
+        const {INDENTATION} = this.format;
+
         let pieces = [];
 
         if (service) {

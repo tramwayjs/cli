@@ -21,14 +21,17 @@ export default class BuildCommand extends Command {
         this.args.add((new InputOption('inDir', InputOption.string, DEV_DIRECTORY)));
         this.args.add((new InputOption('outDir', InputOption.string, DIST_DIRECTORY)));
         this.options.add(new InputOption('watch', InputOption.boolean));
+        this.options.add(new InputOption('sourceMap', InputOption.boolean));
     }
 
-    action() {
+    async action() {
         const inDir = this.getArgument('inDir');
         const outDir = this.getArgument('outDir');
         const watch = this.getOption('watch');
+        const sourceMap = this.getOption('sourceMap');
 
         let progressBar = new ProgressBar('Building project', watch ? 3 : 2);
+        let extraParams = ['--delete-dir-on-start', '--include-dotfiles'];
 
         const hooks = [
             () => {
@@ -51,6 +54,14 @@ export default class BuildCommand extends Command {
             name => progressBar.finish(`Finished task ${name}`),
         ];
 
-        this.buildService.build(inDir, outDir, {watch, hooks, onTaskStartHooks, onTaskFinishHooks});
+        if (sourceMap) {
+            extraParams.push('-s');
+        }
+
+        try {
+            await this.buildService.build(inDir, outDir, {watch, hooks, onTaskStartHooks, onTaskFinishHooks, extraParams});
+        } catch (e) {
+            console.error(e)
+        }
     }
 }

@@ -28,7 +28,7 @@ export const methods = {
 };
 
 export const config = {
-    babelrc: 1,
+    babelrc: 2,
     router: 1,
     app: 1,
     cors: 1,

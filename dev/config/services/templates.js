@@ -76,6 +76,7 @@ export default {
         "class": DependencyTemplate,
         "constructor": [
             {"type": "service", "key": "provider.file"},
+            {"type": "parameter", "key": "dependency_dirname"},
         ]
     },
     "template.class": {
@@ -83,6 +84,7 @@ export default {
         "constructor": [
             {"type": "service", "key": "provider.file"},
             {"type": "parameter", "key": "class_versions"},
+            {"type": "parameter", "key": "class_dirname"},
         ]
     },
     "template.config": {
@@ -90,6 +92,7 @@ export default {
         "constructor": [
             {"type": "service", "key": "provider.file"},
             {"type": "parameter", "key": "config_versions"},
+            {"type": "parameter", "key": "config_dirname"},
         ]
     },
     "template.method": {
@@ -97,6 +100,7 @@ export default {
         "constructor": [
             {"type": "service", "key": "provider.file"},
             {"type": "parameter", "key": "method_versions"},
+            {"type": "parameter", "key": "method_dirname"},
         ]
     },
     "template.method:getter_setter": {
@@ -104,6 +108,7 @@ export default {
         "constructor": [
             {"type": "service", "key": "provider.file"},
             {"type": "parameter", "key": "method_versions"},
+            {"type": "parameter", "key": "method_dirname"},
         ]
     },
     "template.route:v1": {
@@ -126,15 +131,22 @@ export default {
     },
     "builder.route:v1": {
         "class": V1Builder,
+        "constructor": [
+            {"type": "parameter", "key": "format"},
+        ]
     },
     "builder.route:v3": {
         "class": V3Builder,
+        "constructor": [
+            {"type": "parameter", "key": "format"},
+        ]
     },
     "template.server": {
         "class": ServerTemplate,
         "constructor": [
             {"type": "service", "key": "provider.file"},
             {"type": "parameter", "key": "server_versions"},
+            {"type": "parameter", "key": "server_dirname"},
         ]
     },
 }

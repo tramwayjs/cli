@@ -1,8 +1,6 @@
-import {INDENTATION} from '../config/format';
-
 export default class ModuleGenerationService {
     constructor(format = {}) {
-        this.format = {INDENTATION};
+        this.format = format;
     }
 
     findLines(type, indexContents) {

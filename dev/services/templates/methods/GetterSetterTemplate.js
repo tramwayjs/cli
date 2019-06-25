@@ -2,8 +2,12 @@ import path from 'path';
 import MethodTemplate from './MethodTemplate';
 
 export default class GetterSetterTemplate extends MethodTemplate {
+    constructor(fileProvider, methods, dirname) {
+        super(fileProvider, methods, dirname);
+    }
+
     format(paramName, template) {
-        let templatePath = path.join(__dirname, template, `v1.txt`);
+        let templatePath = path.join(this.root, template, `v1.txt`);
         let contents;
 
         try {

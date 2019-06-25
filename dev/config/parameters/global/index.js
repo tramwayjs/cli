@@ -2,6 +2,7 @@ import commands from './commands';
 import {
     packageManagement as shell_package_management,
     npm as shell_npm,
+    nodemon as shell_nodemon,
 } from './shell';
 import {
     libraries,
@@ -35,11 +36,17 @@ import {
     recipe_dependency_repository_parameters,
     recipe_dependency_factory_parameters,
 } from './recipes';
+import class_dirname from '../../../../templates/classes';
+import config_dirname from '../../../../templates/config';
+import dependency_dirname from '../../../../templates/dependencies';
+import method_dirname from '../../../../templates/methods';
+import server_dirname from '../../../../templates/server';
 
 export {
     commands,
     shell_package_management,
     shell_npm,
+    shell_nodemon,
     libraries,
     default_libraries,
     library_keys,
@@ -48,9 +55,14 @@ export {
     format,
     location,
     class_versions,
+    class_dirname,
     method_versions,
+    method_dirname,
     config_versions,
+    config_dirname,
     server_versions,
+    server_dirname,
+    dependency_dirname,
     class_type_connection,
     class_type_controller,
     class_type_restfulcontroller,
