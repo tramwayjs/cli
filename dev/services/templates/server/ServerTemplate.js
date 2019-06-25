@@ -1,7 +1,7 @@
 import AbstractTemplate from '../../AbstractTemplate';
 
 export default class ServerTemplate extends AbstractTemplate {
-    constructor(fileProvider, server) {
-        super(fileProvider, server, __dirname);
+    constructor(fileProvider, server, dirname) {
+        super(fileProvider, server, dirname);
     }
 }

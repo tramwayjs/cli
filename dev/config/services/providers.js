@@ -1,6 +1,5 @@
 import { 
     FileProvider,
-    GulpProvider,
     ShellProvider,
     PackageManagementProvider,
 } from "../../providers";
@@ -9,13 +8,19 @@ export default {
     "provider.file": {
         "class": FileProvider,
     },
-    "provider.gulp": {
-        "class": GulpProvider,
-    },
     "provider.shell:package_management": {
         "class": ShellProvider,
         "constructor": [
             {"type": "parameter", "key": "shell_package_management"},
+        ]
+    },
+    "provider.shell": {
+        "class": ShellProvider,
+    },
+    "provider.shell:nodemon": {
+        "class": ShellProvider,
+        "constructor": [
+            {"type": "parameter", "key": "shell_nodemon"},
         ]
     },
     "provider.package_management:npm": {

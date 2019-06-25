@@ -1,8 +1,8 @@
 import AbstractTemplate from '../../AbstractTemplate';
 
 export default class MethodTemplate extends AbstractTemplate {
-    constructor(fileProvider, methods) {
-        super(fileProvider, methods, __dirname);
+    constructor(fileProvider, methods, dirname) {
+        super(fileProvider, methods, dirname);
         this.pattern = /METHOD_NAME/g;
     }
 

@@ -1,39 +1,42 @@
-import nodemon from 'gulp-nodemon';
-
 export default class ServerService {
-    constructor(gulpProvider, buildService) {
-        this.gulpProvider = gulpProvider;
-        this.buildService = buildService;
+    constructor(nodemonShellProvider) {
+        this.nodemonShellProvider = nodemonShellProvider;
     }
 
-    start(inDir, outDir, options = {}) {
-        const {script, watch = false, onTaskStartHooks = [], onTaskFinishHooks = [], onRestartHooks = []} = options;
+    async start(inDir, outDir, options = {}) {
+        const {script, watch = false, onTaskStartHooks = [], onTaskFinishHooks = [], onRestartHooks = [], extraParams = []} = options;
 
         let task = watch ? 'watch' : 'build';
-        this.initializeTasks(inDir, outDir, {task, script, onTaskStartHooks, onTaskFinishHooks, onRestartHooks})
 
-        return this.gulpProvider.start('server');
-    }
+        for (let hook of Object.values(onTaskStartHooks)) {
+            hook(task);
+        }
 
-    initializeTasks(inDir, outDir, options = {}) {
-        const {task, script, onTaskStartHooks = [], onTaskFinishHooks = [], onRestartHooks = []} = options;
+        if (watch) {
+            extraParams.push('---watch', outDir);
+        }
 
-        this.buildService.initializeTasks(inDir, outDir);
-
-        this.gulpProvider.task('server', 
-            () => {
-                return nodemon({
-                    script: this.generateScriptPath(outDir, script)
-                }).on('restart', () => {
-                    onRestartHooks.forEach(hook => hook && hook.call && hook.apply && hook());
-                })
-            },
-            {
-                preOps: [task],
-                onStartHooks: onTaskStartHooks,
-                onFinishHooks: onTaskFinishHooks,
+        this.nodemonShellProvider.addListener('message', async (shell, event, ...s) => {
+            if ('restart' === event.type) {
+                for (let hook of Object.values(onRestartHooks)) {
+                    hook();
+                }
             }
-        )
+
+            if ('crash' === event.type) {
+                for (let hook of Object.values(onTaskFinishHooks)) {
+                    hook();
+                }
+
+                throw new Error('Nodemon crashed');
+            }
+        })
+
+        await this.nodemonShellProvider.run('./node_modules/.bin/nodemon', this.generateScriptPath(outDir, script), ...extraParams);
+        
+        for (let hook of Object.values(onTaskFinishHooks)) {
+            hook(task);
+        }
     }
 
     generateScriptPath(outDir, script) {

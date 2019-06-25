@@ -1,5 +1,5 @@
 import {Command, terminal, commands} from 'tramway-command';
-import { ServerService, BuildService } from '../services';
+import { ServerService } from '../services';
 
 const {InputOption} = commands;
 const {TimestampLog} = terminal;
