@@ -9,6 +9,7 @@ import {
     defaultLibraries as default_libraries, 
     keys as library_keys, 
     babelLibraries as babel_libraries,
+    removedBabelLibraries as babel_uninstall_libraries,
 } from './libraries';
 import * as defaults from './defaults';
 import * as format from './format';
@@ -51,6 +52,7 @@ export {
     default_libraries,
     library_keys,
     babel_libraries,
+    babel_uninstall_libraries,
     defaults,
     format,
     location,

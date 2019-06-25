@@ -65,3 +65,9 @@ export const babelLibraries = [
     "@babel/plugin-transform-flow-strip-types@^7.4.4",
     "@babel/preset-env@^7.4.5",
 ];
+
+export const removedBabelLibraries = [
+    "babel-plugin-transform-flow-strip-types",
+    "babel-plugin-transform-object-rest-spread",
+    "babel-preset-es2015-node6",
+]

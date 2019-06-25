@@ -4,8 +4,8 @@ export default class FixedItemRecipe {
         this.params = params;
     }
 
-    create() {
-        const {name, dir, options = {}} = this.params;
+    create(params = {}) {
+        const {name, dir, options = params} = this.params;
 
         this.recipe.create(
             this.prepareName(name), 

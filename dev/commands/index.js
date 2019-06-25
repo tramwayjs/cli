@@ -10,6 +10,7 @@ import CreateApiCommand from './CreateApiCommand';
 import InstallCommand from './InstallCommand';
 import BuildCommand from './BuildCommand';
 import StartCommand from './StartCommand';
+import UpgradeBabelCommand from './UpgradeBabelCommand';
 
 export {
     CreateClassCommand,
@@ -24,4 +25,5 @@ export {
     InstallCommand,
     BuildCommand,
     StartCommand,
+    UpgradeBabelCommand,
 };

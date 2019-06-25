@@ -13,6 +13,10 @@ export default class PackageManagementProvider {
         return await this.shellProvider.run(this.packageManager, this.command, ...this.args, ...components);
     }
 
+    async uninstall(...components) {
+        return await this.shellProvider.run(this.packageManager, 'uninstall', ...this.args, ...components);
+    }
+
     async installDev(...components) {
         let args = this.args;
         let index = args.indexOf('--save');

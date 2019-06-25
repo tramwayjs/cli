@@ -21,6 +21,7 @@ Tramway is a development utility to facilitate rapid development by generating c
 * Create Entity
 * Create Provider
 * Create Repository
+* Upgrade Babel
 * Configuration
 
 ## Usage
@@ -250,6 +251,16 @@ Example:
 
 ```
 tramway create:repository ProductsRepository --add-dependency-injection --connection connection:things --key repositories:products
+```
+
+## Upgrade Babel
+
+The upgrade babel command will replace the old setup - as per the way the Tramway (<0.5.0) initially installed it - with the new set up, upgrading babel presets to their 7.0 versions.
+
+Example: 
+
+```
+tramway upgrade:babel
 ```
 
 ## Configuration
