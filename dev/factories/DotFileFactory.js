@@ -5,9 +5,12 @@ export default class DotFileFactory extends ConfigFactory {
     create(type, dir, options = {}) {
         const {
             version,
+            overwrite,
         } = options;
 
-        this.checkExistance(type, dir);
+        if (!overwrite) {
+            this.checkExistance(type, dir);
+        }
 
         let contents = this.configTemplate.format(type, version);
         this.fileProvider.write(dir, `.${type}`, contents, null);

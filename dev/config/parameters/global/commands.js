@@ -10,4 +10,5 @@ export default {
     "install": "command.install",
     "build": "command.build",
     "start": "command.start",
+    "upgrade:babel": "command.upgrade.babel",
 };

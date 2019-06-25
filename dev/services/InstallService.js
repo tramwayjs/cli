@@ -31,6 +31,10 @@ export default class InstallService {
         return await this.packageManagementProvider.install(...components);
     }
 
+    async uninstall(...components) {
+        return await this.packageManagementProvider.uninstall(...components); 
+    }
+
     async installDev(...components) {
         return await this.packageManagementProvider.installDev(...components);
     }
