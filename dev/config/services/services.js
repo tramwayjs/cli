@@ -23,7 +23,7 @@ export default {
     "service.build": {
         "class": BuildService,
         "constructor": [
-            {"type": "service", "key": "provider.gulp"},
+            {"type": "service", "key": "provider.shell"},
         ]
     },
     "service.install:npm": {
@@ -42,8 +42,7 @@ export default {
     "service.server": {
         "class": ServerService,
         "constructor": [
-            {"type": "service", "key": "provider.gulp"},
-            {"type": "service", "key": "service.build"},
+            {"type": "service", "key": "provider.shell:nodemon"},
         ]
     },
 }

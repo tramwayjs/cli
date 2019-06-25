@@ -1,13 +1,6 @@
-import gulp from 'gulp';
-import babel from 'gulp-babel';
-
 export default class BuildService {
-    constructor(gulpProvider) {
-        this.gulpProvider = gulpProvider;
-    }
-
-    generateWildcard(dir, ext = 'js') {
-        return `${dir}/**/*.${ext}`;
+    constructor(shellProvider) {
+        this.shellProvider = shellProvider;
     }
 
     /**
@@ -16,54 +9,27 @@ export default class BuildService {
      * @param {string} outDir 
      * @param {Object} options 
      */
-    build(inDir, outDir, options = {}) {
-        const {watch = false, hooks = [], onTaskStartHooks = [], onTaskFinishHooks = []} = options;
+    async build(inDir, outDir, options = {}) {
+        const {watch = false, hooks = [], onTaskStartHooks = [], onTaskFinishHooks = [], extraParams = []} = options;
 
         let task = watch ? 'watch' : 'build';
-        this.initializeTasks(inDir, outDir, {onTaskStartHooks, onTaskFinishHooks});
 
-        return this.gulpProvider.start(task, ...hooks);
-    }
+        for (let hook of Object.values(onTaskStartHooks)) {
+            hook(task);
+        }
 
-    initializeTasks(inDir, outDir, options = {}) {
-        const {onTaskStartHooks = [], onTaskFinishHooks = []} = options;
+        if (watch) {
+            extraParams.push('-w')
+        }
 
-        const inDirJs = this.generateWildcard(inDir, 'js');
-        const inDirTxt = this.generateWildcard(inDir, 'txt');
+        await this.shellProvider.run('./node_modules/.bin/babel', inDir, '-d', outDir, ...extraParams);
 
-        this.gulpProvider.task('build', 
-            () => {
-                return gulp
-                    .src(inDirJs)
-                    .pipe(babel())
-                    .pipe(gulp.dest(outDir));
-            },
-            {
-                preOps: ['move-txt'],
-                onStartHooks: onTaskStartHooks,
-                onFinishHooks: onTaskFinishHooks,
-            }
-        )
+        for (let hook of Object.values(onTaskFinishHooks)) {
+            hook(task);
+        }
 
-        this.gulpProvider.task('move-txt', 
-            () => {
-                return gulp
-                    .src(inDirTxt)
-                    .pipe(gulp.dest(outDir));
-            },
-            {
-                onStartHooks: onTaskStartHooks,
-                onFinishHooks: onTaskFinishHooks,
-            }
-        )
-
-        this.gulpProvider.task('watch', 
-            () => gulp.watch(inDirJs, ['build']),
-            {
-                preOps: [],
-                onStartHooks: onTaskStartHooks,
-                onFinishHooks: onTaskFinishHooks,
-            }
-        )
+        for (let hook of Object.values(hooks)) {
+            hook();
+        }
     }
 }

@@ -60,7 +60,8 @@ export const keys = [
 ];
 
 export const babelLibraries = [
-    "babel-plugin-transform-flow-strip-types@^6.22.0",
-    "babel-plugin-transform-object-rest-spread@^6.26.0",
-    "babel-preset-es2015-node6@^0.4.0",
+    "@babel/plugin-proposal-class-properties@^7.4.4",
+    "@babel/plugin-proposal-object-rest-spread@^7.4.4",
+    "@babel/plugin-transform-flow-strip-types@^7.4.4",
+    "@babel/preset-env@^7.4.5",
 ];
