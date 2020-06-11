@@ -1,7 +1,6 @@
 export default {
     packageManager: 'npm', 
-    command: 'install', 
-    args: ['--save'],
+    command: 'i', 
     spawnOptions: {
         shell: 'win32' === process.platform,
     },
