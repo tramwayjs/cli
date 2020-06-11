@@ -1,6 +1,6 @@
 export default class PackageManagementProvider {
     constructor(shellProvider, options = {}) {
-        const {packageManager = 'npm', command = 'install', args = ['--save']} = options;
+        const {packageManager = 'npm', command = 'i', args = []} = options;
 
         this.packageManager = packageManager;
         this.command = command;
@@ -19,11 +19,7 @@ export default class PackageManagementProvider {
 
     async installDev(...components) {
         let args = this.args;
-        let index = args.indexOf('--save');
-
-        if (~index) {
-            args[index] = '--save-dev';
-        }
+        args = ['-D', ...args];
 
         return await this.shellProvider.run(this.packageManager, this.command, ...args, ...components);
     }
