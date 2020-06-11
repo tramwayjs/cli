@@ -9,4 +9,7 @@ export default {
             new TimestampWarning(data);
         }
     },
+    spawnOptions: {
+        shell: 'win32' === process.platform,
+    },
 }
