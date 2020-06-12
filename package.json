@@ -25,7 +25,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
     "@babel/plugin-transform-flow-strip-types": "^7.4.4",
     "@babel/preset-env": "^7.4.5",
-    "mocha": "^3.2.0",
+    "mocha": "^8.0.1",
     "tramway-core-testsuite": "^1.2.0"
   },
   "peerDependencies": {
@@ -39,7 +39,7 @@
     "@babel/core": "^7.4.5",
     "babel-core": "^6.26.3",
     "mkdirp": "^0.5.1",
-    "nodemon": "^1.19.1",
+    "nodemon": "^2.0.4",
     "pluralize": "^7.0.0",
     "tramway-command": "^1.2.0",
     "tramway-command-di-factory": "^1.0.1",
