@@ -1,3 +1,5 @@
+import path from 'path';
+
 export default class BuildService {
     constructor(shellProvider) {
         this.shellProvider = shellProvider;
@@ -22,7 +24,7 @@ export default class BuildService {
             extraParams.push('-w')
         }
 
-        await this.shellProvider.run('./node_modules/.bin/babel', inDir, '-d', outDir, ...extraParams);
+        await this.shellProvider.run(path.resolve('./node_modules/.bin/babel'), inDir, '-d', outDir, ...extraParams);
 
         for (let hook of Object.values(onTaskFinishHooks)) {
             hook(task);

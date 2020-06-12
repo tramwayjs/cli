@@ -1,3 +1,5 @@
+import path from 'path';
+
 export default class ServerService {
     constructor(nodemonShellProvider) {
         this.nodemonShellProvider = nodemonShellProvider;
@@ -13,7 +15,7 @@ export default class ServerService {
         }
 
         if (watch) {
-            extraParams.push('---watch', outDir);
+            extraParams.push('--watch', outDir);
         }
 
         this.nodemonShellProvider.addListener('message', async (shell, event, ...s) => {
@@ -32,7 +34,7 @@ export default class ServerService {
             }
         })
 
-        await this.nodemonShellProvider.run('./node_modules/.bin/nodemon', this.generateScriptPath(outDir, script), ...extraParams);
+        await this.nodemonShellProvider.run(path.resolve('./node_modules/.bin/nodemon'), this.generateScriptPath(outDir, script), ...extraParams);
         
         for (let hook of Object.values(onTaskFinishHooks)) {
             hook(task);
@@ -40,6 +42,6 @@ export default class ServerService {
     }
 
     generateScriptPath(outDir, script) {
-        return `${outDir}/${script}`;
+        return path.resolve(outDir, script);
     }
 }

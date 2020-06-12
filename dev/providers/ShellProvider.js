@@ -4,8 +4,10 @@ export default class ShellProvider {
     listeners = [];
 
     constructor(options = {}) {
-        const {onCloseHook, spawnOptions} = options || {};
+        const {onCloseHook, onMessageHook, onErrorMessageHook, spawnOptions} = options || {};
         this.onCloseHook = onCloseHook;
+        this.onMessageHook = onMessageHook;
+        this.onErrorMessageHook = onErrorMessageHook;
 
         this.spawnOptions = spawnOptions;
     }
@@ -23,8 +25,16 @@ export default class ShellProvider {
             }
 
             const shell = spawn(command, args, this.spawnOptions);
-            shell.stdout.on('data', data => resolve(data));
-            shell.stderr.on('data', data => errBuffer.push(data));
+            shell.stdout.on('data', data => {
+                this.onMessageHook && this.onMessageHook(data.toString());
+                return resolve(data)
+            });
+
+            shell.stderr.on('data', data => {
+                this.onErrorMessageHook && this.onErrorMessageHook(data.toString());
+                return errBuffer.push(data)
+            });
+            
             shell.on('close', code => {
                 let data = Buffer.concat(errBuffer).toString('utf8');
 
